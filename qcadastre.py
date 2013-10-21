@@ -28,8 +28,9 @@ import os.path
 
 class Qcadastre:
 
-    def __init__(self, iface):
+    def __init__(self, iface, version):
         self.iface = iface
+        self.version = version
         self.mysettings = QSettings("CatAIS","Qcadastre")
         
         self.plugin_dir = os.path.dirname(__file__)
@@ -93,10 +94,30 @@ class Qcadastre:
         self.menuSettings.addActions([self.options])
         self.menuBarSettings.addMenu(self.menuSettings)        
         
+        # help
+        self.menuBarHelp = QMenuBar()
+        self.menuBarHelp.setObjectName("Qcadastre.Main.HelpMenuBar")
+        self.menuBarHelp.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))                
+        self.menuHelp = QMenu()
+        self.menuHelp.setTitle(QCoreApplication.translate("Qcadastre","Help"))
+        
+        self.about = QAction(QCoreApplication.translate("QGeoApp", "About"), self.iface.mainWindow())
+        QObject.connect(self.about, SIGNAL("triggered()"), self.doAbout)        
+        
+        self.menuHelp.addActions([self.about])
+        self.menuBarHelp.addMenu(self.menuHelp)
+
+        # add menus to toolbar
         self.toolBar.addWidget(self.menuBarProjects) 
         self.toolBar.addWidget(self.menuBarFile)
         self.toolBar.addWidget(self.menuBarSettings)
-        
+        self.toolBar.addWidget(self.menuBarHelp)
+
+    def doAbout(self):
+        from base.help.doAbout import AboutDialog
+        self.about_dlg = AboutDialog(self.iface.mainWindow(), self.version)
+        self.about_dlg.show()
+
     def doOptions(self):
         from base.settings.doOptions import OptionsDialog
         self.options_dlg = OptionsDialog(self.iface.mainWindow())

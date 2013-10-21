@@ -50,4 +50,4 @@ def email():
 def classFactory(iface):
     # load Qcadastre class from file Qcadastre
     from qcadastre import Qcadastre
-    return Qcadastre(iface)
+    return Qcadastre(iface, version())

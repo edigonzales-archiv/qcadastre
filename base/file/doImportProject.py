@@ -108,13 +108,13 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
     def on_btnBrowsInputFile_clicked(self):
         file = QFileDialog.getOpenFileName(self, QCoreApplication.translate("QGeoApp", "Choose interlis transfer file"), self.inputitfpath,  "ITF (*.itf *.ITF)")
         fileInfo = QFileInfo(file)
-        self.lineEditInputFile.setText(QString(fileInfo.absoluteFilePath()))
+        self.lineEditInputFile.setText(fileInfo.absoluteFilePath())
 
 
     def accept(self):
         # save the settings
-        self.settings.setValue("import/inputitfpath", QVariant(self.lineEditInputFile.text()))
-        self.settings.setValue("import/ili", QVariant(self.lineEditIliModelName.text()))
+        self.settings.setValue("import/inputitfpath", self.lineEditInputFile.text())
+        self.settings.setValue("import/ili", self.lineEditIliModelName.text())
 
         # gather all data/information
         self.itf = self.lineEditInputFile.text()

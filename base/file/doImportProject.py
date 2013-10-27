@@ -36,6 +36,11 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         if self.provider == "":
             self.provider = "postgres"
 
+        today = QDateTime.currentDateTime()
+        self.dateTimeEdit.setDateTime(today)
+        self.dateTimeEdit.setCalendarPopup(True)
+
+
     def initGui(self):       
         self.lineEditDbSchema.setValidator(QRegExpValidator(QRegExp("[a-z0-9_]+"), self.lineEditDbSchema))
         

@@ -1,8 +1,13 @@
 {
     "modules": [
         {
+            "dirname": "veriso_dm01",
+            "displayname": "VeriSO (DM.01)",
+            "ilimodel": "DM01AVCH24D"
+        },{
             "dirname": "pnf",
-            "displayname": "Periodische Nachführung"
+            "displayname": "Periodische Nachführung",
+            "ilimodel": "DM01AVSO24"
         }
     ]
 }

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'base/file/Ui_importproject.ui'
 #
-# Created: Sun Oct 27 11:16:54 2013
+# Created: Sun Oct 27 13:18:55 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -47,6 +47,7 @@ class Ui_ImportProject(object):
         self.gridLayout_4.addWidget(self.btnBrowsInputFile, 0, 2, 1, 1)
         self.lineEditIliModelName = QtGui.QLineEdit(self.groupBox)
         self.lineEditIliModelName.setEnabled(False)
+        self.lineEditIliModelName.setText(_fromUtf8(""))
         self.lineEditIliModelName.setObjectName(_fromUtf8("lineEditIliModelName"))
         self.gridLayout_4.addWidget(self.lineEditIliModelName, 1, 1, 1, 1)
         self.label_2 = QtGui.QLabel(self.groupBox)
@@ -62,7 +63,7 @@ class Ui_ImportProject(object):
         self.lineEditDbSchema.setObjectName(_fromUtf8("lineEditDbSchema"))
         self.gridLayout_4.addWidget(self.lineEditDbSchema, 2, 1, 1, 1)
         self.cmbBoxAppModule = QtGui.QComboBox(self.groupBox)
-        self.cmbBoxAppModule.setEnabled(False)
+        self.cmbBoxAppModule.setEnabled(True)
         self.cmbBoxAppModule.setObjectName(_fromUtf8("cmbBoxAppModule"))
         self.gridLayout_4.addWidget(self.cmbBoxAppModule, 3, 1, 1, 1)
         self.label_6 = QtGui.QLabel(self.groupBox)
@@ -113,7 +114,6 @@ class Ui_ImportProject(object):
         self.groupBox.setTitle(_translate("ImportProject", "Import data ", None))
         self.label.setText(_translate("ImportProject", "Input file: ", None))
         self.btnBrowsInputFile.setText(_translate("ImportProject", "Browse", None))
-        self.lineEditIliModelName.setText(_translate("ImportProject", "DM01AVCH24D", None))
         self.label_2.setText(_translate("ImportProject", "Ili model name: ", None))
         self.lblProjectName.setText(_translate("ImportProject", "Project name: ", None))
         self.label_6.setText(_translate("ImportProject", "Application module: ", None))

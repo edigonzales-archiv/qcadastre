@@ -173,7 +173,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
             return
             
         # create java properties file
-        tmpPropertiesFile = self.writeJavaPropertiesFile()
+        tmpPropertiesFile = self.writePropertiesFile()
         if tmpPropertiesFile == None:
             return
 
@@ -208,25 +208,18 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         self.textEditImportOutput.insertPlainText(str(self.process.readAllStandardOutput()))
         self.textEditImportOutput.ensureCursorVisible()        
 
-
     def readError(self):
         self.textEditImportOutput.insertPlainText(str(self.process.readAllStandardError()))        
         #QgsMessageLog.logMessage(str(self.process.readAllStandardError()), "Qcadastre")
 
-
     def finishImport(self,  i):
-        # restore gui/cursor
         QApplication.restoreOverrideCursor()        
         self.buttonBox.setEnabled(True)
-        
-        
+
         return
 
-        # update the projects database
         updated = self.updateProjectsDatabase()
-        if updated == True:
-            pass
-        else:
+        if not updated:
             self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished. Could not update projects database."), level=QgsMessageBar.CRITICAL, duration=5)            
             return
             
@@ -239,20 +232,20 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
             return            
             
         # create project directory in projects root dir
-        dir = self.createProjectDir()
-        if dir == True:
+        proj_dir = self.createProjectDir()
+        if proj_dir:
             QMessageBox.information(None, "QGeoApp",  QCoreApplication.translate("Qcadastre", "Import process finished."))
         else:
             self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished. Could not create project directory."), level=QgsMessageBar.CRITICAL, duration=5)                                                                       
 
     def createProjectDir(self):
         try:
-            os.makedirs(str(self.projectsrootdir) + os.sep + str(self.dbschema))
+            os.makedirs(os.path.join(str(self.projectsrootdir), str(self.dbschema)))
             return True
         except:
             return False
 
-    def writeJavaPropertiesFile(self):
+    def writePropertiesFile(self):
         tmpDir = tempfile.gettempdir()
         tmpPropertiesFile = os.path.join(tmpDir, str(time.time()) + ".properties")
     
@@ -316,7 +309,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
             if  self.db.open() == False:
                 self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Could not open projects database."), level=QgsMessageBar.CRITICAL, duration=5)                                                                            
                 QgsMessageLog.logMessage(str(self.db.lastError().driverText()), "Qcadastre")
-                return 
+                return  
              
             projectrootdir = QDir.convertSeparators(QDir.cleanPath(self.projectsrootdir + "/" + str(self.dbschema)))
         

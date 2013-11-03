@@ -66,7 +66,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
                 sortedModulesList = sorted(self.modules["modules"], key=lambda k: k['displayname']) 
                 self.cmbBoxAppModule.clear()
                 for module in sortedModulesList:
-                    self.cmbBoxAppModule.insertItem(self.cmbBoxAppModule.count(), unicode(module["displayname"]), [module["dirname"], module["ilimodel"]])
+                    self.cmbBoxAppModule.insertItem(self.cmbBoxAppModule.count(), unicode(module["displayname"]), [module["dirname"], module["ilimodel"], module["referenceframe"], module["epsg"]])
                 self.cmbBoxAppModule.insertItem(0, QCoreApplication.translate("Qcadastre", "Choose module...."), None)
                 self.cmbBoxAppModule.setCurrentIndex(0)
         except Exception, e:
@@ -88,8 +88,12 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         
         if moduleData <> None:
             self.lineEditIliModelName.setText(moduleData[1])
+            self.lineEditRefFrame.setText(moduleData[2] + " (EPSG:" + moduleData[3]  + ")")
+            self.epsg = moduleData[3]
         else:
             self.lineEditIliModelName.clear()
+            self.lineEditRefFrame.clear()
+            self.epsg = ""
 
     @pyqtSignature("on_btnBrowsInputFile_clicked()")    
     def on_btnBrowsInputFile_clicked(self):
@@ -112,7 +116,9 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
             self.appmodule = moduleData[0]
         else:
             self.appmodule = None
-    
+            
+        self.datadate = self.dateTimeEdit.date().toString("yyyy-MM-dd")
+
         self.dbhost = self.settings.value("options/db/host")
         self.dbname = self.settings.value("options/db/name")
         self.dbport = self.settings.value("options/db/port")
@@ -176,7 +182,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         tmpPropertiesFile = self.writePropertiesFile()
         if tmpPropertiesFile == None:
             return
-
+            
         # clear output textedit
         self.textEditImportOutput.clear()
                 
@@ -216,13 +222,11 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         QApplication.restoreOverrideCursor()        
         self.buttonBox.setEnabled(True)
 
-        return
-
         updated = self.updateProjectsDatabase()
         if not updated:
             self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished. Could not update projects database."), level=QgsMessageBar.CRITICAL, duration=5)            
             return
-            
+
         # check if there are some errors/fatals in the output
         # Prüfung erst hier, da es einfacher ist den misslungenen Import zu löschen, wenn
         # in der Projektedatenbank bereits ein Eintrag ist.
@@ -265,6 +269,8 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
                 f.write("dbadmin = " + self.dbadmin + "\n")
                 f.write("dbadminpwd = " + self.dbadminpwd + "\n")
                 f.write("\n")
+                f.write("epsg = " + self.epsg + "\n")
+                f.write("\n")
                 f.write("vacuum = false\n")
                 f.write("reindex = false\n")
                 f.write("\n")
@@ -286,7 +292,8 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
                 f.close()
                 return tmpPropertiesFile
         
-        except IOError:
+        except IOError, e:
+            print "Couldn't do it: %s" % e
             self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Cannot create: " + tmpPropertiesFile), level=QgsMessageBar.CRITICAL, duration=5)                                                
             self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not completed."), level=QgsMessageBar.CRITICAL, duration=5)                                                           
             return None
@@ -295,14 +302,14 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
 
     def updateProjectsDatabase(self):
         self.db = QSqlDatabase.addDatabase("QSQLITE", "Projectdatabase")
-        
+
         try:
             # Create a new projects database if there is none (copy one from the templates).
             if self.projectsdatabase == "":
                 srcdatabase = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/templates/template_projects.db"))
                 self.projectsdatabase = QDir.convertSeparators(QDir.cleanPath(self.projectsrootdir + "/projects.db"))
                 shutil.copyfile(srcdatabase, self.projectsdatabase)
-                self.settings.setValue("options/general/projectsdatabase", QVariant(self.projectsdatabase))
+                self.settings.setValue("options/general/projectsdatabase", self.projectsdatabase)
 
             self.db.setDatabaseName(self.projectsdatabase) 
 
@@ -313,10 +320,9 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
              
             projectrootdir = QDir.convertSeparators(QDir.cleanPath(self.projectsrootdir + "/" + str(self.dbschema)))
         
-            # TODO: insert data date.
-            sql = "INSERT INTO projects (id, displayname, dbhost, dbname, dbport, dbschema, dbuser, dbpwd, dbadmin, dbadminpwd, provider, epsg, ilimodelname, appmodule, projectrootdir, projectdir) \
+            sql = "INSERT INTO projects (id, displayname, dbhost, dbname, dbport, dbschema, dbuser, dbpwd, dbadmin, dbadminpwd, provider, epsg, ilimodelname, appmodule, projectrootdir, projectdir, datadate) \
 VALUES ('"+str(self.dbschema)+"', '"+str(self.dbschema)+"', '"+str(self.dbhost)+"', '"+str(self.dbname)+"', "+str(self.dbport)+", '"+str(self.dbschema)+"', '"+str(self.dbuser)+"', '"+str(self.dbpwd)+"', \
-'"+str(self.dbadmin)+"', '"+str(self.dbadminpwd)+"', 'postgres', 21781, '"+str(self.ili)+"', '"+str(self.appmodule)+"', '"+str(self.projectsrootdir)+"', '"+projectrootdir+"');"
+'"+str(self.dbadmin)+"', '"+str(self.dbadminpwd)+"', 'postgres'," + str(self.epsg) + " , '"+str(self.ili)+"', '"+str(self.appmodule)+"', '"+str(self.projectsrootdir)+"', '"+projectrootdir+"', '"+self.datadate+"');"
 
             query = self.db.exec_(sql)
             
@@ -328,6 +334,7 @@ VALUES ('"+str(self.dbschema)+"', '"+str(self.dbschema)+"', '"+str(self.dbhost)+
             self.emit(SIGNAL("projectsFileHasChanged()"))
             return True
         
-        except:
+        except Exception, e:
+            print "Couldn't do it: %s" % e
             self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Error occured while updating projects database."), level=QgsMessageBar.CRITICAL, duration=5)                                                            
             return 

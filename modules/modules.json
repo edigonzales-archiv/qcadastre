@@ -1,13 +1,17 @@
 {
     "modules": [
         {
-            "dirname": "veriso_dm01",
+            "dirname": "veriso_dm01_lv95_d",
             "displayname": "VeriSO (DM.01)",
-            "ilimodel": "DM01AVCH24D"
+            "ilimodel": "DM01AVCH24LV95D",
+            "referenceframe": "LV95",            
+            "epsg": "2056"
         },{
-            "dirname": "pnf",
+            "dirname": "pnf_so_lv03",
             "displayname": "Periodische Nachführung",
-            "ilimodel": "DM01AVSO24"
+            "ilimodel": "DM01AVSO24",
+            "referenceframe": "LV03",
+            "epsg": "21781"
         }
     ]
 }

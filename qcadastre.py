@@ -31,7 +31,7 @@ class Qcadastre:
     def __init__(self, iface, version):
         self.iface = iface
         self.version = version
-        self.mysettings = QSettings("CatAIS","Qcadastre")
+        self.settings = QSettings("CatAIS","Qcadastre")
         
         self.plugin_dir = os.path.dirname(__file__)
         locale = QSettings().value("locale/userLocale")[0:2]
@@ -52,6 +52,8 @@ class Qcadastre:
 
         self.iface.addToolBarIcon(self.action)
         self.iface.addPluginToMenu(u"&Qcadastre", self.action)
+        
+        
         
         # main toolbar
         self.toolBar = self.iface.addToolBar("Qcadastre Main Toolbar")
@@ -78,7 +80,7 @@ class Qcadastre:
         self.importproject = QAction(QCoreApplication.translate("Qcadastre", "Import project"), self.iface.mainWindow())
         QObject.connect(self.importproject, SIGNAL("triggered()"), self.doImportProject)
         self.deleteproject = QAction(QCoreApplication.translate("Qcadastre", "Delete project"), self.iface.mainWindow())     
-        #QObject.connect(self.deleteproject, SIGNAL("triggered()"), self.doDeleteProject)             
+        QObject.connect(self.deleteproject, SIGNAL("triggered()"), self.doDeleteProject)             
         self.menuFile.addActions([self.createproject, self.importproject, self.deleteproject])
         self.menuBarFile.addMenu(self.menuFile) 
         
@@ -112,6 +114,9 @@ class Qcadastre:
         self.toolBar.addWidget(self.menuBarFile)
         self.toolBar.addWidget(self.menuBarSettings)
         self.toolBar.addWidget(self.menuBarHelp)
+        
+        # initial load of project menu entries
+        self.doLoadProjectsDatabase()        
 
     def doAbout(self):
         from base.help.doAbout import AboutDialog
@@ -123,13 +128,77 @@ class Qcadastre:
         self.options_dlg = OptionsDialog(self.iface.mainWindow())
         self.options_dlg.initGui()
         self.options_dlg.show()
-        #QObject.connect(self.opt_dlg, SIGNAL("projectsFileHasChanged()"), self.doLoadProjectsFile) 
+        QObject.connect(self.options_dlg, SIGNAL("projectsDatabaseHasChanged()"), self.doLoadProjectsDatabase) 
 
     def doImportProject(self):
         from base.file.doImportProject import ImportProjectDialog
         self.import_dlg = ImportProjectDialog(self.iface.mainWindow())
         self.import_dlg.initGui()
         self.import_dlg.show()
+        QObject.connect(self.import_dlg, SIGNAL("projectsDatabaseHasChanged()"), self.doLoadProjectsDatabase)         
+        
+    def doDeleteProject(self):
+        from base.file.doDeleteProject import DeleteProjectDialog
+        self.delete_dlg = DeleteProjectDialog(self.iface.mainWindow())
+        self.delete_dlg.initGui()
+        self.delete_dlg.show()
+        QObject.connect(self.delete_dlg, SIGNAL("projectsDatabaseHasChanged()"), self.doLoadProjectsDatabase) 
+
+    def doLoadProjectsDatabase(self):
+        from base.projects.doLoadProjectsDatabase import LoadProjectsDatabase
+        d = LoadProjectsDatabase(self.iface.messageBar())
+        projects = d.read()
+        
+        if projects != None:
+            groupedProjects = {}
+            for project in projects:
+                moduleName = project["appmodulename"]
+                try:
+                    moduleList = groupedProjects[moduleName]
+                except KeyError:
+                    moduleList = []
+                
+                moduleList.append(project)
+                groupedProjects[moduleName] = moduleList
+            
+            self.menuProjects.clear()
+            for key in groupedProjects:
+                modules = groupedProjects[key]
+                groupMenu = self.menuProjects.addMenu(QCoreApplication.translate("Qcadastre", unicode(key)))
+                sortedProjectsList = sorted(modules, key=lambda k: k['displayname']) 
+                for project in sortedProjectsList:
+                    action = QAction(QCoreApplication.translate("QGeoApp", unicode(project["displayname"])), self.iface.mainWindow())
+                    groupMenu.addAction(action)
+                    QObject.connect(action, SIGNAL( "triggered()"), lambda activeProject=project: self.doLoadProject(activeProject))
+
+    def doLoadProject(self, project):
+        self.settings.setValue("project/id", str(project["id"]))
+        self.settings.setValue("project/displayname", str(project["displayname"]))
+        self.settings.setValue("project/appmodule", str(project["appmodule"]))
+        self.settings.setValue("project/appmodulename", unicode(project["appmodulename"]))
+        self.settings.setValue("project/ilimodelname", str(project["ilimodelname"]))
+        self.settings.setValue("project/epsg", str(project["epsg"]))
+        self.settings.setValue("project/provider", str(project["provider"]))
+        self.settings.setValue("project/dbhost", str(project["dbhost"]))
+        self.settings.setValue("project/dbport", str(project["dbport"]))
+        self.settings.setValue("project/dbname", str(project["dbname"]))
+        self.settings.setValue("project/dbschema", str(project["dbschema"]))
+        self.settings.setValue("project/dbuser", str(project["dbuser"]))
+        self.settings.setValue("project/dbpwd", str(project["dbpwd"]))
+        self.settings.setValue("project/dbadmin", str(project["dbadmin"]))
+        self.settings.setValue("project/dbadminpwd", str(project["dbadminpwd"]))
+        self.settings.setValue("project/projectdir", str(project["projectdir"]))
+        
+        moduleName = str(project["appmodule"]).lower()
+
+        try:
+            _temp = __import__("modules." + moduleName + ".applicationmodule", globals(), locals(), ['ApplicationModule'])
+            c = _temp.ApplicationModule(self.iface, self.toolBar)
+            c.initGui()
+#            c.run()            
+        except Exception, e:
+            print "Couldn't do it: %s" % e            
+            QMessageBox.critical(None, "Qcadastre",  QCoreApplication.translate("QGeoApp", "Module '" + moduleName + "' import error."))
 
 
     def unload(self):

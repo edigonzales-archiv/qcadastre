@@ -7,7 +7,7 @@
             "referenceframe": "LV95",            
             "epsg": "2056"
         },{
-            "dirname": "pnf_so_lv03",
+            "dirname": "pnf",
             "displayname": "Periodische Nachführung",
             "ilimodel": "DM01AVSO24",
             "referenceframe": "LV03",

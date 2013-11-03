@@ -26,7 +26,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         
         self.bar = QgsMessageBar(self)
         self.bar.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed) 
-        self.gridLayout.addWidget(self.bar, 0, 0 , 0, 1, Qt.AlignTop)        
+        self.gridLayout.addWidget(self.bar, 0, 0, 0, 1, Qt.AlignTop)        
         
         self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
         self.okButton.setText("Import")
@@ -114,8 +114,10 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         moduleData = self.cmbBoxAppModule.itemData(self.cmbBoxAppModule.currentIndex())
         if moduleData <> None:
             self.appmodule = moduleData[0]
+            self.appmodule_name = self.cmbBoxAppModule.currentText()
         else:
-            self.appmodule = None
+            self.appmodule = ""
+            self.appmodule_name = ""
             
         self.datadate = self.dateTimeEdit.date().toString("yyyy-MM-dd")
 
@@ -238,7 +240,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         # create project directory in projects root dir
         proj_dir = self.createProjectDir()
         if proj_dir:
-            QMessageBox.information(None, "QGeoApp",  QCoreApplication.translate("Qcadastre", "Import process finished."))
+            self.bar.pushMessage("Information",  QCoreApplication.translate("Qcadastre", "Import process finished."), level=QgsMessageBar.INFO, duration=10)                                                                       
         else:
             self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished. Could not create project directory."), level=QgsMessageBar.CRITICAL, duration=5)                                                                       
 
@@ -313,16 +315,16 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
 
             self.db.setDatabaseName(self.projectsdatabase) 
 
-            if  self.db.open() == False:
+            if not self.db.open():
                 self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Could not open projects database."), level=QgsMessageBar.CRITICAL, duration=5)                                                                            
                 QgsMessageLog.logMessage(str(self.db.lastError().driverText()), "Qcadastre")
                 return  
              
             projectrootdir = QDir.convertSeparators(QDir.cleanPath(self.projectsrootdir + "/" + str(self.dbschema)))
         
-            sql = "INSERT INTO projects (id, displayname, dbhost, dbname, dbport, dbschema, dbuser, dbpwd, dbadmin, dbadminpwd, provider, epsg, ilimodelname, appmodule, projectrootdir, projectdir, datadate) \
+            sql = "INSERT INTO projects (id, displayname, dbhost, dbname, dbport, dbschema, dbuser, dbpwd, dbadmin, dbadminpwd, provider, epsg, ilimodelname, appmodule, appmodulename, projectrootdir, projectdir, datadate) \
 VALUES ('"+str(self.dbschema)+"', '"+str(self.dbschema)+"', '"+str(self.dbhost)+"', '"+str(self.dbname)+"', "+str(self.dbport)+", '"+str(self.dbschema)+"', '"+str(self.dbuser)+"', '"+str(self.dbpwd)+"', \
-'"+str(self.dbadmin)+"', '"+str(self.dbadminpwd)+"', 'postgres'," + str(self.epsg) + " , '"+str(self.ili)+"', '"+str(self.appmodule)+"', '"+str(self.projectsrootdir)+"', '"+projectrootdir+"', '"+self.datadate+"');"
+'"+str(self.dbadmin)+"', '"+str(self.dbadminpwd)+"', 'postgres'," + str(self.epsg) + " , '"+str(self.ili)+"', '"+str(self.appmodule)+"','"+unicode(self.appmodule_name)+"', '"+str(self.projectsrootdir)+"', '"+projectrootdir+"', '"+self.datadate+"');"
 
             query = self.db.exec_(sql)
             
@@ -331,7 +333,7 @@ VALUES ('"+str(self.dbschema)+"', '"+str(self.dbschema)+"', '"+str(self.dbhost)+
                 return 
             
             self.db.close()
-            self.emit(SIGNAL("projectsFileHasChanged()"))
+            self.emit(SIGNAL("projectsDatabaseHasChanged()"))
             return True
         
         except Exception, e:

@@ -53,8 +53,6 @@ class Qcadastre:
         self.iface.addToolBarIcon(self.action)
         self.iface.addPluginToMenu(u"&Qcadastre", self.action)
         
-        
-        
         # main toolbar
         self.toolBar = self.iface.addToolBar("Qcadastre Main Toolbar")
         self.toolBar.setObjectName("QcadastreMainToolBar")
@@ -204,6 +202,7 @@ class Qcadastre:
     def unload(self):
         self.iface.removePluginMenu(u"&Qcadastre", self.action)
         self.iface.removeToolBarIcon(self.action)
+        self.iface.mainWindow().removeToolBar(self.toolBar)
 
     def run(self):
         pass

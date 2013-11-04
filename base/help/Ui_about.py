@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'base/help/Ui_about.ui'
 #
-# Created: Sun Oct 27 11:08:43 2013
+# Created: Mon Nov  4 22:23:20 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -62,9 +62,9 @@ class Ui_About(object):
         self.gridlayout.addWidget(self.lblVersion, 1, 0, 1, 2)
         self.lblTitle = QtGui.QLabel(About)
         font = QtGui.QFont()
-        font.setPointSize(20)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setPointSize(11)
+        font.setBold(False)
+        font.setWeight(50)
         self.lblTitle.setFont(font)
         self.lblTitle.setTextFormat(QtCore.Qt.RichText)
         self.lblTitle.setObjectName(_fromUtf8("lblTitle"))
@@ -79,7 +79,7 @@ class Ui_About(object):
         self.txtAbout.setHtml(_translate("About", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Droid Sans\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans Serif\'; font-size:9pt;\"><br /></p></body></html>", None))
         self.btnHelp.setText(_translate("About", "Help", None))
         self.btnClose.setText(_translate("About", "Close", None))

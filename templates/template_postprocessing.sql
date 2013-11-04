@@ -16,6 +16,7 @@ CREATE TABLE inserts
 	sql_query TEXT
 );
 
+-- unnoetig?
 CREATE TABLE updates
 (
 	ogc_fid INTEGER PRIMARY KEY NOT NULL,

@@ -15,7 +15,10 @@ class AboutDialog(QDialog, QObject, Ui_About):
         QObject.connect(self.btnWeb, SIGNAL("clicked()"), self.openWeb)
         QObject.connect(self.btnHelp, SIGNAL("clicked()"), self.openHelp)
         self.lblVersion.setText(version)
-        self.txtAbout.setText(self.getText())    
+        self.txtAbout.setText(self.getText())   
+        
+        #self.lblTitle.setStyleSheet('color: yellow')     
+        self.lblTitle.setStyleSheet('font-size: 22pt; font-weight: bold')         
     
     def openWeb(self):
         webbrowser.open("http://www.catais.org")
@@ -38,7 +41,7 @@ The following individuals (whether they know it or not) have contributed ideas, 
 ...
 
 LICENSING INFORMATION:
-QGeoApp is copyright (C) 2012-...  Stefan Ziegler
+Qcadastre is copyright (C) 2013-...  Stefan Ziegler
 stefan.ziegler@bd.so.ch
 
 Licensed under the terms of GNU GPL 2

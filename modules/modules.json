@@ -1,7 +1,7 @@
 {
     "modules": [
         {
-            "dirname": "veriso_dm01_lv95_d",
+            "dirname": "veriso",
             "displayname": "VeriSO (DM.01)",
             "ilimodel": "DM01AVCH24LV95D",
             "referenceframe": "LV95",            

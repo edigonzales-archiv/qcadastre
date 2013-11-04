@@ -26,7 +26,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         
         self.bar = QgsMessageBar(self)
         self.bar.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed) 
-        self.gridLayout.addWidget(self.bar, 0, 0, 0, 1, Qt.AlignTop)        
+        self.gridLayout.addWidget(self.bar, 0, 0, 0, 1, Qt.AlignBottom)        
         
         self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
         self.okButton.setText("Import")
@@ -232,7 +232,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         # check if there are some errors/fatals in the output
         # Prüfung erst hier, da es einfacher ist den misslungenen Import zu löschen, wenn
         # in der Projektedatenbank bereits ein Eintrag ist.
-        output = str(self.textEditImportOutput.toPlainText())
+        output = unicode(self.textEditImportOutput.toPlainText())
         if output.find("FATAL") > 0 or output.find("ERROR") > 0 or output.strip() == "":
             self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished."), level=QgsMessageBar.CRITICAL, duration=5)                                                                       
             return            

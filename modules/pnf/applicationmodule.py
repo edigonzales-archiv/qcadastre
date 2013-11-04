@@ -100,9 +100,9 @@ class ApplicationModule(QObject):
 
     def doLoadDefects(self, bar):
         print "fooooo"
-#        from tools.doLoadDefects import LoadDefects
-#        d = LoadDefects(self.iface, self.projectId)
-#        d.run()
+        from tools.doLoadDefects import LoadDefects
+        d = LoadDefects(self.iface)
+        d.run()
 
 
     def doExportDefects(self, foo):

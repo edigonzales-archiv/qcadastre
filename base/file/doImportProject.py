@@ -234,7 +234,11 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         # in der Projektedatenbank bereits ein Eintrag ist.
         output = unicode(self.textEditImportOutput.toPlainText())
         if output.find("FATAL") > 0 or output.find("ERROR") > 0 or output.strip() == "":
-            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished."), level=QgsMessageBar.CRITICAL, duration=5)                                                                       
+            
+            if output.find("already exists"):
+                self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished. Project name already exists."), level=QgsMessageBar.CRITICAL, duration=5)                                                                       
+            else:
+                self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished."), level=QgsMessageBar.CRITICAL, duration=5)                                                                       
             return            
             
         # create project directory in projects root dir

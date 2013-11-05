@@ -16,22 +16,22 @@ def fubar():
     
 def loadLayer(iface, layer, collapsed_legend = False):
     settings = QSettings("CatAIS","Qcadastre")
-    module_name = str(settings.value("project/active/appmodule"))
-    provider = str(settings.value("project/active/provider"))
-    dbhost = str(settings.value("project/active/dbhost"))
-    dbport = str(settings.value("project/active/dbport"))
-    dbname = str(settings.value("project/active/dbname"))
-    dbschema = str(settings.value("project/active/dbschema"))
-    dbuser = str(settings.value("project/active/dbuser"))
-    dbpwd = str(settings.value("project/active/dbpwd"))
-    dbadmin = str(settings.value("project/active/dbadmin"))
-    dbadminpwd = str(settings.value("project/active/dbadminpwd"))
+    module_name = (settings.value("project/appmodule"))
+    provider = (settings.value("project/provider"))
+    dbhost = (settings.value("project/dbhost"))
+    dbport = (settings.value("project/dbport"))
+    dbname = (settings.value("project/dbname"))
+    dbschema = (settings.value("project/dbschema"))
+    dbuser = (settings.value("project/dbuser"))
+    dbpwd = (settings.value("project/dbpwd"))
+    dbadmin = (settings.value("project/dbadmin"))
+    dbadminpwd = (settings.value("project/dbadminpwd"))
     
-    if dbhost == "" or dbport == "" or dbname == "" or dbschema == "" or dbuser == "" or dbpwd == ""  or dbadmin == "" or dbadminpwd == "":
+    if not dbhost or not dbport or not dbname or not dbschema or not dbuser or not dbpwd or not dbadmin or not dbadminpwd:
         iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Missing database parameter. Cannot load layer."), level=QgsMessageBar.CRITICAL, duration=5)                    
         return
         
-    if module_name == "" or provider == "":
+    if not module_name or not provider:
         iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Missing parameter. Cannot load layer."), level=QgsMessageBar.CRITICAL, duration=5)                    
         return
 
@@ -39,13 +39,13 @@ def loadLayer(iface, layer, collapsed_legend = False):
         
         if layer["type"] == "postgres":
             feature_type = str(layer["featuretype"])
-            title = unicode(layer["title"])
+            title = str(layer["title"])
             key = str(layer["key"])            
             
             try:
                 geom = str(layer["geom"])
             except:
-                geom = ""
+                geom = None
                 
             try:
                 style = str(layer["style"])
@@ -62,7 +62,7 @@ def loadLayer(iface, layer, collapsed_legend = False):
             except:
                 sql = ""
           
-            # We can overwrite the active project settings/parameters to add any postgres layers.
+            # We can overwrite the active project settings/parameters to add *any* postgres layers.
             try:
                 params = layer["params"]
                 module_name = params["appmodule"]
@@ -78,13 +78,83 @@ def loadLayer(iface, layer, collapsed_legend = False):
             except:
                 pass
 
+            uri = QgsDataSourceURI()
+            if layer["readonly"]:
+                uri.setConnection(dbhost, dbport, dbname, dbuser, dbpwd)
+            else:
+                uri.setConnection(dbhost, dbport, dbname, dbadmin, dbadminpwd)
+            uri.setDataSource(dbschema, feature_type, geom, sql, key)
 
-        
-# qgis_layer?? qlayer???
-        
+#            print uri.uri()
+
+            qgis_layer = QgsVectorLayer(uri.uri(), title, provider)
+                        
+            qml_path = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/qml/"+style))
+            qml = QDir.convertSeparators(QDir.cleanPath(qml_path))
+            qgis_layer.loadNamedStyle(qml)
+    
+            if not qgis_layer.isValid():
+                iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Layer is not valid"), level=QgsMessageBar.CRITICAL, duration=5)                                                            
+                return       
+            else:
+                QgsMapLayerRegistry.instance().addMapLayer(qgis_layer)
+
+        elif layer["type"] == "wms":
+            pass
+
+
+
+
+
+
+
+        else:
+            iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Data provider not supported: ") + str(layer["type"]), level=QgsMessageBar.CRITICAL, duration=5)                                                            
+            return
+
+        # Collapse legend in TOC.
+        if collapsed_legend:
+            legend_tree = iface.mainWindow().findChild(QDockWidget,"Legend").findChild(QTreeWidget)   
+            legend_tree.collapseItem(legend_tree.currentItem())
+
+        # Move layer into group.
+        grp_list = iface.legendInterface().groups()
+       
+        try:
+            grp_idx = grp_list.index(group)
+        except ValueError:
+            grp_idx = -1      
+
+        if grp_idx >= 0:
+            grp_idx_abs = getGroupIndex(iface, group)
+            
+            if grp_idx_abs <> 0:
+                iface.legendInterface().moveLayer(qgis_layer, grp_idx)
+                iface.legendInterface().setGroupExpanded(grp_idx-1,  False)
+        else:      
+            grp_idx = iface.legendInterface().addGroup(group)
+            iface.legendInterface().moveLayer(qgis_layer, grp_idx)
+   
+        iface.legendInterface().setGroupExpanded(grp_idx,  False)
+
+
+
+
+
+        return qgis_layer
         
     except Exception, e:
         print "Couldn't do it: %s" % e
         iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", unicode(e)), level=QgsMessageBar.CRITICAL, duration=5)                                                            
         return 
         
+
+def getGroupIndex(iface, group_name):
+    relation_list = iface.legendInterface().groupLayerRelationship()
+    i = 0
+    for item in relation_list:
+        if item[0] == group_name:
+            i = i  + 1
+            return i
+        i = i + 1
+    return 0

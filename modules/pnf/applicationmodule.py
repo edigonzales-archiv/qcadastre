@@ -99,7 +99,6 @@ class ApplicationModule(QObject):
 
 
     def doLoadDefects(self, bar):
-        print "fooooo"
         from tools.doLoadDefects import LoadDefects
         d = LoadDefects(self.iface)
         d.run()

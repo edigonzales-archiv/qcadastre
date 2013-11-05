@@ -193,10 +193,9 @@ class Qcadastre:
             _temp = __import__("modules." + moduleName + ".applicationmodule", globals(), locals(), ['ApplicationModule'])
             c = _temp.ApplicationModule(self.iface, self.toolBar)
             c.initGui()
-#            c.run()            
         except Exception, e:
-            print "Couldn't do it: %s" % e            
-            QMessageBox.critical(None, "Qcadastre",  QCoreApplication.translate("QGeoApp", "Module '" + moduleName + "' import error."))
+            print "Couldn't do it: %s" % e        
+            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("Qcadastre", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                                
 
 
     def unload(self):

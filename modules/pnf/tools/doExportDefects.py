@@ -162,13 +162,13 @@ class ExportDefects( QObject ):
                 for attr in attrs:
                     type = types[k]
                     
-                    if type == 2 or type == 4:
+                    if type == QVariant.Int or type == QVariant.LongLong:
                         value = int(attr)
-                    elif type == 6:
+                    elif type == QVariant.Double:
                         value = double(attr)
-                    elif type == 10:
+                    elif type == QVariant.String:
                         value = unicode(attr)
-                    elif type == 14:
+                    elif type == QVariant.Date or type == QVariant.DateTime:
                         value = attr.toString("dd.MM.yy")
                     else:
                         value = "unknown attribute type"

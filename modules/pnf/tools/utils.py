@@ -10,9 +10,65 @@ import os
 import json
 import locale
 import sys
+import collections
 
 def fubar():
     print "foobar super"
+    
+def getCheckTopics(iface):
+    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/pnf/checks/checks.json"))
+    
+    if not filename:
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "checks.json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    
+        return        
+        
+    try:
+        checks = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
+    except Exception, e:
+        print "Couldn't do it: %s" % e        
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Failed to load checks.json."), level=QgsMessageBar.CRITICAL, duration=5)                            
+        return
+
+    try:
+        topics = {}
+        topic_names = []
+        for check in checks["checks"]:
+            topic = check["topic"]
+            if topics.has_key(topic):
+                continue
+            topics[topic] = topic
+            topic_names.append(topic)
+        return topic_names
+    except Exception, e:
+        print "Couldn't do it: %s" % e        
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Error parsing json file."), level=QgsMessageBar.CRITICAL, duration=5)                            
+        return
+        
+def getChecks(iface, topic):
+    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/pnf/checks/checks.json"))
+    
+    if not filename:
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "checks.json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    
+        return        
+        
+    try:
+        checks = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
+    except Exception, e:
+        print "Couldn't do it: %s" % e        
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Failed to load checks.json."), level=QgsMessageBar.CRITICAL, duration=5)                            
+        return
+    
+    try:
+        topic_checks = []
+        for check in checks["checks"]:
+            if topic == check["topic"]:
+                topic_checks.append(check)
+        return topic_checks
+    except Exception, e:
+        print "Couldn't do it: %s" % e        
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Error parsing json file."), level=QgsMessageBar.CRITICAL, duration=5)                            
+        return
+
     
 def loadLayer(iface, layer, collapsed_legend = False):
     settings = QSettings("CatAIS","Qcadastre")
@@ -36,7 +92,6 @@ def loadLayer(iface, layer, collapsed_legend = False):
         return
 
     try:
-        
         if layer["type"] == "postgres":
             feature_type = str(layer["featuretype"])
             title = str(layer["title"])

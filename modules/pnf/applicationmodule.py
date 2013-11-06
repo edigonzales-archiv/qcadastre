@@ -7,6 +7,9 @@ import os
 import json
 import time
 import sys
+
+import tools.utils as utils
+
 #from tools.doShowChecklist import ShowChecklist
 #from tools.doLoadDefects import LoadDefects
 #from tools.doExportDefects import ExportDefects
@@ -21,50 +24,39 @@ class ApplicationModule(QObject):
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
         self.toolBar = toolBar
-#        self.utils = QGeoAppUtils()
-#        self.checkUtils = CheckUtils()
         
         self.settings = QSettings("CatAIS","Qcadastre")
         
     def initGui(self):
         self.cleanGui()
-#        self.doInitChecksMenu()
+        self.doInitChecksMenu()
         self.doInitDefectsMenu()
         
-#        QObject.connect(self.canvas, SIGNAL("scaleChanged(double)"), self.doUpdateScale) 
-        
-    # Prevent user from zoom in too near.    
-#    def doUpdateScale(self, scale):
-#        if scale < self.MAX_SCALE:
-#            self.canvas.zoomScale(self.MAX_SCALE)
-
-        
     def doInitChecksMenu(self):
-        
-        # nur 'QcadastreModule... ohne PNF etc.
-        
-        
         menuBar = QMenuBar(self.toolBar)
-        menuBar.setObjectName("QGeoAppModule.PNF.LoadChecksMenuBar")        
+        menuBar.setObjectName("QcadastreModule.LoadChecksMenuBar")        
         menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         menu = QMenu(menuBar)
-        menu.setTitle(QCoreApplication.translate( "QGeoAppModule.PNF","Checks"))  
+        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Checks"))  
         
-        topics = self.checkUtils.getTopics()
-        if topics <> False:
+        topics = utils.getCheckTopics(self.iface)
+        print topics
+        if topics:
             for topic in topics:
+                print topic
                 singleCheckMenu = menu.addMenu(unicode(topic))                        
-                checks = self.checkUtils.getChecksByTopic(topic)
-                
-                for check in checks:
-                    checkName = unicode(check["name"])
-                    if checkName == "separator":
-                        singleCheckMenu.addSeparator()
-                    else:
-                        action = QAction(checkName, self.iface.mainWindow())
-                        singleCheckMenu.addAction(action)                                         
-                        QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
-
+                checks = utils.getChecks(self.iface, topic)
+                print checks
+#                
+#                for check in checks:
+#                    checkName = unicode(check["name"])
+#                    if checkName == "separator":
+#                        singleCheckMenu.addSeparator()
+#                    else:
+#                        action = QAction(checkName, self.iface.mainWindow())
+#                        singleCheckMenu.addAction(action)                                         
+#                        QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
+#
         menuBar.addMenu(menu)
         self.toolBar.insertWidget(self.beforeAction, menuBar)
 

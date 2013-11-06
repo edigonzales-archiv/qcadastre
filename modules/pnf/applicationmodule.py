@@ -91,7 +91,7 @@ class ApplicationModule(QObject):
         menu.addAction(action)     
         
         action = QAction(QCoreApplication.translate("QcadastreModule", "Export defects layer"), self.iface.mainWindow())
-        #QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doExportDefects(foo))
+        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doExportDefects(foo))
         menu.addAction(action)     
 
         menuBar.addMenu(menu)

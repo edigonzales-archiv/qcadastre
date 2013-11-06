@@ -4,157 +4,191 @@ from PyQt4.QtGui import *
 from qgis.core import *
 from qgis.gui import *
 
-import time, os
-import xlwt as pycel
+import time
+import os
 
 
 class ExportDefects( QObject ):
     def __init__(self, iface):
         self.iface = iface
-
         
     def run(self):
-        settings = QSettings("CatAIS","QGeoApp")
-        dbhost = str(settings.value("project/active/dbhost").toString())
-        dbport = str(settings.value("project/active/dbport").toString())
-        dbname = str(settings.value("project/active/dbname").toString())
-        dbschema = str(settings.value("project/active/dbschema").toString())
-        dbuser = str(settings.value("project/active/dbuser").toString())
-        dbpwd = str(settings.value("project/active/dbpwd").toString())        
-        projectdir = str(settings.value("project/active/projectdir").toString())
-        projectId = str(settings.value("project/active/id").toString())
-        
-        uri = QgsDataSourceURI()        
-        uri.setConnection(dbhost, dbport, dbname, dbuser, dbpwd)
-        uri.setDataSource(dbschema, "t_maengel", "the_geom", "", "ogc_fid")        
-        vlayer = QgsVectorLayer(uri.uri(), "Maengel (Punkte)", "postgres")
-        
-        
-        uri = QgsDataSourceURI()        
-        uri.setConnection(dbhost, dbport, dbname, dbuser, dbpwd)
-        uri.setDataSource(dbschema, "t_maengel_linie", "the_geom", "", "ogc_fid")        
-        vlayer_line = QgsVectorLayer(uri.uri(), "Maengel (Linien)", "postgres")
-
-        if not vlayer.isValid():
-            QMessageBox.critical(None, "QGeoAppModule.PNF",  QCoreApplication.translate("QGeoAppModule.PNF", "Could not load defects layer."))            
-            return
-        
-        if not vlayer_line.isValid():
-            QMessageBox.critical(None, "QGeoAppModule.PNF",  QCoreApplication.translate("QGeoAppModule.PNF", "Could not load defects layer."))            
+        try:
+            import xlwt as pycel
+        except:
+            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Xlwt module not found."), level=QgsMessageBar.CRITICAL, duration=5)                                            
             return        
         
-        if vlayer.featureCount() == 0 and vlayer_line.featureCount() == 0:
-            QMessageBox.warning(None, "QGeoAppModule.PNF",  QCoreApplication.translate("QGeoAppModule.PNF", "Defects layer are empty."))                   
-            return
+        try:        
+            settings = QSettings("CatAIS","Qcadastre")
+            module_name = (settings.value("project/appmodule"))
+            provider = (settings.value("project/provider"))
+            dbhost = (settings.value("project/dbhost"))
+            dbport = (settings.value("project/dbport"))
+            dbname = (settings.value("project/dbname"))
+            dbschema = (settings.value("project/dbschema"))
+            dbuser = (settings.value("project/dbuser"))
+            dbpwd = (settings.value("project/dbpwd"))
+            dbadmin = (settings.value("project/dbadmin"))
+            dbadminpwd = (settings.value("project/dbadminpwd"))
+            projectId = (settings.value("project/id"))
+            projectdir = (settings.value("project/projectdir"))
 
-        # create excel file
-        wb = pycel.Workbook(encoding='utf-8')
-        wb.country_code = 41
-        
-        style1 = pycel.easyxf('font: bold on;');
-        style2 = pycel.easyxf('font: italic on;');
-        
-        ws = wb.add_sheet(u'Mängelliste (Punkte)')
-        ws.paper_size_code = 8
-        ws.print_centered_vert = False
-        ws.print_centered_horz = False
-        ws.top_margin = 1.0
-        ws.left_margin = 1.0 
-        ws.bottom_margin = 1.0
-        ws.portrait = True
-        
-        ws.write(0, 0,  str("Operat: "), style1 )
-        ws.write(0, 1,  projectId)        
+            if not dbhost or not dbport or not dbname or not dbschema or not dbuser or not dbpwd or not dbadmin or not dbadminpwd:
+                self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Missing database parameter. Cannot load layer."), level=QgsMessageBar.CRITICAL, duration=5)                    
+                return
+            
+            uri = QgsDataSourceURI()        
+            uri.setConnection(dbhost, dbport, dbname, dbuser, dbpwd)
+            uri.setDataSource(dbschema, "t_maengel", "the_geom", "", "ogc_fid")        
+            vlayer_points = QgsVectorLayer(uri.uri(), "Maengel (Punkte)", "postgres")
+            
+            
+            uri = QgsDataSourceURI()        
+            uri.setConnection(dbhost, dbport, dbname, dbuser, dbpwd)
+            uri.setDataSource(dbschema, "t_maengel_linie", "the_geom", "", "ogc_fid")        
+            vlayer_lines = QgsVectorLayer(uri.uri(), "Maengel (Linien)", "postgres")
 
-        provider = vlayer.dataProvider()
-        feat = QgsFeature()
-        allAttrs = provider.attributeIndexes()
-        provider.select(allAttrs)
-        
-        attrs = provider.fields()
-        for i in attrs:
-            ws.write(4, i, str(attrs[i].name()), style2)
+            if not vlayer_points.isValid():
+                self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Could not load defects layer."), level=QgsMessageBar.CRITICAL, duration=5)                                
+                return
+            
+            if not vlayer_lines.isValid():
+                self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Could not load defects layer."), level=QgsMessageBar.CRITICAL, duration=5)                                
+                return        
+            
+            if vlayer_points.featureCount() == 0 and vlayer_lines.featureCount() == 0:
+                self.iface.messageBar().pushMessage("Information",  QCoreApplication.translate("QcadastreModule", "Defects layer are empty."), level=QgsMessageBar.INFO, duration=5)                                            
+                return
 
-        ws.write(4, i+1, "Y-Koordinate", style2)
-        ws.write(4, i+2, "X-Koordinate", style2)            
+            # create excel file
+            wb = pycel.Workbook(encoding='utf-8')
+            wb.country_code = 41
+            
+            style1 = pycel.easyxf('font: bold on;');
+            style2 = pycel.easyxf('font: italic on;');
+            
+            ws = wb.add_sheet(u'Mängelliste (Punkte)')
+            ws.paper_size_code = 8
+            ws.print_centered_vert = False
+            ws.print_centered_horz = False
+            ws.top_margin = 1.0
+            ws.left_margin = 1.0 
+            ws.bottom_margin = 1.0
+            ws.portrait = True
+            
+            ws.write(0, 0,  str("Operat: "), style1 )
+            ws.write(0, 1,  projectId)        
 
-        if vlayer.featureCount() > 0:
+
+            provider = vlayer_points.dataProvider()
+            attrs = provider.fields()
+            types = []
+            
+            for i in range(len(attrs)):
+                ws.write(4, i, str(attrs.at(i).name()), style2)
+                types.append(attrs.at(i).type())
+
+            ws.write(4, i+1, "Y-Koordinate", style2)
+            ws.write(4, i+2, "X-Koordinate", style2)            
+
+            iter = vlayer_points.getFeatures()
             j = 0
-            while provider.nextFeature(feat):
+
+            for feat in iter:
                 geom = feat.geometry()
-                point = geom.asPoint()
-                attrMap = feat.attributeMap()
-                for i in attrMap:
-                    type = attrMap[i].type()
-                    if type == 4:
-                        value = int(attrMap[i].toInt()[0])
-                        print value
-                    elif type == 10:
-                        value = unicode(attrMap[i].toString())
-                    else:
-                        pass
-                    ws.write(5+j, i, value)
-                    
-                ws.write(5+j, i+1, round(point.x(), 3))
-                ws.write(5+j, i+2, round(point.y(), 3))
+                point = geom.asPoint()            
+                attrs = feat.attributes()
+                k = 0
                 
-                j += 1
-            
-            
-        ws_line = wb.add_sheet(u'Mängelliste (Linie)')
-        ws_line.paper_size_code = 8
-        ws_line.print_centered_vert = False
-        ws_line.print_centered_horz = False
-        ws_line.top_margin = 1.0
-        ws_line.left_margin = 1.0 
-        ws_line.bottom_margin = 1.0
-        ws_line.portrait = True
-        
-        ws_line.write(0, 0,  str("Operat: "), style1 )
-        ws_line.write(0, 1,  projectId)        
+                for attr in attrs:
+                    type = types[k]
+                    
+                    if type == QVariant.Int or type == QVariant.LongLong:
+                        value = int(attr)
+                    elif type == QVariant.Double:
+                        value = double(attr)
+                    elif type == QVariant.String:
+                        value = unicode(attr)
+                    elif type == QVariant.Date or type == QVariant.DateTime:
+                        value = attr.toString("dd.MM.yy")
+                    else:
+                        value = "unknown attribute type"
+                        
+                    ws.write(5+j, k, value)
 
-        provider_line = vlayer_line.dataProvider()
-        feat = QgsFeature()
-        allAttrs = provider_line.attributeIndexes()
-        provider_line.select(allAttrs)
-        
-        attrs = provider_line.fields()
-        for i in attrs:
-            ws_line.write(4, i, str(attrs[i].name()), style2)
+                    k += 1
+                    
+                ws.write(5+j, k, round(point.x(), 3))
+                ws.write(5+j, k+1, round(point.y(), 3))
+                    
+                j += 1                
+                
 
-        ws_line.write(4, i+1, "Y-Koordinate", style2)
-        ws_line.write(4, i+2, "X-Koordinate", style2)            
-        ws_line.write(4, i+3, u"Länge [hm]", style2)  
-        
-        if vlayer_line.featureCount() > 0:
+            ws_line = wb.add_sheet(u'Mängelliste (Linien)')
+            ws_line.paper_size_code = 8
+            ws_line.print_centered_vert = False
+            ws_line.print_centered_horz = False
+            ws_line.top_margin = 1.0
+            ws_line.left_margin = 1.0 
+            ws_line.bottom_margin = 1.0
+            ws_line.portrait = True
+            
+            ws_line.write(0, 0,  str("Operat: "), style1 )
+            ws_line.write(0, 1,  projectId)        
+
+
+            provider = vlayer_lines.dataProvider()
+            attrs = provider.fields()
+            types = []
+            
+            for i in range(len(attrs)):
+                ws_line.write(4, i, str(attrs.at(i).name()), style2)
+                types.append(attrs.at(i).type())
+
+            ws_line.write(4, i+1, "Y-Koordinate", style2)
+            ws_line.write(4, i+2, "X-Koordinate", style2)            
+            ws_line.write(4, i+3, u"Länge [hm]", style2)  
+
+            iter = vlayer_lines.getFeatures()
             j = 0
-            while provider_line.nextFeature(feat):
+
+            for feat in iter:
                 geom = feat.geometry()
                 point = geom.vertexAt(0)
-                attrMap = feat.attributeMap()
-                for i in attrMap:
-                    type = attrMap[i].type()
-                    if type == 4:
-                        value = int(attrMap[i].toInt()[0])
-                        print value
-                    elif type == 10:
-                        value = unicode(attrMap[i].toString())
-                    else:
-                        pass
-                    ws_line.write(5+j, i, value)
+                attrs = feat.attributes()
+                k = 0
+                
+                for attr in attrs:
+                    type = types[k]
                     
-                ws_line.write(5+j, i+1, round(point.x(), 3))
-                ws_line.write(5+j, i+2, round(point.y(), 3))
-                ws_line.write(5+j, i+3, round(geom.length(), 2))
-                 
-                j += 1
+                    if type == 2 or type == 4:
+                        value = int(attr)
+                    elif type == 6:
+                        value = double(attr)
+                    elif type == 10:
+                        value = unicode(attr)
+                    elif type == 14:
+                        value = attr.toString("dd.MM.yy")
+                    else:
+                        value = "unknown attribute type"
+                        
+                    ws_line.write(5+j, k, value)
 
-        
-        
-        file = QDir.convertSeparators(QDir.cleanPath(projectdir + os.sep + "maengel.xls"))
-        try:
+                    k += 1
+                    
+                ws_line.write(5+j, k, round(point.x(), 3))
+                ws_line.write(5+j, k+1, round(point.y(), 3))
+                ws_line.write(5+j, k+2, round(geom.length(), 2))
+
+                j += 1      
+
+            file = QDir.convertSeparators(QDir.cleanPath(os.path.join(projectdir, "maengel.xls")))
             wb.save(file)
-            QMessageBox.information( None, "", QCoreApplication.translate("QGeoAppModule.PNF", "Defect(s) written:\n") + file)
-        except IOError:
-            QMessageBox.warning( None, "", QCoreApplication.translate("QGeoAppModule.PNF", "Defect(s) <b>not</b> written!<br>")+ file)
+            
+            self.iface.messageBar().pushMessage("Information",  QCoreApplication.translate("QcadastreModule", "Defect(s) written: " + file), level=QgsMessageBar.INFO, duration=5)                                            
+        except Exception, e:
+            print "Couldn't do it: %s" % e
+            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                                
+            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Defect(s) <b>not</b> written!<br>"), level=QgsMessageBar.CRITICAL, duration=5)                                
             return

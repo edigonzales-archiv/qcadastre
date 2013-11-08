@@ -186,35 +186,34 @@ class ComplexCheck(QObject):
             if vlayer:
                 self.iface.legendInterface().setLayerVisible(vlayer, True)    
 
-#        layer = {}
-#        layer["type"] = "postgres"
-#        layer["title"] = u"Reservoir (AfU)"
-#        layer["featuretype"] = "reservoir_afu"
-#        layer["geom"] = "geom"
-#        layer["key"] = "gid"            
-#        layer["sql"] = ""
-#        layer["readonly"] = True
-#        layer["group"] = group
-#        layer["style"] = "sogis/reservoir_afu.qml"
-#         
-#        params =  {}
-#        params["appmodule"] = str(self.settings.value("project/active/appmodule").toString())
-#        params["subappmodule"] = str(self.settings.value("project/active/subappmodule").toString())      
-#        params["provider"] = "postgres"
-#        params["dbhost"] = str(self.settings.value("project/active/dbhost").toString())
-#        params["dbport"] = str(self.settings.value("project/active/dbport").toString())
-#        params["dbname"] = "pnf_varia"
-#        params["dbschema"] = "sogis"
-#        params["dbuser"] = str(self.settings.value("project/active/dbuser").toString())
-#        params["dbpwd"] = str(self.settings.value("project/active/dbpwd").toString())
-#        params["dbadmin"] = str(self.settings.value("project/active/dbadmin").toString())
-#        params["dbadminpwd"] = str(self.settings.value("project/active/dbadminpwd").toString())
-#        
-#        layer["params"] = params
-#
-#        vlayer = self.qutils.loadProjectLayer(self.iface, layer)    
-#        if vlayer <> False:
-#            self.iface.legendInterface().setLayerVisible(vlayer, True)    
+            layer = {}
+            layer["type"] = "postgres"
+            layer["title"] = u"Reservoir (AfU)"
+            layer["featuretype"] = "reservoir_afu"
+            layer["geom"] = "geom"
+            layer["key"] = "gid"            
+            layer["sql"] = ""
+            layer["readonly"] = True
+            layer["group"] = group
+            layer["style"] = "sogis/reservoir_afu.qml"
+             
+            params =  {}
+            params["appmodule"] = str(self.settings.value("project/appmodule"))
+            params["provider"] = "postgres"
+            params["dbhost"] = str(self.settings.value("project/dbhost"))
+            params["dbport"] = str(self.settings.value("project/dbport"))
+            params["dbname"] = "pnf_varia"
+            params["dbschema"] = "sogis"
+            params["dbuser"] = str(self.settings.value("project/dbuser"))
+            params["dbpwd"] = str(self.settings.value("project/dbpwd"))
+            params["dbadmin"] = str(self.settings.value("project/dbadmin"))
+            params["dbadminpwd"] = str(self.settings.value("project/dbadminpwd"))
+            
+            layer["params"] = params
+
+            vlayer = utils.loadLayer(self.iface, layer)    
+            if vlayer:
+                self.iface.legendInterface().setLayerVisible(vlayer, True)    
 
             layer = {}
             layer["type"] = "postgres"

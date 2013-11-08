@@ -1,0 +1,30 @@
+{
+  "checks": [
+    {
+      "id": "alle_checks",
+      "name": "Alle Checks", 
+      "file": "complexchecks.landwirtschaft_alle_checks"
+    }, 
+    {
+      "id": "separator",
+      "name": "separator"
+    },     
+    {
+      "id": "landwirtschaft_maengel", 
+      "name": "Mängel", 
+      "file": "complexchecks.landwirtschaft_maengel"
+    },     
+    {
+      "id": "landwirtschaft_checklayer", 
+      "name": "Checklayer", 
+      "group": "Checklayer - Landwirtschaft", 
+      "file": "complexchecks.landwirtschaft_checklayer"
+    },     
+    {
+      "id": "landwirtschaft_lagekontrolle",
+      "name": "Lagekontrolle", 
+      "group": "Lagekontrolle - Landwirtschaft", 
+      "file": "complexchecks.landwirtschaft_lagekontrolle"
+    }         
+  ]
+}

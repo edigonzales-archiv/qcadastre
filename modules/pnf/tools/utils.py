@@ -11,6 +11,7 @@ import json
 import locale
 import sys
 import collections
+from collections import OrderedDict
 
 def fubar():
     print "foobar super"
@@ -30,22 +31,20 @@ def getCheckTopics(iface):
         return
 
     try:
-        topics = {}
-        topic_names = []
+        topics = OrderedDict()
         for check in checks["checks"]:
             topic = check["topic"]
             if topics.has_key(topic):
                 continue
-            topics[topic] = topic
-            topic_names.append(topic)
-        return topic_names
+            topics[topic] = check
+        return topics
     except Exception, e:
         print "Couldn't do it: %s" % e        
         iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Error parsing json file."), level=QgsMessageBar.CRITICAL, duration=5)                            
         return
         
-def getChecks(iface, topic):
-    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/pnf/checks/checks.json"))
+def getChecks(iface, checkfile):
+    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/pnf/checks/"+checkfile+".json"))
     
     if not filename:
         iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "checks.json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    
@@ -61,8 +60,7 @@ def getChecks(iface, topic):
     try:
         topic_checks = []
         for check in checks["checks"]:
-            if topic == check["topic"]:
-                topic_checks.append(check)
+            topic_checks.append(check)
         return topic_checks
     except Exception, e:
         print "Couldn't do it: %s" % e        
@@ -91,117 +89,135 @@ def loadLayer(iface, layer, collapsed_legend = False):
         iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Missing parameter. Cannot load layer."), level=QgsMessageBar.CRITICAL, duration=5)                    
         return
 
-    try:
-        if layer["type"] == "postgres":
-            feature_type = str(layer["featuretype"])
-            title = str(layer["title"])
-            key = str(layer["key"])            
+#    try:
+    if layer["type"] == "postgres":
+        feature_type = str(layer["featuretype"])
+        title = str(layer["title"])
+        key = str(layer["key"])            
+        
+        try:
+            geom = str(layer["geom"])
+        except:
+            geom = None
             
-            try:
-                geom = str(layer["geom"])
-            except:
-                geom = None
-                
-            try:
-                style = str(layer["style"])
-            except:
-                style = ""
-                
-            try:
-                group = unicode(layer["group"])
-            except:
-                group = None
-                
-            try:
-                sql = str(layer["sql"])
-            except:
-                sql = ""
-          
-            # We can overwrite the active project settings/parameters to add *any* postgres layers.
-            try:
-                params = layer["params"]
-                module_name = params["appmodule"]
-                provider = params["provider"]
-                dbhost = params["dbhost"]
-                dbport = params["dbport"]
-                dbname = params["dbname"]
-                dbschema = params["dbschema"]
-                dbuser = params["dbuser"]
-                dbpwd = params["dbpwd"]
-                dbadmin = params["dbadmin"]
-                dbadminpwd = params["dbadminpwd"]
-            except:
-                pass
+        try:
+            style = str(layer["style"])
+        except:
+            style = ""
+            
+        try:
+            group = unicode(layer["group"])
+        except:
+            group = None
+            
+        try:
+            sql = str(layer["sql"])
+        except:
+            sql = ""
+      
+        # We can overwrite the active project settings/parameters to add *any* postgres layers.
+        try:
+            params = layer["params"]
+            module_name = params["appmodule"]
+            provider = params["provider"]
+            dbhost = params["dbhost"]
+            dbport = params["dbport"]
+            dbname = params["dbname"]
+            dbschema = params["dbschema"]
+            dbuser = params["dbuser"]
+            dbpwd = params["dbpwd"]
+            dbadmin = params["dbadmin"]
+            dbadminpwd = params["dbadminpwd"]
+        except:
+            pass
 
-            uri = QgsDataSourceURI()
-            if layer["readonly"]:
-                uri.setConnection(dbhost, dbport, dbname, dbuser, dbpwd)
-            else:
-                uri.setConnection(dbhost, dbport, dbname, dbadmin, dbadminpwd)
-            uri.setDataSource(dbschema, feature_type, geom, sql, key)
+        uri = QgsDataSourceURI()
+        if layer["readonly"]:
+            uri.setConnection(dbhost, dbport, dbname, dbuser, dbpwd)
+        else:
+            uri.setConnection(dbhost, dbport, dbname, dbadmin, dbadminpwd)
+        uri.setDataSource(dbschema, feature_type, geom, sql, key)
 
 #            print uri.uri()
 
-            qgis_layer = QgsVectorLayer(uri.uri(), title, provider)
-                        
-            qml_path = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/qml/"+style))
-            qml = QDir.convertSeparators(QDir.cleanPath(qml_path))
-            qgis_layer.loadNamedStyle(qml)
+        qgis_layer = QgsVectorLayer(uri.uri(), title, provider)
     
-            if not qgis_layer.isValid():
-                iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Layer is not valid"), level=QgsMessageBar.CRITICAL, duration=5)                                                            
-                return       
-            else:
-                QgsMapLayerRegistry.instance().addMapLayer(qgis_layer)
-
-        elif layer["type"] == "wms":
-            pass
-
-
-
-
-
-
-
-        else:
-            iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Data provider not supported: ") + str(layer["type"]), level=QgsMessageBar.CRITICAL, duration=5)                                                            
-            return
-
-        # Collapse legend in TOC.
-        if collapsed_legend:
-            legend_tree = iface.mainWindow().findChild(QDockWidget,"Legend").findChild(QTreeWidget)   
-            legend_tree.collapseItem(legend_tree.currentItem())
-
-        # Move layer into group.
-        grp_list = iface.legendInterface().groups()
-       
-        try:
-            grp_idx = grp_list.index(group)
-        except ValueError:
-            grp_idx = -1      
-
-        if grp_idx >= 0:
-            grp_idx_abs = getGroupIndex(iface, group)
-            
-            if grp_idx_abs <> 0:
-                iface.legendInterface().moveLayer(qgis_layer, grp_idx)
-                iface.legendInterface().setGroupExpanded(grp_idx-1,  False)
-        else:      
-            grp_idx = iface.legendInterface().addGroup(group)
-            iface.legendInterface().moveLayer(qgis_layer, grp_idx)
-   
-        iface.legendInterface().setGroupExpanded(grp_idx,  False)
-
-
-
-
-
-        return qgis_layer
+    elif layer["type"] == "wms":
+        url = layer["url"]
+        title = layer["title"]
+        layers = layer["layers"]
+        format = layer["format"]
+        crs = layer["crs"]
         
-    except Exception, e:
-        print "Couldn't do it: %s" % e
-        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", unicode(e)), level=QgsMessageBar.CRITICAL, duration=5)                                                            
-        return 
+        try:
+            styles = layer["styles"]
+        except:
+            styles = ""
+
+        try:
+            group = layer["group"]
+        except:
+            group = None
+            
+        try:
+            style = layer["style"]
+        except:
+            style = ""
+    
+        uri = "IgnoreGetMapUrl=1&crs="+crs+"&layers="+layers+"&styles="+styles+"&format="+format+"&url="+url
+        qgis_layer = QgsRasterLayer (uri, title, "wms", False)      
+
+    else:
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Data provider not supported: ") + str(layer["type"]), level=QgsMessageBar.CRITICAL, duration=5)                                                            
+        return
+
+    if style <> "":
+        qml_path = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/qml/"+style))
+        qml = QDir.convertSeparators(QDir.cleanPath(qml_path))
+        qgis_layer.loadNamedStyle(qml)
+
+    # Add layer to qgis map canvas.
+    if not qgis_layer.isValid():
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Layer is not valid"), level=QgsMessageBar.CRITICAL, duration=5)                                                            
+        return       
+    else:
+        QgsMapLayerRegistry.instance().addMapLayer(qgis_layer)
+
+    # Collapse legend in TOC.
+    if collapsed_legend:
+        legend_tree = iface.mainWindow().findChild(QDockWidget,"Legend").findChild(QTreeWidget)   
+        legend_tree.collapseItem(legend_tree.currentItem())
+
+    # Move layer into group.
+    grp_list = iface.legendInterface().groups()
+   
+    try:
+        grp_idx = grp_list.index(group)
+    except ValueError:
+        grp_idx = -1      
+
+    if grp_idx >= 0:
+        grp_idx_abs = getGroupIndex(iface, group)
+        
+        if grp_idx_abs <> 0:
+            iface.legendInterface().moveLayer(qgis_layer, grp_idx)
+            iface.legendInterface().setGroupExpanded(grp_idx-1,  False)
+    else:      
+        grp_idx = iface.legendInterface().addGroup(group)
+        iface.legendInterface().moveLayer(qgis_layer, grp_idx)
+
+    iface.legendInterface().setGroupExpanded(grp_idx,  False)
+
+
+
+
+
+    return qgis_layer
+        
+#    except Exception, e:
+#        print "Couldn't do it: %s" % e
+#        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", unicode(e)), level=QgsMessageBar.CRITICAL, duration=5)                                                            
+#        return 
         
 
 def getGroupIndex(iface, group_name):

@@ -1,0 +1,30 @@
+{
+  "checks": [
+    {
+      "id": "alle_checks",
+      "name": "Alle Checks", 
+      "file": "complexchecks.baugebiet_alle_checks"
+    }, 
+    {
+      "id": "separator",
+      "name": "separator"
+    },     
+    {
+      "id": "baugebiet_maengel", 
+      "name": "Mängel", 
+      "file": "complexchecks.strasse_maengel"
+    },     
+    {
+      "id": "baugebiet_checklayer", 
+      "name": "Checklayer", 
+      "group": "Checklayer - Bebautes Gebiet", 
+      "file": "complexchecks.baugebiet_checklayer"
+    },     
+    {
+      "id": "baugebiet_lagekontrolle",
+      "name": "Lagekontrolle", 
+      "group": "Lagekontrolle - Bebautes Gebiet", 
+      "file": "complexchecks.baugebiet_lagekontrolle"
+    }         
+  ]
+}

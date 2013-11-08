@@ -1,0 +1,30 @@
+{
+  "checks": [
+    {
+      "id": "alle_checks",
+      "name": "Alle Checks", 
+      "file": "complexchecks.bestockt_alle_checks"
+    }, 
+    {
+      "id": "separator",
+      "name": "separator"
+    },     
+    {
+      "id": "bestockt_maengel", 
+      "name": "Mängel", 
+      "file": "complexchecks.bestockt_maengel"
+    },     
+    {
+      "id": "bestockt_checklayer", 
+      "name": "Checklayer", 
+      "group": "Checklayer - Bestockte Fläche", 
+      "file": "complexchecks.bestockt_checklayer"
+    },     
+    {
+      "id": "bestockt_lagekontrolle",
+      "name": "Lagekontrolle", 
+      "group": "Lagekontrolle - Bestockte Fläche", 
+      "file": "complexchecks.bestockt_lagekontrolle"
+    }         
+  ]
+}

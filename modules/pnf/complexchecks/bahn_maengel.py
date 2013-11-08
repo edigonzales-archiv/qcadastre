@@ -4,23 +4,26 @@ from PyQt4.QtGui import *
 from qgis.core import *
 from qgis.gui import *
 
-import utils
-import os
-import time
+import qcadastre.modules.pnf.tools.utils as utils
 
 
-class LoadDefects(QObject):
+class ComplexCheck(QObject):
 
     def __init__(self, iface):
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
 
-    def run(self):       
-        try:
-            self.settings = QSettings("CatAIS","Qcadastre")
-            self.project_id = str(self.settings.value("project/id"))
-            self.epsg = str(self.settings.value("project/epsg"))
-                    
+    def run(self):        
+        self.settings = QSettings("CatAIS","Qcadastre")
+        project_id = (self.settings.value("project/id"))
+        epsg = (self.settings.value("project/epsg"))
+        
+        if not project_id:
+            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "project_id not set"), level=QgsMessageBar.CRITICAL, duration=5)                                
+            return
+        
+        QApplication.setOverrideCursor(Qt.WaitCursor)
+        try:            
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = "Fehlerarten"
@@ -28,18 +31,20 @@ class LoadDefects(QObject):
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
             layer["readonly"] = True
-            layer["group"] = u"Mängel" + " (" + self.project_id + ")"
+            layer["group"] = u"Mängel - Bahn" + " (" + project_id + ")"
 
-            layer_fehlerarten = utils.loadLayer(self.iface, layer)
+            layer_fehlerarten = utils.loadLayer(self.iface, layer)    
+            if layer_fehlerarten:
+                layer_fehlerarten.setLayerName(u"Fehlerarten")
 
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = "Maengelarten"
             layer["featuretype"] = "t_maengel_art"
             layer["key"] = "ogc_fid"            
-            layer["sql"] = ""
+            layer["sql"] = "gruppe = 'Bahn'"
             layer["readonly"] = True
-            layer["group"] = u"Mängel" + " (" + self.project_id + ")"
+            layer["group"] = u"Mängel - Bahn" + " (" + project_id + ")"
 
             layer_maengelarten = utils.loadLayer(self.iface, layer)    
             if layer_maengelarten:
@@ -47,15 +52,15 @@ class LoadDefects(QObject):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = "Maengelliste (Punkte)"
+            layer["title"] = u"Maengelliste (Punkte)"
             layer["featuretype"] = "t_maengel"
             layer["geom"] = "the_geom"
             layer["key"] = "ogc_fid"
-            layer["readonly"] = True
-            layer["sql"] = ""                        
-            layer["group"] = u"Mängel" + " (" + self.project_id + ")"
+            layer["readonly"] = False
+            layer["sql"] = "gruppe = 'Bahn'"                        
+            layer["group"] = u"Mängel - Bahn" + " (" + project_id + ")"
             layer["style"] = "maengel/maengel.qml"
-        
+
             vlayer = utils.loadLayer(self.iface, layer)  
             if vlayer:
                 self.iface.legendInterface().setLayerVisible(vlayer, True) 
@@ -106,7 +111,7 @@ class LoadDefects(QObject):
                 art_valrel.mKey = "art_txt"
                 art_valrel.mValue = "art_txt"
                 art_valrel.mOrderByValue = True
-                art_valrel.mAllowNull = False
+                art_valrel.mAllowNull = True
                 art_valrel.mAllowMulti = False
                 
                 fehler_valrel = vlayer.valueRelation(fehler_idx)
@@ -114,7 +119,7 @@ class LoadDefects(QObject):
                 fehler_valrel.mKey = "fehler_txt"
                 fehler_valrel.mValue = "fehler_txt"
                 fehler_valrel.mOrderByValue = True
-                fehler_valrel.mAllowNull = False
+                fehler_valrel.mAllowNull = True
                 fehler_valrel.mAllowMulti = False            
 
             layer = {}
@@ -123,12 +128,12 @@ class LoadDefects(QObject):
             layer["featuretype"] = "t_maengel_linie"
             layer["geom"] = "the_geom"
             layer["key"] = "ogc_fid"
-            layer["readonly"] = True
-            layer["sql"] = ""                        
-            layer["group"] = u"Mängel" + " (" + self.project_id + ")"
+            layer["readonly"] = False
+            layer["sql"] = "gruppe = 'Bahn'"                        
+            layer["group"] = u"Mängel - Bahn" + " (" + project_id + ")"
             layer["style"] = "maengel/maengel_linie.qml"
 
-            vlayer = utils.loadLayer(self.iface, layer)  
+            vlayer =utils.loadLayer(self.iface, layer)  
             if vlayer:
                 self.iface.legendInterface().setLayerVisible(vlayer, True) 
                 vlayer.setLayerName(u"Mängelliste (Linie)")
@@ -178,7 +183,7 @@ class LoadDefects(QObject):
                 art_valrel.mKey = "art_txt"
                 art_valrel.mValue = "art_txt"
                 art_valrel.mOrderByValue = True
-                art_valrel.mAllowNull = False
+                art_valrel.mAllowNull = True
                 art_valrel.mAllowMulti = False
                 
                 fehler_valrel = vlayer.valueRelation(fehler_idx)
@@ -186,23 +191,22 @@ class LoadDefects(QObject):
                 fehler_valrel.mKey = "fehler_txt"
                 fehler_valrel.mValue = "fehler_txt"
                 fehler_valrel.mOrderByValue = True
-                fehler_valrel.mAllowNull = False
+                fehler_valrel.mAllowNull = True
                 fehler_valrel.mAllowMulti = False            
+            
         except Exception, e:
             QApplication.setOverrideCursor(Qt.WaitCursor)            
             print "Couldn't do it: %s" % e            
             self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                    
-        
         QApplication.restoreOverrideCursor()        
 
         # Workaround for geometryless-tables-wgs84-bug.
         try:
             self.canvas.setMapUnits(0)		
             srs = QgsCoordinateReferenceSystem()
-            srs.createFromSrid(int(self.epsg))
+            srs.createFromSrid(int(epsg))
             renderer = self.canvas.mapRenderer()
             renderer.setDestinationCrs(srs)
         except Exception, e:
             print "Couldn't do it: %s" % e            
             self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                    
-            

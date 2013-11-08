@@ -10,13 +10,6 @@ import sys
 
 import tools.utils as utils
 
-#from tools.doShowChecklist import ShowChecklist
-#from tools.doLoadDefects import LoadDefects
-#from tools.doExportDefects import ExportDefects
-#from tools.qverisoutils import QVerisoUtils
-#from qgeoapp.basic.tools.qgeoapputils import QGeoAppUtils
-#from tools.CheckUtils import CheckUtils
-
 
 class ApplicationModule(QObject):
     
@@ -40,35 +33,36 @@ class ApplicationModule(QObject):
         menu.setTitle(QCoreApplication.translate( "QcadastreModule","Checks"))  
         
         topics = utils.getCheckTopics(self.iface)
-        print topics
         if topics:
+            print topics
             for topic in topics:
                 print topic
+                checkfile = topics[topic]['file']
                 singleCheckMenu = menu.addMenu(unicode(topic))                        
-                checks = utils.getChecks(self.iface, topic)
-                print checks
-#                
-#                for check in checks:
-#                    checkName = unicode(check["name"])
-#                    if checkName == "separator":
-#                        singleCheckMenu.addSeparator()
-#                    else:
-#                        action = QAction(checkName, self.iface.mainWindow())
-#                        singleCheckMenu.addAction(action)                                         
-#                        QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
-#
+                checks = utils.getChecks(self.iface, checkfile)
+                
+                for check in checks:
+                    checkName = unicode(check["name"])
+                    if checkName == "separator":
+                        singleCheckMenu.addSeparator()
+                    else:
+                        action = QAction(checkName, self.iface.mainWindow())
+                        singleCheckMenu.addAction(action)                                         
+                        QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
+
         menuBar.addMenu(menu)
         self.toolBar.insertWidget(self.beforeAction, menuBar)
 
-
     def doShowComplexCheck(self, check):
-#        try:
-        module = str(check["file"])
-        _temp = __import__(module, globals(), locals(), ['ComplexCheck'])
-        c = _temp.ComplexCheck(self.iface)
-        c.run()
-#        except:
-#            QMessageBox.critical(None, "QGeoAppModule.PNF",  QCoreApplication.translate("QGeoAppModule.PNF", "Error loading complex check."))
+        try:
+            module = str(check["file"])
+            print module
+            _temp = __import__(module, globals(), locals(), ['ComplexCheck'])
+            c = _temp.ComplexCheck(self.iface)
+            c.run()
+        except Exception, e:
+            print "Couldn't do it: %s" % e
+            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                                
 
 
     def doInitDefectsMenu(self):
@@ -89,7 +83,6 @@ class ApplicationModule(QObject):
         menuBar.addMenu(menu)
         self.toolBar.insertWidget(self.beforeAction, menuBar)
 
-
     def doLoadDefects(self, bar):
         from tools.doLoadDefects import LoadDefects
         d = LoadDefects(self.iface)
@@ -101,7 +94,6 @@ class ApplicationModule(QObject):
         d = ExportDefects(self.iface)
         d.run()
 
-    
     def cleanGui(self):
         # remove all the applications module specific menus
         actions = self.toolBar.actions()
@@ -327,7 +319,7 @@ class ApplicationModule(QObject):
 
 
     def run(self):
-        print "fooooooooooo"
+        print "fubar"
 
         
         

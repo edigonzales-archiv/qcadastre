@@ -1,0 +1,30 @@
+{
+  "checks": [
+    {
+      "id": "alle_checks",
+      "name": "Alle Checks", 
+      "file": "complexchecks.gewaesser_alle_checks"
+    }, 
+    {
+      "id": "separator",
+      "name": "separator"
+    },     
+    {
+      "id": "gewaesser_maengel", 
+      "name": "Mängel", 
+      "file": "complexchecks.gewaesser_maengel"
+    },     
+    {
+      "id": "gewaesser_checklayer", 
+      "name": "Checklayer", 
+      "group": "Checklayer - Gewässer", 
+      "file": "complexchecks.gewaesser_checklayer"
+    },     
+    {
+      "id": "gewaesser_lagekontrolle",
+      "name": "Lagekontrolle", 
+      "group": "Lagekontrolle - Gewässer", 
+      "file": "complexchecks.gewaesser_lagekontrolle"
+    }         
+  ]
+}

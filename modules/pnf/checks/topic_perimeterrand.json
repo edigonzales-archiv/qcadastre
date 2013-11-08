@@ -1,0 +1,24 @@
+{
+  "checks": [
+    {
+      "id": "alle_checks", 
+      "name": "Alle Checks", 
+      "file": "complexchecks.perimeterrand_alle_checks"
+    }, 
+    {
+      "id": "separator",
+      "name": "separator"       
+    },     
+    {
+      "id": "perimeterrand_maengel", 
+      "name": "Mängel",
+      "file": "complexchecks.perimeterrand_maengel"
+    },     
+    {
+      "id": "perimeterrand_lagekontrolle", 
+      "name": "Checklayer", 
+      "group": "Checklayer - Perimeterrand", 
+      "file": "complexchecks.perimeterrand_checklayer"
+    }
+  ]
+}

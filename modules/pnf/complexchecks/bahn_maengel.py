@@ -195,7 +195,7 @@ class ComplexCheck(QObject):
                 fehler_valrel.mAllowMulti = False            
             
         except Exception, e:
-            QApplication.setOverrideCursor(Qt.WaitCursor)            
+            QApplication.restoreOverrideCursor()       
             print "Couldn't do it: %s" % e            
             self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                    
         QApplication.restoreOverrideCursor()        

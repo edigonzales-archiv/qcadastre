@@ -49,7 +49,6 @@ class ComplexCheck(QObject):
             if rlayer:
                 self.iface.legendInterface().setLayerVisible(rlayer, True)     
                 
-            
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = "Gemeindegrenze"
@@ -136,7 +135,7 @@ class ComplexCheck(QObject):
             if eoflayer:
                 self.iface.legendInterface().setLayerVisible(eoflayer, True)    
                 
-            if eoeolayer <> False and eoflayer <> False:
+            if eoeolayer and eoflayer:
                 joinLayerId = eoeolayer.id()
                 joinProvider = eoeolayer.dataProvider()
                 joinIdx = joinProvider.fieldNameIndex("tid")
@@ -167,7 +166,7 @@ class ComplexCheck(QObject):
             if eolilayer:
                 self.iface.legendInterface().setLayerVisible(eolilayer, True)    
 
-            if eoeolayer <> False and eolilayer <> False:
+            if eoeolayer and eolilayer:
                 joinLayerId = eoeolayer.id()
                 joinProvider = eoeolayer.dataProvider()
                 joinIdx = joinProvider.fieldNameIndex("tid")
@@ -198,7 +197,7 @@ class ComplexCheck(QObject):
             if eopklayer:
                 self.iface.legendInterface().setLayerVisible(eopklayer, True)    
 
-            if eoeolayer <> False and eopklayer <> False:
+            if eoeolayer and eopklayer:
                 joinLayerId = eoeolayer.id()
                 joinProvider = eoeolayer.dataProvider()
                 joinIdx = joinProvider.fieldNameIndex("tid")

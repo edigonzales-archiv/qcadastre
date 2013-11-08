@@ -34,9 +34,7 @@ class ApplicationModule(QObject):
         
         topics = utils.getCheckTopics(self.iface)
         if topics:
-            print topics
             for topic in topics:
-                print topic
                 checkfile = topics[topic]['file']
                 singleCheckMenu = menu.addMenu(unicode(topic))                        
                 checks = utils.getChecks(self.iface, checkfile)

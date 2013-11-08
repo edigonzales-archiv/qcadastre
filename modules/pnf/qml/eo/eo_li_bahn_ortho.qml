@@ -1,10 +1,10 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="2.1.0-Master" minimumScale="-4.65661e-10" maximumScale="20000" minLabelScale="1" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="1" scaleBasedLabelVisibilityFlag="0">
+<qgis version="2.1.0-Master" minimumScale="0" maximumScale="20000" minLabelScale="1" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="1" scaleBasedLabelVisibilityFlag="0">
   <renderer-v2 symbollevels="0" type="RuleRenderer">
     <rules>
-      <rule filter="&quot;EO.Einzelobjekt_art&quot;  = 32" symbol="0" label="Bahngeleise"/>
-      <rule filter="&quot;EO.Einzelobjekt_art&quot;  = 33" symbol="1" label="Bahngeleise_ueberdeckt"/>
-      <rule scalemaxdenom="5000" filter="&quot;EO.Einzelobjekt_art&quot;  NOT IN (32,33)" symbol="2" label="andere"/>
+      <rule filter="&quot;art&quot;  = 32" symbol="0" label="Bahngeleise"/>
+      <rule filter="&quot;art&quot;  = 33" symbol="1" label="Bahngeleise_ueberdeckt"/>
+      <rule scalemaxdenom="5000" filter="&quot;art&quot;  NOT IN (32,33)" symbol="2" label="andere"/>
     </rules>
     <symbols>
       <symbol alpha="1" type="line" name="0">
@@ -77,10 +77,10 @@
     <property key="labeling/distInMapUnits" value="false"/>
     <property key="labeling/enabled" value="false"/>
     <property key="labeling/fieldName" value=""/>
-    <property key="labeling/fontBold" value="false"/>
+    <property key="labeling/fontBold" value="true"/>
     <property key="labeling/fontCapitals" value="0"/>
     <property key="labeling/fontFamily" value="Ubuntu"/>
-    <property key="labeling/fontItalic" value="false"/>
+    <property key="labeling/fontItalic" value="true"/>
     <property key="labeling/fontLetterSpacing" value="0"/>
     <property key="labeling/fontLimitPixelSize" value="false"/>
     <property key="labeling/fontMaxPixelSize" value="10000"/>
@@ -89,7 +89,7 @@
     <property key="labeling/fontSizeInMapUnits" value="false"/>
     <property key="labeling/fontStrikeout" value="false"/>
     <property key="labeling/fontUnderline" value="false"/>
-    <property key="labeling/fontWeight" value="50"/>
+    <property key="labeling/fontWeight" value="75"/>
     <property key="labeling/fontWordSpacing" value="0"/>
     <property key="labeling/formatNumbers" value="false"/>
     <property key="labeling/isExpression" value="false"/>
@@ -207,6 +207,8 @@
     <edittype labelontop="0" editable="0" type="0" name="EO.Einzelobjekt_qualitaet"/>
     <edittype labelontop="0" editable="0" type="0" name="EO.Einzelobjekt_qualitaet_txt"/>
     <edittype labelontop="0" editable="0" type="0" name="EO.Einzelobjekt_tid"/>
+    <edittype labelontop="0" editable="1" type="0" name="art"/>
+    <edittype labelontop="0" editable="1" type="0" name="art_txt"/>
     <edittype labelontop="0" editable="1" type="0" name="einzelobjekte_einzelobjekt_art"/>
     <edittype labelontop="0" editable="1" type="0" name="einzelobjekte_einzelobjekt_art_txt"/>
     <edittype labelontop="0" editable="1" type="0" name="einzelobjekte_einzelobjekt_entstehung"/>
@@ -216,6 +218,7 @@
     <edittype labelontop="0" editable="1" type="0" name="einzelobjekte_einzelobjekt_ogc_fid"/>
     <edittype labelontop="0" editable="1" type="0" name="einzelobjekte_einzelobjekt_qualitaet"/>
     <edittype labelontop="0" editable="1" type="0" name="einzelobjekte_einzelobjekt_qualitaet_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="eo_tid"/>
     <edittype labelontop="0" editable="1" type="0" name="gem_bfs"/>
     <edittype labelontop="0" editable="1" type="0" name="lieferdatum"/>
     <edittype labelontop="0" editable="1" type="0" name="linienelement_von"/>

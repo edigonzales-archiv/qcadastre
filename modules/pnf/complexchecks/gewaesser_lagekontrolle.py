@@ -98,19 +98,8 @@ class ComplexCheck(QObject):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = "EO.Einzelobjekt"
-            layer["featuretype"] = "einzelobjekte_einzelobjekt"
-            layer["key"] = "ogc_fid"            
-            layer["sql"] = ""
-            layer["readonly"] = "true"
-            layer["group"] = group
-
-            eoeolayer = utils.loadLayer(self.iface, layer)    
-
-            layer = {}
-            layer["type"] = "postgres"
             layer["title"] = u"EO.Flaechenelement"
-            layer["featuretype"] = "einzelobjekte_flaechenelement"
+            layer["featuretype"] = "v_einzelobjekte_flaechenelement"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
@@ -118,30 +107,14 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "eo/eo_fl_gewaesser_ortho.qml"
 
-            eoflayer = utils.loadLayer(self.iface, layer)    
-            if eoflayer:
-                self.iface.legendInterface().setLayerVisible(eoflayer, True)    
-                
-            if eoeolayer and eoflayer:
-                joinLayerId = eoeolayer.id()
-                joinProvider = eoeolayer.dataProvider()
-                joinIdx = joinProvider.fieldNameIndex("tid")
-                
-                targetProvider = eoflayer.dataProvider()
-                targetIdx = targetProvider.fieldNameIndex("flaechenelement_von")
-
-                joinInfo = QgsVectorJoinInfo()
-                joinInfo.joinField = joinIdx
-                joinInfo.joinLayerId = joinLayerId
-                joinInfo.targetField = targetIdx
-                joinInfo.memoryCache = True
-                
-                eoflayer.addJoin(joinInfo)
+            vlayer = utils.loadLayer(self.iface, layer)    
+            if vlayer:
+                self.iface.legendInterface().setLayerVisible(vlayer, True)    
 
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = u"EO.Linienelement"
-            layer["featuretype"] = "einzelobjekte_linienelement"
+            layer["featuretype"] = "v_einzelobjekte_linienelement"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
@@ -149,30 +122,14 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "eo/eo_li_gewaesser_ortho.qml"
 
-            eolilayer = utils.loadLayer(self.iface, layer)    
-            if eolilayer:
-                self.iface.legendInterface().setLayerVisible(eolilayer, True)    
-
-            if eoeolayer and eolilayer:
-                joinLayerId = eoeolayer.id()
-                joinProvider = eoeolayer.dataProvider()
-                joinIdx = joinProvider.fieldNameIndex("tid")
-                
-                targetProvider = eolilayer.dataProvider()
-                targetIdx = targetProvider.fieldNameIndex("linienelement_von")
-
-                joinInfo = QgsVectorJoinInfo()
-                joinInfo.joinField = joinIdx
-                joinInfo.joinLayerId = joinLayerId
-                joinInfo.targetField = targetIdx
-                joinInfo.memoryCache = True
-                
-                eolilayer.addJoin(joinInfo)
+            vlayer = utils.loadLayer(self.iface, layer)    
+            if vlayer:
+                self.iface.legendInterface().setLayerVisible(vlayer, True)    
 
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = u"EO.Punktelement"
-            layer["featuretype"] = "einzelobjekte_punktelement"
+            layer["featuretype"] = "v_einzelobjekte_punktelement"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
@@ -180,25 +137,9 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "eo/eo_pk_andere.qml"
 
-            eopklayer = utils.loadLayer(self.iface, layer)    
-            if eopklayer:
-                self.iface.legendInterface().setLayerVisible(eopklayer, True)    
-
-            if eoeolayer and eopklayer:
-                joinLayerId = eoeolayer.id()
-                joinProvider = eoeolayer.dataProvider()
-                joinIdx = joinProvider.fieldNameIndex("tid")
-                
-                targetProvider = eopklayer.dataProvider()
-                targetIdx = targetProvider.fieldNameIndex("punktelement_von")
-
-                joinInfo = QgsVectorJoinInfo()
-                joinInfo.joinField = joinIdx
-                joinInfo.joinLayerId = joinLayerId
-                joinInfo.targetField = targetIdx
-                joinInfo.memoryCache = True
-                
-                eopklayer.addJoin(joinInfo)
+            vlayer = utils.loadLayer(self.iface, layer)    
+            if vlayer:
+                self.iface.legendInterface().setLayerVisible(vlayer, True)    
 
             layer = {}
             layer["type"] = "postgres"

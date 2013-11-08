@@ -12,7 +12,7 @@
     {
       "id": "baugebiet_maengel", 
       "name": "Mängel", 
-      "file": "complexchecks.strasse_maengel"
+      "file": "complexchecks.baugebiet_maengel"
     },     
     {
       "id": "baugebiet_checklayer", 

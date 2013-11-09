@@ -191,13 +191,13 @@ class Qcadastre:
         
         moduleName = str(project["appmodule"]).lower()
 
-        try:
-            _temp = __import__("modules." + moduleName + ".applicationmodule", globals(), locals(), ['ApplicationModule'])
-            c = _temp.ApplicationModule(self.iface, self.toolBar)
-            c.initGui()
-        except Exception, e:
-            print "Couldn't do it: %s" % e        
-            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("Qcadastre", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                                
+#        try:
+        _temp = __import__("modules." + moduleName + ".applicationmodule", globals(), locals(), ['ApplicationModule'])
+        c = _temp.ApplicationModule(self.iface, self.toolBar)
+        c.initGui()
+#        except Exception, e:
+#            print "Couldn't do it: %s" % e        
+#            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("Qcadastre", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                                
 
 
     def unload(self):

@@ -1,0 +1,36 @@
+{
+  "baselayer": [
+    {
+      "topic": "Strasse",
+      "file": "topic_strasse"
+    },
+    {
+      "topic": "Bahn",
+      "file": "topic_bahn"
+    },
+    {
+      "topic": "Gewässer",
+      "file": "topic_gewaesser"
+    },
+    {
+      "topic": "Bebautes Gebiet",
+      "file": "topic_bebaut"
+    },
+    {
+      "topic": "Bestockte Fläche",
+      "file": "topic_bestockt"
+    },
+    {
+      "topic": "Landwirtschaft",
+      "file": "topic_landwirtschaft"
+    },
+    {
+      "topic": "Seltene Objekte",
+      "file": "topic_selten"
+    },    
+    {
+      "topic": "Perimeterrand",
+      "file": "topic_perimeterrand"
+    }  
+  ]
+}

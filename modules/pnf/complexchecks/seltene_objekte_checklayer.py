@@ -20,13 +20,13 @@ class ComplexCheck(QObject):
         self.settings = QSettings("CatAIS","Qcadastre")
         project_id = (self.settings.value("project/id"))
         epsg = (self.settings.value("project/epsg"))
-        projectdir = (self.settings.value("project//projectdir"))        
-        dbhost = (self.settings.value("project//dbhost"))
-        dbport = (self.settings.value("project//dbport"))
-        dbname = (self.settings.value("project//dbname"))
-        dbschema = (self.settings.value("project//dbschema"))
-        dbuser = (self.settings.value("project//dbuser"))
-        dbpwd = (self.settings.value("project//dbpwd"))        
+        projectdir = (self.settings.value("project/projectdir"))        
+        dbhost = (self.settings.value("project/dbhost"))
+        dbport = (self.settings.value("project/dbport"))
+        dbname = (self.settings.value("project/dbname"))
+        dbschema = (self.settings.value("project/dbschema"))
+        dbuser = (self.settings.value("project/dbuser"))
+        dbpwd = (self.settings.value("project/dbpwd"))        
 
         if not project_id:
             self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "project_id not set"), level=QgsMessageBar.CRITICAL, duration=5)                                
@@ -43,7 +43,7 @@ class ComplexCheck(QObject):
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
-            layer["readonly"] = "true"
+            layer["readonly"] = True
             layer["group"] = group
             layer["style"] = "bb/bb_bb_plan.qml"
 

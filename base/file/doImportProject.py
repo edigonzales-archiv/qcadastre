@@ -288,7 +288,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
                 f.write("enumerationText = true\n")
                 f.write("renumberTid = true\n")
                 f.write("\n");
-                f.write("qgisFiles = false\n")
+                f.write("qgisFiles = true\n")
                 f.write("\n");
                 
                 filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+self.appmodule+"/postprocessing/postprocessing.db"))                    

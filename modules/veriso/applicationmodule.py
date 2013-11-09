@@ -7,119 +7,151 @@ import os
 import json
 import time
 import sys
-#from tools.doShowChecklist import ShowChecklist
-#from tools.doLoadDefects import LoadDefects
-#from tools.doExportDefects import ExportDefects
-#from tools.qverisoutils import QVerisoUtils
-#from qgeoapp.basic.tools.qgeoapputils import QGeoAppUtils
-#from tools.CheckUtils import CheckUtils
+
+import tools.utils as utils
 
 
-class QGeoAppModule(QObject):
+class ApplicationModule(QObject):
     
     def __init__(self, iface, toolBar):
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
         self.toolBar = toolBar
-#        self.utils = QGeoAppUtils()
-#        self.checkUtils = CheckUtils()
         
-        self.settings = QSettings("CatAIS","QGeoApp")
-        self.projectsRootPath = self.settings.value("projects/rootdir").toString()
-        self.projectId = str(self.settings.value("project/active/id").toString())
-        self.ili = str(self.settings.value("project/active/ili").toString())
-        self.moduleName = str(self.settings.value("project/active/module").toString())
-        self.subModuleName = str(self.settings.value("project/active/submodule").toString())
-        
-        self.dbhost = str(self.settings.value("project/active/host").toString())
-        self.dbport = str(self.settings.value("project/active/port").toString())
-        self.dbname = str(self.settings.value("project/active/dbname").toString())
-        self.dbschema = str(self.settings.value("project/active/schema").toString())
-        self.dbuser = str(self.settings.value("project/active/readuser").toString())
-        self.dbpwd = str(self.settings.value("project/active/readpwd").toString())
-        self.dbadmin = str(self.settings.value("project/active/writeuser").toString())
-        self.dbadminpwd = str(self.settings.value("project/active/writepwd").toString())
+        self.settings = QSettings("CatAIS","Qcadastre")
+        self.provider = (self.settings.value("project/provider"))        
+        self.epsg = (self.settings.value("project/epsg"))
 
     def initGui(self):
         self.cleanGui()
+        self.doInitTopicsTablesMenu()
 #        self.doInitChecksMenu()
 #        self.doInitDefectsMenu()
         
-#        QObject.connect(self.canvas, SIGNAL("scaleChanged(double)"), self.doUpdateScale) 
-        
-    # Prevent user from zoom in too near.    
-#    def doUpdateScale(self, scale):
-#        if scale < self.MAX_SCALE:
-#            self.canvas.zoomScale(self.MAX_SCALE)
-
-        
-    def doInitChecksMenu(self):
+    def doInitTopicsTablesMenu(self):
         menuBar = QMenuBar(self.toolBar)
-        menuBar.setObjectName("QGeoAppModule.PNF.LoadChecksMenuBar")        
+        menuBar.setObjectName("QcadastreModule.LoadTopicsTablesMenuBar")        
         menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         menu = QMenu(menuBar)
-        menu.setTitle(QCoreApplication.translate( "QGeoAppModule.PNF","Checks"))  
+        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Tables"))  
         
-        topics = self.checkUtils.getTopics()
-        if topics <> False:
-            for topic in topics:
-                singleCheckMenu = menu.addMenu(unicode(topic))                        
-                checks = self.checkUtils.getChecksByTopic(topic)
+        topics = utils.getTopicsTables(self.iface)
                 
-                for check in checks:
-                    checkName = unicode(check["name"])
-                    if checkName == "separator":
-                        singleCheckMenu.addSeparator()
-                    else:
-                        action = QAction(checkName, self.iface.mainWindow())
-                        singleCheckMenu.addAction(action)                                         
-                        QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
+        if topics:
+            for topic in topics:
+#                print topics[topic]
+                topicMenu = menu.addMenu(unicode(topic))        
+
+                action = QAction(QCoreApplication.translate("QcadastreModule", "Load topic" ), self.iface.mainWindow())
+                topicMenu.addAction(action)    
+                topicMenu.addSeparator()      
+                QObject.connect(action, SIGNAL( "triggered()" ), lambda topic=topic: self.doShowTopic(topics[topic]))                   
+
+                for table in topics[topic]["tables"]:
+                    action = QAction(QCoreApplication.translate("QcadastreModule", table["title"] ), self.iface.mainWindow())
+                    topicMenu.addAction(action )     
+                    QObject.connect(action, SIGNAL("triggered()" ), lambda layer=table: self.doShowSingleTopicLayer(layer))    
 
         menuBar.addMenu(menu)
         self.toolBar.insertWidget(self.beforeAction, menuBar)
-
-
-    def doShowComplexCheck(self, check):
-#        try:
-        module = str(check["file"])
-        _temp = __import__(module, globals(), locals(), ['ComplexCheck'])
-        c = _temp.ComplexCheck(self.iface)
-        c.run()
-#        except:
-#            QMessageBox.critical(None, "QGeoAppModule.PNF",  QCoreApplication.translate("QGeoAppModule.PNF", "Error loading complex check."))
-
-
-    def doInitDefectsMenu(self):
-        menuBar = QMenuBar(self.toolBar)
-        menuBar.setObjectName("QGeoAppModule.PNF.LoadDefectsMenuBar")        
-        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-        menu = QMenu(menuBar)
-        menu.setTitle(QCoreApplication.translate( "QGeoAppModule.PNF","Defects"))  
-
-        action = QAction(QCoreApplication.translate("QGeoAppModule.PNF", "Load defects layer"), self.iface.mainWindow())
-        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doLoadDefects(foo))
-        menu.addAction(action)     
         
-        action = QAction(QCoreApplication.translate("QGeoAppModule.PNF", "Export defects layer"), self.iface.mainWindow())
-        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doExportDefects(foo))
-        menu.addAction(action)     
-
-        menuBar.addMenu(menu)
-        self.toolBar.insertWidget(self.beforeAction, menuBar)
-
-
-    def doLoadDefects(self, foo):
-        from tools.doLoadDefects import LoadDefects
-        d = LoadDefects(self.iface, self.projectId)
-        d.run()
-
-
-    def doExportDefects(self, foo):
-        from tools.doExportDefects import ExportDefects        
-        d = ExportDefects(self.iface)
-        d.run()
-
+    def doShowSingleTopicLayer(self, layer):
+        layer["type"] = str(self.provider)
+        utils.loadLayer(self.iface, layer) 
+        self.updateCrsScale()
+        
+    def doShowTopic(self, topic):
+        tables = topic["tables"]
     
+        for table in tables[::-1]:
+            self.doShowSingleTopicLayer(table)
+        
+    def updateCrsScale(self):
+        """
+            Update the scale map units and the crs manually since there is a bug with geometryless tables.
+        """
+        try:
+            self.canvas.setMapUnits(0)		
+            srs = QgsCoordinateReferenceSystem()
+            srs.createFromSrid(int(self.epsg))
+            renderer = self.canvas.mapRenderer()
+            renderer.setDestinationCrs(srs)
+        except Exception, e:
+            print "Couldn't do it: %s" % e            
+            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                    
+        
+        
+        
+#        if vlayer:
+#            self.iface.legendInterface().setLayerVisible(vlayer, True)    
+        
+#    def doInitChecksMenu(self):
+#        menuBar = QMenuBar(self.toolBar)
+#        menuBar.setObjectName("QcadastreModule.LoadChecksMenuBar")        
+#        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+#        menu = QMenu(menuBar)
+#        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Checks"))  
+#        
+#        topics = utils.getCheckTopics(self.iface)
+#        if topics:
+#            for topic in topics:
+#                checkfile = topics[topic]['file']
+#                singleCheckMenu = menu.addMenu(unicode(topic))                        
+#                checks = utils.getChecks(self.iface, checkfile)
+#                
+#                for check in checks:
+#                    checkName = unicode(check["name"])
+#                    if checkName == "separator":
+#                        singleCheckMenu.addSeparator()
+#                    else:
+#                        action = QAction(checkName, self.iface.mainWindow())
+#                        singleCheckMenu.addAction(action)                                         
+#                        QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
+#
+#        menuBar.addMenu(menu)
+#        self.toolBar.insertWidget(self.beforeAction, menuBar)
+#
+#    def doShowComplexCheck(self, check):
+#        try:
+#            module = str(check["file"])
+#            print module
+#            _temp = __import__(module, globals(), locals(), ['ComplexCheck'])
+#            c = _temp.ComplexCheck(self.iface)
+#            c.run()
+#        except Exception, e:
+#            print "Couldn't do it: %s" % e
+#            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                                
+#
+#
+#    def doInitDefectsMenu(self):
+#        menuBar = QMenuBar(self.toolBar)
+#        menuBar.setObjectName("QcadastreModule.LoadDefectsMenuBar")        
+#        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+#        menu = QMenu(menuBar)
+#        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Defects"))  
+#
+#        action = QAction(QCoreApplication.translate("QcadastreModule", "Load defects layer"), self.iface.mainWindow())
+#        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doLoadDefects(foo))
+#        menu.addAction(action)     
+#        
+#        action = QAction(QCoreApplication.translate("QcadastreModule", "Export defects layer"), self.iface.mainWindow())
+#        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doExportDefects(foo))
+#        menu.addAction(action)     
+#
+#        menuBar.addMenu(menu)
+#        self.toolBar.insertWidget(self.beforeAction, menuBar)
+#
+#    def doLoadDefects(self, bar):
+#        from tools.doLoadDefects import LoadDefects
+#        d = LoadDefects(self.iface)
+#        d.run()
+#
+#
+#    def doExportDefects(self, foo):
+#        from tools.doExportDefects import ExportDefects        
+#        d = ExportDefects(self.iface)
+#        d.run()
+
     def cleanGui(self):
         # remove all the applications module specific menus
         actions = self.toolBar.actions()
@@ -345,7 +377,7 @@ class QGeoAppModule(QObject):
 
 
     def run(self):
-        print "fooooooooooo"
+        print "fubar"
 
         
         

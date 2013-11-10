@@ -14,7 +14,10 @@ import collections
 from collections import OrderedDict
     
 def getTopicsTables(iface):
-    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/veriso/tables/tables.json"))
+    settings = QSettings("CatAIS","Qcadastre")
+    module_name = (settings.value("project/appmodule"))
+    
+    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/tables/tables.json"))
     
     if not filename:
         iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "topics.json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    
@@ -38,30 +41,23 @@ def getTopicsTables(iface):
         iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Error parsing json file."), level=QgsMessageBar.CRITICAL, duration=5)                            
         return
         
-#def getChecks(iface, checkfile):
-#    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/pnf/checks/"+checkfile+".json"))
-#    
-#    if not filename:
-#        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "checks.json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    
-#        return        
-#        
-#    try:
-#        checks = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
-#    except Exception, e:
-#        print "Couldn't do it: %s" % e        
-#        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Failed to load checks.json."), level=QgsMessageBar.CRITICAL, duration=5)                            
-#        return
-#    
-#    try:
-#        topic_checks = []
-#        for check in checks["checks"]:
-#            topic_checks.append(check)
-#        return topic_checks
-#    except Exception, e:
-#        print "Couldn't do it: %s" % e        
-#        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Error parsing json file."), level=QgsMessageBar.CRITICAL, duration=5)                            
-#        return
-
+def getBaselayers(iface):
+    settings = QSettings("CatAIS","Qcadastre")
+    module_name = (settings.value("project/appmodule"))
+    
+    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/baselayer/baselayer.json"))
+    
+    if not filename:
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "baselayer.json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    
+        return        
+        
+    try:
+        baselayers = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
+        return baselayers
+    except Exception, e:
+        print "Couldn't do it: %s" % e        
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Failed to load baselayer.json."), level=QgsMessageBar.CRITICAL, duration=5)                            
+        return
     
 def loadLayer(iface, layer, collapsed_legend = False):
     settings = QSettings("CatAIS","Qcadastre")
@@ -186,22 +182,23 @@ def loadLayer(iface, layer, collapsed_legend = False):
     # Move layer into group.
     grp_list = iface.legendInterface().groups()
    
-    try:
-        grp_idx = grp_list.index(group)
-    except ValueError:
-        grp_idx = -1      
+    if group:
+        try:
+            grp_idx = grp_list.index(group)
+        except ValueError:
+            grp_idx = -1      
 
-    if grp_idx >= 0:
-        grp_idx_abs = getGroupIndex(iface, group)
-        
-        if grp_idx_abs <> 0:
+        if grp_idx >= 0:
+            grp_idx_abs = getGroupIndex(iface, group)
+            
+            if grp_idx_abs <> 0:
+                iface.legendInterface().moveLayer(qgis_layer, grp_idx)
+                iface.legendInterface().setGroupExpanded(grp_idx-1,  False)
+        else:      
+            grp_idx = iface.legendInterface().addGroup(group)
             iface.legendInterface().moveLayer(qgis_layer, grp_idx)
-            iface.legendInterface().setGroupExpanded(grp_idx-1,  False)
-    else:      
-        grp_idx = iface.legendInterface().addGroup(group)
-        iface.legendInterface().moveLayer(qgis_layer, grp_idx)
 
-    iface.legendInterface().setGroupExpanded(grp_idx,  False)
+        iface.legendInterface().setGroupExpanded(grp_idx,  False)
 
 
 

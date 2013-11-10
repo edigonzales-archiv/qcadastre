@@ -1,36 +1,80 @@
 {
   "baselayer": [
     {
-      "topic": "Strasse",
-      "file": "topic_strasse"
+      "type": "wms",
+      "title": "Orthofoto RGB",
+      "url": "http://www.catais.org/wms/orthofoto",
+      "layers": "Orthofoto_RGB",
+      "format": "image/jpeg",
+      "crs": "EPSG:21781"
     },
     {
-      "topic": "Bahn",
-      "file": "topic_bahn"
+      "type": "wms",
+      "title": "Orthofoto CIR",
+      "url": "http://www.catais.org/wms/orthofoto",
+      "layers": "Orthofoto_CIR",
+      "format": "image/jpeg",
+      "crs": "EPSG:21781"
     },
     {
-      "topic": "Gewässer",
-      "file": "topic_gewaesser"
+      "type": "wms",
+      "title": "Grundbuchplan (farbig)",
+      "url": "http://www.catais.org/wms/grundbuchplan",
+      "layers": "Amtliche Vermessung (farbig)",
+      "format": "image/jpeg",
+      "crs": "EPSG:21781"
     },
     {
-      "topic": "Bebautes Gebiet",
-      "file": "topic_bebaut"
+      "type": "wms",
+      "title": "Grundbuchplan (farbig) (png8)",
+      "url": "http://www.catais.org/wms/grundbuchplan",
+      "layers": "Amtliche Vermessung (farbig)",
+      "format": "image/png; mode=8bit",
+      "crs": "EPSG:21781"
     },
     {
-      "topic": "Bestockte Fläche",
-      "file": "topic_bestockt"
+      "type": "wms",
+      "title": "Grundbuchplan (schwarz-weiss)",
+      "url": "http://www.catais.org/wms/grundbuchplan",
+      "layers": "Amtliche Vermessung (schwarz-weiss)",
+      "format": "image/jpeg",
+      "crs": "EPSG:21781"
     },
     {
-      "topic": "Landwirtschaft",
-      "file": "topic_landwirtschaft"
+      "type": "wms",
+      "title": "AV-WMS (farbig)",
+      "url": "http://www.catais.org/wms/avwms",
+      "layers": "AVWMS_farbig",
+      "format": "image/jpeg",
+      "crs": "EPSG:21781"
     },
     {
-      "topic": "Seltene Objekte",
-      "file": "topic_selten"
-    },    
+      "type": "wms",
+      "title": "AV-WMS (schwarz-weiss)",
+      "url": "http://www.catais.org/wms/avwms",
+      "layers": "AVWMS_sw",
+      "format": "image/jpeg",
+      "crs": "EPSG:21781"
+    },
     {
-      "topic": "Perimeterrand",
-      "file": "topic_perimeterrand"
-    }  
+      "type": "postgres",
+      "title": "PostgreSQL Test (Temporaer)",
+      "params": {
+        "dbhost": "localhost",
+        "dbport": 5432,
+        "dbname": "xanadu2",
+        "dbschema": "v_test1",
+        "dbuser": "mspublic",
+        "dbpwd": "mspublic",
+        "dbadmin": "",
+        "dbadminpwd": ""
+      },
+      "featuretype": "bodenbedeckung_boflaeche",
+      "geom": "geometrie",
+      "key": "ogc_fid",
+      "sql": "",
+      "readonly": 1,
+      "style": "test/test_poly.qml"
+    }    
   ]
 }

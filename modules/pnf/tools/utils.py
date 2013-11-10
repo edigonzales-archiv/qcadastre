@@ -17,7 +17,10 @@ def fubar():
     print "foobar super"
     
 def getCheckTopics(iface):
-    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/pnf/checks/checks.json"))
+    settings = QSettings("CatAIS","Qcadastre")
+    module_name = (settings.value("project/appmodule"))
+    
+    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/checks/checks.json"))
     
     if not filename:
         iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "checks.json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    
@@ -44,7 +47,10 @@ def getCheckTopics(iface):
         return
         
 def getChecks(iface, checkfile):
-    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/pnf/checks/"+checkfile+".json"))
+    settings = QSettings("CatAIS","Qcadastre")
+    module_name = (settings.value("project/appmodule"))
+    
+    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/checks/"+checkfile+".json"))
     
     if not filename:
         iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "checks.json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    

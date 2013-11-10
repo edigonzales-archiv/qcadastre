@@ -25,9 +25,39 @@ class ApplicationModule(QObject):
     def initGui(self):
         self.cleanGui()
         self.doInitTopicsTablesMenu()
+        self.doInitBaselayerMenu()
 #        self.doInitChecksMenu()
 #        self.doInitDefectsMenu()
         
+    def doInitBaselayerMenu(self):
+        menuBar = QMenuBar(self.toolBar)
+        menuBar.setObjectName("QcadastreModule.LoadBaselayerMenuBar")        
+        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        menu = QMenu(menuBar)
+        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Baselayer"))  
+        
+        baselayers = utils.getBaselayers(self.iface)
+        
+        for baselayer in baselayers["baselayer"]:
+            action = QAction(QCoreApplication.translate("QcadastreModule", baselayer["title"] ), self.iface.mainWindow())
+            menu.addAction(action)     
+            QObject.connect(action, SIGNAL("triggered()" ), lambda layer=baselayer: self.doShowBaselayer(layer))    
+
+        menuBar.addMenu(menu)
+        self.toolBar.insertWidget(self.beforeAction, menuBar)        
+        
+    def doShowBaselayer(self, layer):
+        QApplication.setOverrideCursor(Qt.WaitCursor)
+        try:
+            print layer
+            utils.loadLayer(self.iface, layer) 
+            self.updateCrsScale()        
+        except Exception, e:
+            QApplication.restoreOverrideCursor()            
+            print "Couldn't do it: %s" % e            
+            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                    
+        QApplication.restoreOverrideCursor()        
+
     def doInitTopicsTablesMenu(self):
         menuBar = QMenuBar(self.toolBar)
         menuBar.setObjectName("QcadastreModule.LoadTopicsTablesMenuBar")        
@@ -49,7 +79,7 @@ class ApplicationModule(QObject):
 
                 for table in topics[topic]["tables"]:
                     action = QAction(QCoreApplication.translate("QcadastreModule", table["title"] ), self.iface.mainWindow())
-                    topicMenu.addAction(action )     
+                    topicMenu.addAction(action)     
                     QObject.connect(action, SIGNAL("triggered()" ), lambda layer=table: self.doShowSingleTopicLayer(layer))    
 
         menuBar.addMenu(menu)

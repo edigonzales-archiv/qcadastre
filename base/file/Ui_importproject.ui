@@ -45,29 +45,6 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QLineEdit" name="lineEditIliModelName">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>27</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Ili model name: </string>
-          </property>
-         </widget>
-        </item>
         <item row="4" column="0">
          <widget class="QLabel" name="lblProjectName">
           <property name="minimumSize">
@@ -151,6 +128,16 @@
           </property>
           <property name="text">
            <string>Application module: </string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QComboBox" name="cmbBoxIliModelName"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Ili model name: </string>
           </property>
          </widget>
         </item>

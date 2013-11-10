@@ -83,7 +83,7 @@ class LoadDefects(QObject):
             vlayer = utils.loadLayer(self.iface, layer)  
             if vlayer:
                 self.iface.legendInterface().setLayerVisible(vlayer, True) 
-                vlayer.setLayerName(u"Mängelliste (Punkte)")
+                vlayer.setLayerName(u"Mängelliste (Linien)")
 
                 ogc_fid_idx = vlayer.fieldNameIndex("ogc_fid")
                 topic_idx = vlayer.fieldNameIndex("topic")                

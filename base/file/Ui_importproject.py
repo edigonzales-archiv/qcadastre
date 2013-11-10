@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'base/file/Ui_importproject.ui'
 #
-# Created: Sun Nov  3 17:26:06 2013
+# Created: Sun Nov 10 15:21:26 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -45,15 +45,6 @@ class Ui_ImportProject(object):
         self.btnBrowsInputFile = QtGui.QPushButton(self.groupBox)
         self.btnBrowsInputFile.setObjectName(_fromUtf8("btnBrowsInputFile"))
         self.gridLayout_4.addWidget(self.btnBrowsInputFile, 0, 3, 1, 1)
-        self.lineEditIliModelName = QtGui.QLineEdit(self.groupBox)
-        self.lineEditIliModelName.setEnabled(False)
-        self.lineEditIliModelName.setText(_fromUtf8(""))
-        self.lineEditIliModelName.setObjectName(_fromUtf8("lineEditIliModelName"))
-        self.gridLayout_4.addWidget(self.lineEditIliModelName, 2, 2, 1, 1)
-        self.label_2 = QtGui.QLabel(self.groupBox)
-        self.label_2.setMinimumSize(QtCore.QSize(0, 27))
-        self.label_2.setObjectName(_fromUtf8("label_2"))
-        self.gridLayout_4.addWidget(self.label_2, 2, 0, 1, 1)
         self.lblProjectName = QtGui.QLabel(self.groupBox)
         self.lblProjectName.setMinimumSize(QtCore.QSize(0, 27))
         self.lblProjectName.setObjectName(_fromUtf8("lblProjectName"))
@@ -89,6 +80,12 @@ class Ui_ImportProject(object):
         self.label_6.setMinimumSize(QtCore.QSize(0, 27))
         self.label_6.setObjectName(_fromUtf8("label_6"))
         self.gridLayout_4.addWidget(self.label_6, 1, 0, 1, 1)
+        self.cmbBoxIliModelName = QtGui.QComboBox(self.groupBox)
+        self.cmbBoxIliModelName.setObjectName(_fromUtf8("cmbBoxIliModelName"))
+        self.gridLayout_4.addWidget(self.cmbBoxIliModelName, 2, 2, 1, 1)
+        self.label_7 = QtGui.QLabel(self.groupBox)
+        self.label_7.setObjectName(_fromUtf8("label_7"))
+        self.gridLayout_4.addWidget(self.label_7, 2, 0, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout_4, 0, 0, 1, 1)
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
@@ -122,11 +119,11 @@ class Ui_ImportProject(object):
         self.groupBox.setTitle(_translate("ImportProject", "Import data ", None))
         self.label.setText(_translate("ImportProject", "Input file: ", None))
         self.btnBrowsInputFile.setText(_translate("ImportProject", "Browse", None))
-        self.label_2.setText(_translate("ImportProject", "Ili model name: ", None))
         self.lblProjectName.setText(_translate("ImportProject", "Project name: ", None))
         self.btnProjectName.setText(_translate("ImportProject", "Check", None))
         self.label_3.setText(_translate("ImportProject", "Date: ", None))
         self.label_5.setText(_translate("ImportProject", "Reference frame: ", None))
         self.label_6.setText(_translate("ImportProject", "Application module: ", None))
+        self.label_7.setText(_translate("ImportProject", "Ili model name: ", None))
         self.label_4.setText(_translate("ImportProject", "Output:", None))
 

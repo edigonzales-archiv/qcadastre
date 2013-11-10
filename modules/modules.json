@@ -3,15 +3,33 @@
         {
             "dirname": "veriso",
             "displayname": "VeriSO (DM.01)",
-            "ilimodel": "DM01AVCH24LV95D",
-            "referenceframe": "LV95",            
-            "epsg": "2056"
+            "ilimodels": [
+               {
+                  "ilimodel": "DM01AVCH24LV95D", 
+                  "referenceframe": "LV95",            
+                  "epsg": "2056"
+               },
+               {
+                  "ilimodel": "DM01AVCH24D", 
+                  "referenceframe": "LV03",            
+                  "epsg": "21781"
+               },
+               {
+                  "ilimodel": "DM01AVSO24", 
+                  "referenceframe": "LV03",            
+                  "epsg": "21781"
+               }
+            ]
         },{
             "dirname": "pnf",
             "displayname": "Periodische Nachführung",
-            "ilimodel": "DM01AVSO24",
-            "referenceframe": "LV03",
-            "epsg": "21781"
+            "ilimodels": [
+               {
+                  "ilimodel": "DM01AVSO24", 
+                  "referenceframe": "LV03",            
+                  "epsg": "21781"
+               }
+            ]
         }
     ]
 }

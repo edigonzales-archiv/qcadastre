@@ -62,15 +62,19 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         try:
             filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/modules.json"))
             self.modules = json.load(open(filename)) 
+#            print self.modules
             if self.modules != None:
                 sortedModulesList = sorted(self.modules["modules"], key=lambda k: k['displayname']) 
                 self.cmbBoxAppModule.clear()
                 for module in sortedModulesList:
-                    self.cmbBoxAppModule.insertItem(self.cmbBoxAppModule.count(), unicode(module["displayname"]), [module["dirname"], module["ilimodel"], module["referenceframe"], module["epsg"]])
-                self.cmbBoxAppModule.insertItem(0, QCoreApplication.translate("Qcadastre", "Choose module...."), None)
+                    self.cmbBoxAppModule.insertItem(self.cmbBoxAppModule.count(), unicode(module["displayname"]), module)
+                self.cmbBoxAppModule.insertItem(0, QCoreApplication.translate("Qcadastre", "Choose module..."), None)
                 self.cmbBoxAppModule.setCurrentIndex(0)
         except Exception, e:
             self.bar.pushMessage("Error", str(e), level=QgsMessageBar.CRITICAL)
+            
+#        self.cmbBoxIliModelName.insertItem(0, QCoreApplication.translate("Qcadastre", "Choose Interlis model...."), None)
+
 
     @pyqtSignature("on_btnProjectName_clicked()")    
     def on_btnProjectName_clicked(self):
@@ -84,16 +88,39 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
 
     @pyqtSignature("on_cmbBoxAppModule_currentIndexChanged(int)")      
     def on_cmbBoxAppModule_currentIndexChanged(self, idx):
+        self.cmbBoxIliModelName.clear()        
         moduleData = self.cmbBoxAppModule.itemData(idx)
         
-        if moduleData <> None:
-            self.lineEditIliModelName.setText(moduleData[1])
-            self.lineEditRefFrame.setText(moduleData[2] + " (EPSG:" + moduleData[3]  + ")")
-            self.epsg = moduleData[3]
+        if moduleData:
+            ilimodels = moduleData["ilimodels"]
+            
+            self.appmodule = moduleData["dirname"]
+            self.appmodule_name = self.cmbBoxAppModule.currentText()
+
+            for i in range(len(ilimodels)):
+                model_name = ilimodels[i]["ilimodel"]
+                reference_frame = ilimodels[i]["referenceframe"]
+                self.cmbBoxIliModelName.insertItem(self.cmbBoxIliModelName.count(), str(model_name), ilimodels[i])
+            self.cmbBoxIliModelName.insertItem(0, QCoreApplication.translate("Qcadastre", "Choose Interlis model..."), None)
+            self.cmbBoxIliModelName.setCurrentIndex(0)
+            
         else:
-            self.lineEditIliModelName.clear()
+            self.appmodule = ""
+            self.appmodule_name = ""
+            
+    @pyqtSignature("on_cmbBoxIliModelName_currentIndexChanged(int)")      
+    def on_cmbBoxIliModelName_currentIndexChanged(self, idx):
+        module_data = self.cmbBoxIliModelName.itemData(idx)
+
+        if module_data:
+            self.ili = module_data["ilimodel"]
+            self.epsg = module_data["epsg"]
+            reference_frame = module_data["referenceframe"]
+            self.lineEditRefFrame.setText(str(reference_frame) + " (EPSG:" + str(self.epsg) + ")")
+        else:
+            self.ili = ""
+            self.epsg =""
             self.lineEditRefFrame.clear()
-            self.epsg = ""
 
     @pyqtSignature("on_btnBrowsInputFile_clicked()")    
     def on_btnBrowsInputFile_clicked(self):
@@ -101,24 +128,15 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         fileInfo = QFileInfo(file)
         self.lineEditInputFile.setText(fileInfo.absoluteFilePath())
 
-
     def accept(self):
         # save the settings
         self.settings.setValue("file/import/inputitfpath", self.lineEditInputFile.text())
-        self.settings.setValue("file/import/ili", self.lineEditIliModelName.text())
+        self.settings.setValue("file/import/ili", self.ili)
 
         # gather all data/information for properties file (needed by java import program)
         self.itf = self.lineEditInputFile.text()
-        self.ili = self.lineEditIliModelName.text()
         self.dbschema = self.lineEditDbSchema.text()    
-        moduleData = self.cmbBoxAppModule.itemData(self.cmbBoxAppModule.currentIndex())
-        if moduleData <> None:
-            self.appmodule = moduleData[0]
-            self.appmodule_name = self.cmbBoxAppModule.currentText()
-        else:
-            self.appmodule = ""
-            self.appmodule_name = ""
-            
+    
         self.datadate = self.dateTimeEdit.date().toString("yyyy-MM-dd")
 
         self.dbhost = self.settings.value("options/db/host")
@@ -184,7 +202,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         tmpPropertiesFile = self.writePropertiesFile()
         if tmpPropertiesFile == None:
             return
-            
+        
         # clear output textedit
         self.textEditImportOutput.clear()
                 

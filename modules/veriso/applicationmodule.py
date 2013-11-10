@@ -24,10 +24,10 @@ class ApplicationModule(QObject):
 
     def initGui(self):
         self.cleanGui()
+        self.doInitDefectsMenu()        
         self.doInitTopicsTablesMenu()
         self.doInitBaselayerMenu()
 #        self.doInitChecksMenu()
-#        self.doInitDefectsMenu()
         
     def doInitBaselayerMenu(self):
         menuBar = QMenuBar(self.toolBar)
@@ -69,7 +69,6 @@ class ApplicationModule(QObject):
                 
         if topics:
             for topic in topics:
-#                print topics[topic]
                 topicMenu = menu.addMenu(unicode(topic))        
 
                 action = QAction(QCoreApplication.translate("QcadastreModule", "Load topic" ), self.iface.mainWindow())
@@ -110,10 +109,35 @@ class ApplicationModule(QObject):
             print "Couldn't do it: %s" % e            
             self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                    
         
+    def doInitDefectsMenu(self):
+        menuBar = QMenuBar(self.toolBar)
+        menuBar.setObjectName("QcadastreModule.LoadDefectsMenuBar")        
+        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        menu = QMenu(menuBar)
+        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Defects"))  
+
+        action = QAction(QCoreApplication.translate("QcadastreModule", "Load defects layer"), self.iface.mainWindow())
+        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doLoadDefects(foo))
+        menu.addAction(action)     
         
+        action = QAction(QCoreApplication.translate("QcadastreModule", "Export defects layer"), self.iface.mainWindow())
+        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doExportDefects(foo))
+        menu.addAction(action)     
+
+        menuBar.addMenu(menu)
+        self.toolBar.insertWidget(self.beforeAction, menuBar)
+
+    def doLoadDefects(self, bar):
+        from tools.doLoadDefects import LoadDefects
+        d = LoadDefects(self.iface)
+        d.run()
+
+    def doExportDefects(self, foo):
+        from tools.doExportDefects import ExportDefects        
+        d = ExportDefects(self.iface)
+        d.run()
+
         
-#        if vlayer:
-#            self.iface.legendInterface().setLayerVisible(vlayer, True)    
         
 #    def doInitChecksMenu(self):
 #        menuBar = QMenuBar(self.toolBar)
@@ -153,34 +177,6 @@ class ApplicationModule(QObject):
 #            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                                
 #
 #
-#    def doInitDefectsMenu(self):
-#        menuBar = QMenuBar(self.toolBar)
-#        menuBar.setObjectName("QcadastreModule.LoadDefectsMenuBar")        
-#        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-#        menu = QMenu(menuBar)
-#        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Defects"))  
-#
-#        action = QAction(QCoreApplication.translate("QcadastreModule", "Load defects layer"), self.iface.mainWindow())
-#        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doLoadDefects(foo))
-#        menu.addAction(action)     
-#        
-#        action = QAction(QCoreApplication.translate("QcadastreModule", "Export defects layer"), self.iface.mainWindow())
-#        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doExportDefects(foo))
-#        menu.addAction(action)     
-#
-#        menuBar.addMenu(menu)
-#        self.toolBar.insertWidget(self.beforeAction, menuBar)
-#
-#    def doLoadDefects(self, bar):
-#        from tools.doLoadDefects import LoadDefects
-#        d = LoadDefects(self.iface)
-#        d.run()
-#
-#
-#    def doExportDefects(self, foo):
-#        from tools.doExportDefects import ExportDefects        
-#        d = ExportDefects(self.iface)
-#        d.run()
 
     def cleanGui(self):
         # remove all the applications module specific menus

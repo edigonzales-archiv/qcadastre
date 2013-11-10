@@ -13,6 +13,64 @@ import sys
 import collections
 from collections import OrderedDict
     
+def getCheckTopics(iface):
+    settings = QSettings("CatAIS","Qcadastre")
+    module_name = (settings.value("project/appmodule"))
+    
+    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/checks/checks.json"))
+    
+    if not filename:
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "checks.json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    
+        return        
+        
+    try:
+        checks = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
+    except Exception, e:
+        print "Couldn't do it: %s" % e        
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Failed to load checks.json."), level=QgsMessageBar.CRITICAL, duration=5)                            
+        return
+
+    try:
+        topics = OrderedDict()
+        for check in checks["checks"]:
+            topic = check["topic"]
+            if topics.has_key(topic):
+                continue
+            topics[topic] = check
+        return topics
+    except Exception, e:
+        print "Couldn't do it: %s" % e        
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Error parsing json file."), level=QgsMessageBar.CRITICAL, duration=5)                            
+        return
+        
+def getChecks(iface, checkfile):
+    settings = QSettings("CatAIS","Qcadastre")
+    module_name = (settings.value("project/appmodule"))
+    
+    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/checks/"+checkfile+".json"))
+    
+    if not filename:
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "checks.json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    
+        return        
+        
+    try:
+        checks = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
+    except Exception, e:
+        print "Couldn't do it: %s" % e        
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Failed to load checks.json."), level=QgsMessageBar.CRITICAL, duration=5)                            
+        return
+    
+    try:
+        topic_checks = []
+        for check in checks["checks"]:
+            topic_checks.append(check)
+        return topic_checks
+    except Exception, e:
+        print "Couldn't do it: %s" % e        
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Error parsing json file."), level=QgsMessageBar.CRITICAL, duration=5)                            
+        return
+    
+    
 def getTopicsTables(iface):
     settings = QSettings("CatAIS","Qcadastre")
     module_name = (settings.value("project/appmodule"))
@@ -71,6 +129,8 @@ def loadLayer(iface, layer, collapsed_legend = False):
     dbpwd = (settings.value("project/dbpwd"))
     dbadmin = (settings.value("project/dbadmin"))
     dbadminpwd = (settings.value("project/dbadminpwd"))
+    epsg = (settings.value("project/epsg"))
+    
     
     if not dbhost or not dbport or not dbname or not dbschema or not dbuser or not dbpwd or not dbadmin or not dbadminpwd:
         iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Missing database parameter. Cannot load layer."), level=QgsMessageBar.CRITICAL, duration=5)                    
@@ -129,8 +189,6 @@ def loadLayer(iface, layer, collapsed_legend = False):
             uri.setConnection(dbhost, dbport, dbname, dbadmin, dbadminpwd)
         uri.setDataSource(dbschema, feature_type, geom, sql, key)
 
-#            print uri.uri()
-
         qgis_layer = QgsVectorLayer(uri.uri(), title, provider)
     
     elif layer["type"] == "wms":
@@ -138,7 +196,11 @@ def loadLayer(iface, layer, collapsed_legend = False):
         title = layer["title"]
         layers = layer["layers"]
         format = layer["format"]
-        crs = layer["crs"]
+        
+        try:
+            crs = layer["crs"]
+        except:
+            crs = "EPSG:" + str(epsg)
         
         try:
             styles = layer["styles"]

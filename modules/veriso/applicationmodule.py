@@ -24,11 +24,49 @@ class ApplicationModule(QObject):
 
     def initGui(self):
         self.cleanGui()
+        self.doInitChecksMenu()        
         self.doInitDefectsMenu()        
         self.doInitTopicsTablesMenu()
         self.doInitBaselayerMenu()
-#        self.doInitChecksMenu()
         
+    def doInitChecksMenu(self):
+        menuBar = QMenuBar(self.toolBar)
+        menuBar.setObjectName("QcadastreModule.LoadChecksMenuBar")        
+        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        menu = QMenu(menuBar)
+        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Checks"))  
+        
+        topics = utils.getCheckTopics(self.iface)
+        if topics:
+            for topic in topics:
+                checkfile = topics[topic]['file']
+                singleCheckMenu = menu.addMenu(unicode(topic))                        
+                checks = utils.getChecks(self.iface, checkfile)
+                
+                for check in checks:
+                    checkName = unicode(check["name"])
+                    if checkName == "separator":
+                        singleCheckMenu.addSeparator()
+                    else:
+                        action = QAction(checkName, self.iface.mainWindow())
+                        singleCheckMenu.addAction(action)                                         
+                        QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
+
+        menuBar.addMenu(menu)
+        self.toolBar.insertWidget(self.beforeAction, menuBar)
+
+    def doShowComplexCheck(self, check):
+        print "fubar"
+        try:
+            module = str(check["file"])
+            print module
+            _temp = __import__(module, globals(), locals(), ['ComplexCheck'])
+            c = _temp.ComplexCheck(self.iface)
+            c.run()
+        except Exception, e:
+            print "Couldn't do it: %s" % e
+            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL)                                
+
     def doInitBaselayerMenu(self):
         menuBar = QMenuBar(self.toolBar)
         menuBar.setObjectName("QcadastreModule.LoadBaselayerMenuBar")        
@@ -49,7 +87,6 @@ class ApplicationModule(QObject):
     def doShowBaselayer(self, layer):
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
-            print layer
             utils.loadLayer(self.iface, layer) 
             self.updateCrsScale()        
         except Exception, e:
@@ -95,20 +132,6 @@ class ApplicationModule(QObject):
         for table in tables[::-1]:
             self.doShowSingleTopicLayer(table)
         
-    def updateCrsScale(self):
-        """
-            Update the scale map units and the crs manually since there is a bug with geometryless tables.
-        """
-        try:
-            self.canvas.setMapUnits(0)		
-            srs = QgsCoordinateReferenceSystem()
-            srs.createFromSrid(int(self.epsg))
-            renderer = self.canvas.mapRenderer()
-            renderer.setDestinationCrs(srs)
-        except Exception, e:
-            print "Couldn't do it: %s" % e            
-            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                    
-        
     def doInitDefectsMenu(self):
         menuBar = QMenuBar(self.toolBar)
         menuBar.setObjectName("QcadastreModule.LoadDefectsMenuBar")        
@@ -137,46 +160,19 @@ class ApplicationModule(QObject):
         d = ExportDefects(self.iface)
         d.run()
 
-        
-        
-#    def doInitChecksMenu(self):
-#        menuBar = QMenuBar(self.toolBar)
-#        menuBar.setObjectName("QcadastreModule.LoadChecksMenuBar")        
-#        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-#        menu = QMenu(menuBar)
-#        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Checks"))  
-#        
-#        topics = utils.getCheckTopics(self.iface)
-#        if topics:
-#            for topic in topics:
-#                checkfile = topics[topic]['file']
-#                singleCheckMenu = menu.addMenu(unicode(topic))                        
-#                checks = utils.getChecks(self.iface, checkfile)
-#                
-#                for check in checks:
-#                    checkName = unicode(check["name"])
-#                    if checkName == "separator":
-#                        singleCheckMenu.addSeparator()
-#                    else:
-#                        action = QAction(checkName, self.iface.mainWindow())
-#                        singleCheckMenu.addAction(action)                                         
-#                        QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
-#
-#        menuBar.addMenu(menu)
-#        self.toolBar.insertWidget(self.beforeAction, menuBar)
-#
-#    def doShowComplexCheck(self, check):
-#        try:
-#            module = str(check["file"])
-#            print module
-#            _temp = __import__(module, globals(), locals(), ['ComplexCheck'])
-#            c = _temp.ComplexCheck(self.iface)
-#            c.run()
-#        except Exception, e:
-#            print "Couldn't do it: %s" % e
-#            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                                
-#
-#
+    def updateCrsScale(self):
+        """
+            Update the scale map units and the crs manually since there is a bug with geometryless tables.
+        """
+        try:
+            self.canvas.setMapUnits(0)		
+            srs = QgsCoordinateReferenceSystem()
+            srs.createFromSrid(int(self.epsg))
+            renderer = self.canvas.mapRenderer()
+            renderer.setDestinationCrs(srs)
+        except Exception, e:
+            print "Couldn't do it: %s" % e            
+            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                    
 
     def cleanGui(self):
         # remove all the applications module specific menus

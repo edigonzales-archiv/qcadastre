@@ -5,56 +5,56 @@
       "title": "Orthofoto RGB",
       "url": "http://www.catais.org/wms/orthofoto",
       "layers": "Orthofoto_RGB",
-      "format": "image/jpeg",
-      "crs": "EPSG:21781"
+      "format": "image/jpeg"
     },
     {
       "type": "wms",
       "title": "Orthofoto CIR",
       "url": "http://www.catais.org/wms/orthofoto",
       "layers": "Orthofoto_CIR",
-      "format": "image/jpeg",
-      "crs": "EPSG:21781"
+      "format": "image/jpeg"
     },
     {
       "type": "wms",
       "title": "Grundbuchplan (farbig)",
       "url": "http://www.catais.org/wms/grundbuchplan",
       "layers": "Amtliche Vermessung (farbig)",
-      "format": "image/jpeg",
-      "crs": "EPSG:21781"
+      "format": "image/jpeg"
     },
     {
       "type": "wms",
       "title": "Grundbuchplan (farbig) (png8)",
       "url": "http://www.catais.org/wms/grundbuchplan",
       "layers": "Amtliche Vermessung (farbig)",
-      "format": "image/png; mode=8bit",
-      "crs": "EPSG:21781"
+      "format": "image/png; mode=8bit"
     },
     {
       "type": "wms",
       "title": "Grundbuchplan (schwarz-weiss)",
       "url": "http://www.catais.org/wms/grundbuchplan",
       "layers": "Amtliche Vermessung (schwarz-weiss)",
-      "format": "image/jpeg",
-      "crs": "EPSG:21781"
+      "format": "image/jpeg"
     },
     {
       "type": "wms",
       "title": "AV-WMS (farbig)",
       "url": "http://www.catais.org/wms/avwms",
       "layers": "AVWMS_farbig",
-      "format": "image/jpeg",
-      "crs": "EPSG:21781"
+      "format": "image/jpeg"
     },
     {
       "type": "wms",
       "title": "AV-WMS (schwarz-weiss)",
       "url": "http://www.catais.org/wms/avwms",
       "layers": "AVWMS_sw",
-      "format": "image/jpeg",
-      "crs": "EPSG:21781"
+      "format": "image/jpeg"
+    },
+    {
+      "type": "wms",
+      "title": "AV-WMS V+D (farbig)",
+      "url": "http://WMS_SO:TkBT@geodata01.admin.ch/SWMS",
+      "layers": "av_wms",
+      "format": "image/jpeg"
     },
     {
       "type": "postgres",

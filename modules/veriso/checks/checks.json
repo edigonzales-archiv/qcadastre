@@ -3,6 +3,10 @@
     {
       "topic": "FixpunkteKategorie3",
       "file": "topic_fp3"
+    },
+    {
+      "topic": "Gebaeudeadressen",
+      "file": "topic_gebaeudeadressen"
     }
   ]
 }

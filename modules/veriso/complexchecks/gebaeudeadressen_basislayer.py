@@ -24,18 +24,18 @@ class ComplexCheck(QObject):
         
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
-            group = "FixpunkteKategorie3" + " (" + str(project_id) + ")"
+            group = "Gebaeudeadressen - Basislayer" + " (" + str(project_id) + ")"
         
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = "Toleranzstufen"
-            layer["featuretype"] = "tseinteilung_toleranzstufe"
+            layer["title"] = "Bodenbedeckung"
+            layer["featuretype"] = "bodenbedeckung_boflaeche"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
-            layer["sql"] = ""
+            layer["sql"] = "art_txt LIKE 'Gebaeude%' OR art_txt LIKE 'befestigt.Strasse_Weg%' OR art_txt LIKE 'befestig.Trottoir%' OR art_txt LIKE 'befestigt.uebrige_befestigte%'"
             layer["readonly"] = True
             layer["group"] = group
-            layer["style"] = "tseinteilung/toleranzstufe.qml"
+            layer["style"] = "bodenbedeckung/gebaeude_strassen_trottoir_erschliessung.qml"
             
             vlayer = utils.loadLayer(self.iface, layer) 
             if vlayer:
@@ -43,43 +43,60 @@ class ComplexCheck(QObject):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = u"LFP3 Nachfuehrung"
-            layer["featuretype"] = "fixpunktekategorie3_lfp3nachfuehrung"
+            layer["title"] = u"EO.Flaechenelemente"
+            layer["featuretype"] = "v_einzelobjekte_flaechenelement"
+            layer["geom"] = "geometrie"            
+            layer["key"] = "ogc_fid"            
+            layer["sql"] = "art_txt LIKE 'unterirdisches_Gebaeude%' OR art_txt LIKE 'uebriger_Gebaeudeteil%' OR art_txt LIKE 'Reservoir%' OR art_txt LIKE 'Unterstand%'"
+            layer["readonly"] = True            
+            layer["group"] = group
+            layer["style"] = "einzelobjekte/eo_flaeche_gebdetail_unterstand_reservoir_unterirdisch.qml"
+
+            vlayer = utils.loadLayer(self.iface, layer) 
+            if vlayer:
+                self.iface.legendInterface().setLayerVisible(vlayer, True)                     
+                vlayer.setLayerName(u"EO.Flächenelemente")
+
+            layer = {}
+            layer["type"] = "postgres"
+            layer["title"] = u"EO.Linienelemente"
+            layer["featuretype"] = "v_einzelobjekte_linienelement"
+            layer["geom"] = "geometrie"            
+            layer["key"] = "ogc_fid"            
+            layer["sql"] = "art_txt LIKE 'uebriger_Gebaeudeteil%'"
+            layer["readonly"] = True            
+            layer["group"] = group
+            layer["style"] = "einzelobjekte/eo_linie_gebdetail.qml"
+            
+            vlayer = utils.loadLayer(self.iface, layer) 
+            if vlayer:
+                self.iface.legendInterface().setLayerVisible(vlayer, True)     
+            
+            layer = {}
+            layer["type"] = "postgres"
+            layer["title"] = u"GEB.Nachfuehrung"
+            layer["featuretype"] = "gebaeudeadressen_gebnachfuehrung"
             layer["geom"] = "perimeter"            
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
             layer["readonly"] = True            
             layer["group"] = group
+            layer["style"] = "gebaeudeadressen/nf_perimeter.qml"            
             
-            vlayer = utils.loadLayer(self.iface, layer) 
+            vlayer = utils.loadLayer(self.iface, layer)             
             if vlayer:
-                vlayer.setLayerName(u"LFP3 Nachführung")
+                vlayer.setLayerName(u"GEB.Nachführung")
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = "LFP3"
-            layer["featuretype"] = "fixpunktekategorie3_lfp3"
-            layer["geom"] = "geometrie"
+            layer["title"] = "Benanntes Gebiet"
+            layer["featuretype"] = "gebaeudeadressen_benanntesgebiet"
+            layer["geom"] = "flaeche"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
             layer["readonly"] = True            
             layer["group"] = group
-            layer["style"] = "fixpunkte/lfp3.qml"
-            
-            vlayer = utils.loadLayer(self.iface, layer) 
-            if vlayer:
-                self.iface.legendInterface().setLayerVisible(vlayer, True)     
-            
-            layer = {}
-            layer["type"] = "postgres"
-            layer["title"] = "LFP3 ausserhalb Gemeinde"
-            layer["featuretype"] = "v_lfp3_ausserhalb_gemeinde"
-            layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
-            layer["sql"] = ""
-            layer["readonly"] = True            
-            layer["group"] = group
-            layer["style"] = "fixpunkte/lfp3ausserhalb.qml"
+            layer["style"] = "gebaeudeadressen/benanntesgebiet_gruen.qml"
 
             vlayer = utils.loadLayer(self.iface, layer) 
             if vlayer:

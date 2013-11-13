@@ -5,6 +5,12 @@
       "name": "Basislayer",
       "group": "Gebaeudeadressen", 
       "file": "complexchecks.gebaeudeadressen_basislayer"
-    }
+    },
+    {
+      "id": "gebaeudeadressen_checklayer", 
+      "name": "Checklayer",
+      "group": "Gebaeudeadressen", 
+      "file": "complexchecks.gebaeudeadressen_checklayer"
+    }    
   ]
 }

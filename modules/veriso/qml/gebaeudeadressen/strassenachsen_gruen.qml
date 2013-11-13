@@ -1,8 +1,8 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="2.1.0-Master" minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+<qgis version="2.1.0-Master" minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
   <renderer-v2 symbollevels="0" type="singleSymbol">
     <symbols>
-      <symbol alpha="1" type="fill" name="0">
+      <symbol alpha="1" type="line" name="0">
         <layer pass="0" class="SimpleLine" locked="0">
           <prop k="capstyle" v="flat"/>
           <prop k="color" v="0,192,0,255"/>
@@ -11,37 +11,10 @@
           <prop k="joinstyle" v="bevel"/>
           <prop k="offset" v="0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="penstyle" v="solid"/>
+          <prop k="penstyle" v="dash"/>
           <prop k="use_custom_dash" v="1"/>
           <prop k="width" v="0.5"/>
           <prop k="width_unit" v="MM"/>
-        </layer>
-        <layer pass="0" class="PointPatternFill" locked="0">
-          <prop k="displacement_x" v="1"/>
-          <prop k="displacement_x_unit" v="MM"/>
-          <prop k="displacement_y" v="0"/>
-          <prop k="displacement_y_unit" v="MM"/>
-          <prop k="distance_x" v="2"/>
-          <prop k="distance_x_unit" v="MM"/>
-          <prop k="distance_y" v="2"/>
-          <prop k="distance_y_unit" v="MM"/>
-          <symbol alpha="1" type="marker" name="@0@1">
-            <layer pass="0" class="SimpleMarker" locked="0">
-              <prop k="angle" v="0"/>
-              <prop k="color" v="0,192,0,255"/>
-              <prop k="color_border" v="0,0,0,0"/>
-              <prop k="horizontal_anchor_point" v="1"/>
-              <prop k="name" v="circle"/>
-              <prop k="offset" v="0,0"/>
-              <prop k="offset_unit" v="MM"/>
-              <prop k="outline_width" v="0"/>
-              <prop k="outline_width_unit" v="MM"/>
-              <prop k="scale_method" v="area"/>
-              <prop k="size" v="0.3"/>
-              <prop k="size_unit" v="MM"/>
-              <prop k="vertical_anchor_point" v="1"/>
-            </layer>
-          </symbol>
         </layer>
       </symbol>
     </symbols>
@@ -71,10 +44,10 @@
     <property key="labeling/distInMapUnits" value="false"/>
     <property key="labeling/enabled" value="false"/>
     <property key="labeling/fieldName" value=""/>
-    <property key="labeling/fontBold" value="true"/>
+    <property key="labeling/fontBold" value="false"/>
     <property key="labeling/fontCapitals" value="0"/>
     <property key="labeling/fontFamily" value="Ubuntu"/>
-    <property key="labeling/fontItalic" value="true"/>
+    <property key="labeling/fontItalic" value="false"/>
     <property key="labeling/fontLetterSpacing" value="0"/>
     <property key="labeling/fontLimitPixelSize" value="false"/>
     <property key="labeling/fontMaxPixelSize" value="10000"/>
@@ -83,7 +56,7 @@
     <property key="labeling/fontSizeInMapUnits" value="false"/>
     <property key="labeling/fontStrikeout" value="false"/>
     <property key="labeling/fontUnderline" value="false"/>
-    <property key="labeling/fontWeight" value="75"/>
+    <property key="labeling/fontWeight" value="50"/>
     <property key="labeling/fontWordSpacing" value="0"/>
     <property key="labeling/formatNumbers" value="false"/>
     <property key="labeling/isExpression" value="false"/>
@@ -101,8 +74,8 @@
     <property key="labeling/namedStyle" value="Bold Italic"/>
     <property key="labeling/obstacle" value="true"/>
     <property key="labeling/placeDirectionSymbol" value="0"/>
-    <property key="labeling/placement" value="0"/>
-    <property key="labeling/placementFlags" value="0"/>
+    <property key="labeling/placement" value="2"/>
+    <property key="labeling/placementFlags" value="10"/>
     <property key="labeling/plussign" value="false"/>
     <property key="labeling/preserveRotation" value="true"/>
     <property key="labeling/previewBkgrdColor" value="#ffffff"/>
@@ -173,7 +146,7 @@
   <label>0</label>
   <labelattributes>
     <label fieldname="" text="Label"/>
-    <family fieldname="" name="Ubuntu"/>
+    <family fieldname="" name="Droid Sans"/>
     <size fieldname="" units="pt" value="12"/>
     <bold fieldname="" on="0"/>
     <italic fieldname="" on="0"/>
@@ -192,11 +165,15 @@
     <selectedonly on=""/>
   </labelattributes>
   <edittypes>
-    <edittype labelontop="0" editable="1" type="0" name="benanntesgebiet_von"/>
+    <edittype labelontop="0" editable="1" type="0" name="anfangspunkt"/>
     <edittype labelontop="0" editable="1" type="0" name="gem_bfs"/>
+    <edittype labelontop="0" editable="1" type="0" name="istachse"/>
+    <edittype labelontop="0" editable="1" type="0" name="istachse_txt"/>
     <edittype labelontop="0" editable="1" type="0" name="lieferdatum"/>
     <edittype labelontop="0" editable="1" type="0" name="los"/>
     <edittype labelontop="0" editable="1" type="0" name="ogc_fid"/>
+    <edittype labelontop="0" editable="1" type="0" name="ordnung"/>
+    <edittype labelontop="0" editable="1" type="0" name="strassenstueck_von"/>
     <edittype labelontop="0" editable="1" type="0" name="tid"/>
   </edittypes>
   <editform></editform>

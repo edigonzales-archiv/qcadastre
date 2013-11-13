@@ -24,18 +24,18 @@ class ComplexCheck(QObject):
         
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
-            group = "Gebaeudeadressen - Basislayer" + " (" + str(project_id) + ")"
+            group = "Gebaeudeadressen - Checklayer" + " (" + str(project_id) + ")"
         
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = "Bodenbedeckung"
-            layer["featuretype"] = "bodenbedeckung_boflaeche"
-            layer["geom"] = "geometrie"
+            layer["title"] = "Spinnennetz"
+            layer["featuretype"] = "t_gebaeudeadressen_spinnennetz"
+            layer["geom"] = "line"
             layer["key"] = "ogc_fid"            
-            layer["sql"] = "art_txt LIKE 'Gebaeude%' OR art_txt LIKE 'befestigt.Strasse_Weg%' OR art_txt LIKE 'befestigt.Trottoir%' OR art_txt LIKE 'befestigt.uebrige_befestigte%'"
+            layer["sql"] = ""
             layer["readonly"] = True
             layer["group"] = group
-            layer["style"] = "bodenbedeckung/gebaeude_strassen_trottoir_erschliessung.qml"
+            layer["style"] = "gebaeudeadressen/spinnennetz_blau.qml"
             
             vlayer = utils.loadLayer(self.iface, layer) 
             if vlayer:

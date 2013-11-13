@@ -147,6 +147,11 @@ def loadLayer(iface, layer, collapsed_legend = False):
         key = str(layer["key"])            
         
         try:
+            readonly = (layer["readonly"])
+        except:
+            readonly = True
+            
+        try:
             geom = str(layer["geom"])
         except:
             geom = None
@@ -183,7 +188,7 @@ def loadLayer(iface, layer, collapsed_legend = False):
             pass
 
         uri = QgsDataSourceURI()
-        if layer["readonly"]:
+        if readonly:
             uri.setConnection(dbhost, dbport, dbname, dbuser, dbpwd)
         else:
             uri.setConnection(dbhost, dbport, dbname, dbadmin, dbadminpwd)

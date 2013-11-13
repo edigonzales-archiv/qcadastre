@@ -2,46 +2,21 @@
 <qgis version="2.1.0-Master" minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
   <renderer-v2 symbollevels="0" type="singleSymbol">
     <symbols>
-      <symbol alpha="1" type="fill" name="0">
-        <layer pass="0" class="SimpleLine" locked="0">
-          <prop k="capstyle" v="flat"/>
-          <prop k="color" v="0,192,0,255"/>
-          <prop k="customdash" v="2;1"/>
-          <prop k="customdash_unit" v="MM"/>
-          <prop k="joinstyle" v="bevel"/>
-          <prop k="offset" v="0"/>
+      <symbol alpha="1" type="marker" name="0">
+        <layer pass="0" class="SimpleMarker" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="color" v="85,0,255,255"/>
+          <prop k="color_border" v="0,0,0,255"/>
+          <prop k="horizontal_anchor_point" v="1"/>
+          <prop k="name" v="circle"/>
+          <prop k="offset" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="penstyle" v="solid"/>
-          <prop k="use_custom_dash" v="1"/>
-          <prop k="width" v="0.5"/>
-          <prop k="width_unit" v="MM"/>
-        </layer>
-        <layer pass="0" class="PointPatternFill" locked="0">
-          <prop k="displacement_x" v="1"/>
-          <prop k="displacement_x_unit" v="MM"/>
-          <prop k="displacement_y" v="0"/>
-          <prop k="displacement_y_unit" v="MM"/>
-          <prop k="distance_x" v="2"/>
-          <prop k="distance_x_unit" v="MM"/>
-          <prop k="distance_y" v="2"/>
-          <prop k="distance_y_unit" v="MM"/>
-          <symbol alpha="1" type="marker" name="@0@1">
-            <layer pass="0" class="SimpleMarker" locked="0">
-              <prop k="angle" v="0"/>
-              <prop k="color" v="0,192,0,255"/>
-              <prop k="color_border" v="0,0,0,0"/>
-              <prop k="horizontal_anchor_point" v="1"/>
-              <prop k="name" v="circle"/>
-              <prop k="offset" v="0,0"/>
-              <prop k="offset_unit" v="MM"/>
-              <prop k="outline_width" v="0"/>
-              <prop k="outline_width_unit" v="MM"/>
-              <prop k="scale_method" v="area"/>
-              <prop k="size" v="0.3"/>
-              <prop k="size_unit" v="MM"/>
-              <prop k="vertical_anchor_point" v="1"/>
-            </layer>
-          </symbol>
+          <prop k="outline_width" v="0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="scale_method" v="area"/>
+          <prop k="size" v="0"/>
+          <prop k="size_unit" v="MM"/>
+          <prop k="vertical_anchor_point" v="1"/>
         </layer>
       </symbol>
     </symbols>
@@ -58,32 +33,37 @@
     <property key="labeling/bufferColorB" value="255"/>
     <property key="labeling/bufferColorG" value="255"/>
     <property key="labeling/bufferColorR" value="255"/>
-    <property key="labeling/bufferDraw" value="false"/>
+    <property key="labeling/bufferDraw" value="true"/>
     <property key="labeling/bufferJoinStyle" value="64"/>
     <property key="labeling/bufferNoFill" value="false"/>
-    <property key="labeling/bufferSize" value="1"/>
+    <property key="labeling/bufferSize" value="0.5"/>
     <property key="labeling/bufferSizeInMapUnits" value="false"/>
     <property key="labeling/bufferTransp" value="0"/>
     <property key="labeling/centroidWhole" value="false"/>
-    <property key="labeling/decimals" value="3"/>
+    <property key="labeling/dataDefined/Hali" value="1~~0~~~~hali_txt"/>
+    <property key="labeling/dataDefined/PositionX" value="1~~0~~~~y"/>
+    <property key="labeling/dataDefined/PositionY" value="1~~0~~~~x"/>
+    <property key="labeling/dataDefined/Rotation" value="1~~0~~~~rot"/>
+    <property key="labeling/dataDefined/Vali" value="1~~0~~~~vali_txt"/>
+    <property key="labeling/decimals" value="0"/>
     <property key="labeling/displayAll" value="false"/>
     <property key="labeling/dist" value="0"/>
     <property key="labeling/distInMapUnits" value="false"/>
-    <property key="labeling/enabled" value="false"/>
-    <property key="labeling/fieldName" value=""/>
-    <property key="labeling/fontBold" value="true"/>
+    <property key="labeling/enabled" value="true"/>
+    <property key="labeling/fieldName" value="hausnummer"/>
+    <property key="labeling/fontBold" value="false"/>
     <property key="labeling/fontCapitals" value="0"/>
-    <property key="labeling/fontFamily" value="Ubuntu"/>
-    <property key="labeling/fontItalic" value="true"/>
+    <property key="labeling/fontFamily" value="CadastraCondensed"/>
+    <property key="labeling/fontItalic" value="false"/>
     <property key="labeling/fontLetterSpacing" value="0"/>
     <property key="labeling/fontLimitPixelSize" value="false"/>
     <property key="labeling/fontMaxPixelSize" value="10000"/>
     <property key="labeling/fontMinPixelSize" value="3"/>
-    <property key="labeling/fontSize" value="11"/>
+    <property key="labeling/fontSize" value="9"/>
     <property key="labeling/fontSizeInMapUnits" value="false"/>
     <property key="labeling/fontStrikeout" value="false"/>
     <property key="labeling/fontUnderline" value="false"/>
-    <property key="labeling/fontWeight" value="75"/>
+    <property key="labeling/fontWeight" value="50"/>
     <property key="labeling/fontWordSpacing" value="0"/>
     <property key="labeling/formatNumbers" value="false"/>
     <property key="labeling/isExpression" value="false"/>
@@ -96,12 +76,13 @@
     <property key="labeling/maxNumLabels" value="2000"/>
     <property key="labeling/mergeLines" value="false"/>
     <property key="labeling/minFeatureSize" value="0"/>
+    <property key="labeling/multiLineLabels" value="false"/>
     <property key="labeling/multilineAlign" value="0"/>
     <property key="labeling/multilineHeight" value="1"/>
-    <property key="labeling/namedStyle" value="Bold Italic"/>
-    <property key="labeling/obstacle" value="true"/>
+    <property key="labeling/namedStyle" value="Regular Condensed"/>
+    <property key="labeling/obstacle" value="false"/>
     <property key="labeling/placeDirectionSymbol" value="0"/>
-    <property key="labeling/placement" value="0"/>
+    <property key="labeling/placement" value="1"/>
     <property key="labeling/placementFlags" value="0"/>
     <property key="labeling/plussign" value="false"/>
     <property key="labeling/preserveRotation" value="true"/>
@@ -110,9 +91,9 @@
     <property key="labeling/quadOffset" value="4"/>
     <property key="labeling/reverseDirectionSymbol" value="false"/>
     <property key="labeling/rightDirectionSymbol" value=">"/>
-    <property key="labeling/scaleMax" value="10000000"/>
+    <property key="labeling/scaleMax" value="3000"/>
     <property key="labeling/scaleMin" value="1"/>
-    <property key="labeling/scaleVisibility" value="false"/>
+    <property key="labeling/scaleVisibility" value="true"/>
     <property key="labeling/shadowBlendMode" value="6"/>
     <property key="labeling/shadowColorB" value="0"/>
     <property key="labeling/shadowColorG" value="0"/>
@@ -173,7 +154,7 @@
   <label>0</label>
   <labelattributes>
     <label fieldname="" text="Label"/>
-    <family fieldname="" name="Ubuntu"/>
+    <family fieldname="" name="Droid Sans"/>
     <size fieldname="" units="pt" value="12"/>
     <bold fieldname="" on="0"/>
     <italic fieldname="" on="0"/>
@@ -192,12 +173,23 @@
     <selectedonly on=""/>
   </labelattributes>
   <edittypes>
-    <edittype labelontop="0" editable="1" type="0" name="benanntesgebiet_von"/>
     <edittype labelontop="0" editable="1" type="0" name="gem_bfs"/>
+    <edittype labelontop="0" editable="1" type="0" name="groesse"/>
+    <edittype labelontop="0" editable="1" type="0" name="groesse_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="hali"/>
+    <edittype labelontop="0" editable="1" type="0" name="hali_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="hausnummer"/>
+    <edittype labelontop="0" editable="1" type="0" name="hausnummerpos_von"/>
     <edittype labelontop="0" editable="1" type="0" name="lieferdatum"/>
     <edittype labelontop="0" editable="1" type="0" name="los"/>
     <edittype labelontop="0" editable="1" type="0" name="ogc_fid"/>
+    <edittype labelontop="0" editable="1" type="0" name="ori"/>
+    <edittype labelontop="0" editable="1" type="0" name="rot"/>
     <edittype labelontop="0" editable="1" type="0" name="tid"/>
+    <edittype labelontop="0" editable="1" type="0" name="vali"/>
+    <edittype labelontop="0" editable="1" type="0" name="vali_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="x"/>
+    <edittype labelontop="0" editable="1" type="0" name="y"/>
   </edittypes>
   <editform></editform>
   <editforminit></editforminit>

@@ -1,12 +1,12 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="2.1.0-Master" minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+<qgis version="2.1.0-Master" minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
   <renderer-v2 symbollevels="0" type="singleSymbol">
     <symbols>
       <symbol alpha="1" type="marker" name="0">
         <layer pass="0" class="SimpleMarker" locked="0">
           <prop k="angle" v="0"/>
-          <prop k="color" v="85,0,255,255"/>
-          <prop k="color_border" v="0,0,0,255"/>
+          <prop k="color" v="255,0,0,255"/>
+          <prop k="color_border" v="0,0,0,0"/>
           <prop k="horizontal_anchor_point" v="1"/>
           <prop k="name" v="circle"/>
           <prop k="offset" v="0,0"/>
@@ -14,7 +14,22 @@
           <prop k="outline_width" v="0"/>
           <prop k="outline_width_unit" v="MM"/>
           <prop k="scale_method" v="area"/>
-          <prop k="size" v="0"/>
+          <prop k="size" v="3"/>
+          <prop k="size_unit" v="MM"/>
+          <prop k="vertical_anchor_point" v="1"/>
+        </layer>
+        <layer pass="0" class="SimpleMarker" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="color" v="255,0,0,255"/>
+          <prop k="color_border" v="0,0,0,255"/>
+          <prop k="horizontal_anchor_point" v="1"/>
+          <prop k="name" v="cross2"/>
+          <prop k="offset" v="0,0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="outline_width" v="0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="scale_method" v="area"/>
+          <prop k="size" v="2"/>
           <prop k="size_unit" v="MM"/>
           <prop k="vertical_anchor_point" v="1"/>
         </layer>
@@ -36,30 +51,25 @@
     <property key="labeling/bufferDraw" value="false"/>
     <property key="labeling/bufferJoinStyle" value="64"/>
     <property key="labeling/bufferNoFill" value="false"/>
-    <property key="labeling/bufferSize" value="0.5"/>
+    <property key="labeling/bufferSize" value="1"/>
     <property key="labeling/bufferSizeInMapUnits" value="false"/>
     <property key="labeling/bufferTransp" value="0"/>
     <property key="labeling/centroidWhole" value="false"/>
-    <property key="labeling/dataDefined/Hali" value="1~~0~~~~hali_txt"/>
-    <property key="labeling/dataDefined/PositionX" value="1~~0~~~~y"/>
-    <property key="labeling/dataDefined/PositionY" value="1~~0~~~~x"/>
-    <property key="labeling/dataDefined/Rotation" value="1~~0~~~~rot"/>
-    <property key="labeling/dataDefined/Vali" value="1~~0~~~~vali_txt"/>
-    <property key="labeling/decimals" value="0"/>
-    <property key="labeling/displayAll" value="true"/>
+    <property key="labeling/decimals" value="3"/>
+    <property key="labeling/displayAll" value="false"/>
     <property key="labeling/dist" value="0"/>
     <property key="labeling/distInMapUnits" value="false"/>
-    <property key="labeling/enabled" value="true"/>
-    <property key="labeling/fieldName" value="hausnummer"/>
+    <property key="labeling/enabled" value="false"/>
+    <property key="labeling/fieldName" value=""/>
     <property key="labeling/fontBold" value="true"/>
     <property key="labeling/fontCapitals" value="0"/>
-    <property key="labeling/fontFamily" value="Cadastra"/>
-    <property key="labeling/fontItalic" value="false"/>
+    <property key="labeling/fontFamily" value="Ubuntu"/>
+    <property key="labeling/fontItalic" value="true"/>
     <property key="labeling/fontLetterSpacing" value="0"/>
     <property key="labeling/fontLimitPixelSize" value="false"/>
     <property key="labeling/fontMaxPixelSize" value="10000"/>
     <property key="labeling/fontMinPixelSize" value="3"/>
-    <property key="labeling/fontSize" value="9"/>
+    <property key="labeling/fontSize" value="11"/>
     <property key="labeling/fontSizeInMapUnits" value="false"/>
     <property key="labeling/fontStrikeout" value="false"/>
     <property key="labeling/fontUnderline" value="false"/>
@@ -76,13 +86,12 @@
     <property key="labeling/maxNumLabels" value="2000"/>
     <property key="labeling/mergeLines" value="false"/>
     <property key="labeling/minFeatureSize" value="0"/>
-    <property key="labeling/multiLineLabels" value="false"/>
     <property key="labeling/multilineAlign" value="0"/>
     <property key="labeling/multilineHeight" value="1"/>
-    <property key="labeling/namedStyle" value="Bold"/>
-    <property key="labeling/obstacle" value="false"/>
+    <property key="labeling/namedStyle" value="Bold Italic"/>
+    <property key="labeling/obstacle" value="true"/>
     <property key="labeling/placeDirectionSymbol" value="0"/>
-    <property key="labeling/placement" value="1"/>
+    <property key="labeling/placement" value="0"/>
     <property key="labeling/placementFlags" value="0"/>
     <property key="labeling/plussign" value="false"/>
     <property key="labeling/preserveRotation" value="true"/>
@@ -91,9 +100,9 @@
     <property key="labeling/quadOffset" value="4"/>
     <property key="labeling/reverseDirectionSymbol" value="false"/>
     <property key="labeling/rightDirectionSymbol" value=">"/>
-    <property key="labeling/scaleMax" value="3000"/>
+    <property key="labeling/scaleMax" value="10000000"/>
     <property key="labeling/scaleMin" value="1"/>
-    <property key="labeling/scaleVisibility" value="true"/>
+    <property key="labeling/scaleVisibility" value="false"/>
     <property key="labeling/shadowBlendMode" value="6"/>
     <property key="labeling/shadowColorB" value="0"/>
     <property key="labeling/shadowColorG" value="0"/>
@@ -111,17 +120,17 @@
     <property key="labeling/shadowUnder" value="0"/>
     <property key="labeling/shapeBlendMode" value="0"/>
     <property key="labeling/shapeBorderColorA" value="255"/>
-    <property key="labeling/shapeBorderColorB" value="250"/>
-    <property key="labeling/shapeBorderColorG" value="66"/>
-    <property key="labeling/shapeBorderColorR" value="66"/>
-    <property key="labeling/shapeBorderWidth" value="1"/>
+    <property key="labeling/shapeBorderColorB" value="128"/>
+    <property key="labeling/shapeBorderColorG" value="128"/>
+    <property key="labeling/shapeBorderColorR" value="128"/>
+    <property key="labeling/shapeBorderWidth" value="0"/>
     <property key="labeling/shapeBorderWidthUnits" value="1"/>
-    <property key="labeling/shapeDraw" value="true"/>
+    <property key="labeling/shapeDraw" value="false"/>
     <property key="labeling/shapeFillColorA" value="255"/>
-    <property key="labeling/shapeFillColorB" value="250"/>
-    <property key="labeling/shapeFillColorG" value="66"/>
-    <property key="labeling/shapeFillColorR" value="66"/>
-    <property key="labeling/shapeJoinStyle" value="0"/>
+    <property key="labeling/shapeFillColorB" value="255"/>
+    <property key="labeling/shapeFillColorG" value="255"/>
+    <property key="labeling/shapeFillColorR" value="255"/>
+    <property key="labeling/shapeJoinStyle" value="64"/>
     <property key="labeling/shapeOffsetUnits" value="1"/>
     <property key="labeling/shapeOffsetX" value="0"/>
     <property key="labeling/shapeOffsetY" value="0"/>
@@ -138,9 +147,9 @@
     <property key="labeling/shapeTransparency" value="0"/>
     <property key="labeling/shapeType" value="0"/>
     <property key="labeling/textColorA" value="255"/>
-    <property key="labeling/textColorB" value="255"/>
-    <property key="labeling/textColorG" value="255"/>
-    <property key="labeling/textColorR" value="255"/>
+    <property key="labeling/textColorB" value="0"/>
+    <property key="labeling/textColorG" value="0"/>
+    <property key="labeling/textColorR" value="0"/>
     <property key="labeling/textTransp" value="0"/>
     <property key="labeling/upsidedownLabels" value="0"/>
     <property key="labeling/wrapChar" value=""/>
@@ -154,7 +163,7 @@
   <label>0</label>
   <labelattributes>
     <label fieldname="" text="Label"/>
-    <family fieldname="" name="Droid Sans"/>
+    <family fieldname="" name="Ubuntu"/>
     <size fieldname="" units="pt" value="12"/>
     <bold fieldname="" on="0"/>
     <italic fieldname="" on="0"/>
@@ -173,23 +182,27 @@
     <selectedonly on=""/>
   </labelattributes>
   <edittypes>
+    <edittype labelontop="0" editable="1" type="0" name="attributeprovisorisch"/>
+    <edittype labelontop="0" editable="1" type="0" name="attributeprovisorisch_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="entstehung"/>
+    <edittype labelontop="0" editable="1" type="0" name="gebaeudeeingang_von"/>
     <edittype labelontop="0" editable="1" type="0" name="gem_bfs"/>
-    <edittype labelontop="0" editable="1" type="0" name="groesse"/>
-    <edittype labelontop="0" editable="1" type="0" name="groesse_txt"/>
-    <edittype labelontop="0" editable="1" type="0" name="hali"/>
-    <edittype labelontop="0" editable="1" type="0" name="hali_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="gwr_edid"/>
+    <edittype labelontop="0" editable="1" type="0" name="gwr_egid"/>
     <edittype labelontop="0" editable="1" type="0" name="hausnummer"/>
-    <edittype labelontop="0" editable="1" type="0" name="hausnummerpos_von"/>
+    <edittype labelontop="0" editable="1" type="0" name="hoehenlage"/>
+    <edittype labelontop="0" editable="1" type="0" name="im_gebaeude"/>
+    <edittype labelontop="0" editable="1" type="0" name="im_gebaeude_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="inaenderung"/>
+    <edittype labelontop="0" editable="1" type="0" name="inaenderung_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="istoffiziellebezeichnung"/>
+    <edittype labelontop="0" editable="1" type="0" name="istoffiziellebezeichnung_txt"/>
     <edittype labelontop="0" editable="1" type="0" name="lieferdatum"/>
     <edittype labelontop="0" editable="1" type="0" name="los"/>
     <edittype labelontop="0" editable="1" type="0" name="ogc_fid"/>
-    <edittype labelontop="0" editable="1" type="0" name="ori"/>
-    <edittype labelontop="0" editable="1" type="0" name="rot"/>
+    <edittype labelontop="0" editable="1" type="0" name="status"/>
+    <edittype labelontop="0" editable="1" type="0" name="status_txt"/>
     <edittype labelontop="0" editable="1" type="0" name="tid"/>
-    <edittype labelontop="0" editable="1" type="0" name="vali"/>
-    <edittype labelontop="0" editable="1" type="0" name="vali_txt"/>
-    <edittype labelontop="0" editable="1" type="0" name="x"/>
-    <edittype labelontop="0" editable="1" type="0" name="y"/>
   </edittypes>
   <editform></editform>
   <editforminit></editforminit>

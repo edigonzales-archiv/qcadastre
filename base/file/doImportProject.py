@@ -102,7 +102,13 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
                 reference_frame = ilimodels[i]["referenceframe"]
                 self.cmbBoxIliModelName.insertItem(self.cmbBoxIliModelName.count(), str(model_name), ilimodels[i])
             self.cmbBoxIliModelName.insertItem(0, QCoreApplication.translate("Qcadastre", "Choose Interlis model..."), None)
-            self.cmbBoxIliModelName.setCurrentIndex(0)
+            
+            if len(ilimodels) == 1:
+                self.cmbBoxIliModelName.setCurrentIndex(1)
+                self.cmbBoxIliModelName.setEnabled(False)
+            else:
+                self.cmbBoxIliModelName.setCurrentIndex(0)
+                self.cmbBoxIliModelName.setEnabled(True)
             
         else:
             self.appmodule = ""
@@ -252,11 +258,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         # in der Projektedatenbank bereits ein Eintrag ist.
         output = unicode(self.textEditImportOutput.toPlainText())
         if output.find("FATAL") > 0 or output.find("ERROR") > 0 or output.strip() == "":
-            
-            if output.find("already exists"):
-                self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished. Project name already exists."), level=QgsMessageBar.CRITICAL, duration=5)                                                                       
-            else:
-                self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished."), level=QgsMessageBar.CRITICAL, duration=5)                                                                       
+            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished."), level=QgsMessageBar.CRITICAL, duration=5)                                                                       
             return            
             
         # create project directory in projects root dir

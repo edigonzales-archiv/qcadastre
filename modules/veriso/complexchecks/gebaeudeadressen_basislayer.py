@@ -37,7 +37,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "bodenbedeckung/gebaeude_strassen_trottoir_erschliessung.qml"
             
-            vlayer = utils.loadLayer(self.iface, layer) 
+            vlayer = utils.loadLayer(self.iface, layer, True) 
             if vlayer:
                 self.iface.legendInterface().setLayerVisible(vlayer, True)     
 
@@ -52,7 +52,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "einzelobjekte/eo_flaeche_gebdetail_unterstand_reservoir_unterirdisch.qml"
 
-            vlayer = utils.loadLayer(self.iface, layer) 
+            vlayer = utils.loadLayer(self.iface, layer, True) 
             if vlayer:
                 self.iface.legendInterface().setLayerVisible(vlayer, True)                     
                 vlayer.setLayerName(u"EO.Flächenelemente")
@@ -68,7 +68,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "einzelobjekte/eo_linie_gebdetail.qml"
             
-            vlayer = utils.loadLayer(self.iface, layer) 
+            vlayer = utils.loadLayer(self.iface, layer, True) 
             if vlayer:
                 self.iface.legendInterface().setLayerVisible(vlayer, True)     
             
@@ -154,7 +154,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/hausnummerpos.qml"
 
-            vlayer = utils.loadLayer(self.iface, layer) 
+            vlayer = utils.loadLayer(self.iface, layer, True) 
             if vlayer:
                 self.iface.legendInterface().setLayerVisible(vlayer, True)     
 
@@ -178,7 +178,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/lokalisationsnamepos.qml"
             
-            vlayer = utils.loadLayer(self.iface, layer) 
+            vlayer = utils.loadLayer(self.iface, layer, True) 
             if vlayer:
                 self.iface.legendInterface().setLayerVisible(vlayer, True)     
 
@@ -194,7 +194,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gemeindegrenze/gemgre_strichliert.qml"
 
-            gemgrelayer = utils.loadLayer(self.iface, layer) 
+            gemgrelayer = utils.loadLayer(self.iface, layer, True) 
             if gemgrelayer:
                 self.iface.legendInterface().setLayerVisible(gemgrelayer, True)     
 

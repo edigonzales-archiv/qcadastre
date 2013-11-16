@@ -66,7 +66,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "fixpunkte/lfp3.qml"
             
-            vlayer = utils.loadLayer(self.iface, layer) 
+            vlayer = utils.loadLayer(self.iface, layer, True) 
             if vlayer:
                 self.iface.legendInterface().setLayerVisible(vlayer, True)     
             
@@ -96,7 +96,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gemeindegrenze/gemgre_strichliert.qml"
 
-            gemgrelayer = utils.loadLayer(self.iface, layer) 
+            gemgrelayer = utils.loadLayer(self.iface, layer, True) 
             if gemgrelayer:
                 self.iface.legendInterface().setLayerVisible(gemgrelayer, True)     
 

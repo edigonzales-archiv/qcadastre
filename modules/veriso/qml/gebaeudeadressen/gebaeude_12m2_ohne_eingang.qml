@@ -1,22 +1,51 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="2.1.0-Master" minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+<qgis version="2.1.0-Master" minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="5000" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="1">
   <renderer-v2 symbollevels="0" type="singleSymbol">
     <symbols>
-      <symbol alpha="1" type="marker" name="0">
-        <layer pass="0" class="SimpleMarker" locked="0">
-          <prop k="angle" v="0"/>
-          <prop k="color" v="85,0,255,255"/>
+      <symbol alpha="1" type="fill" name="0">
+        <layer pass="0" class="SimpleFill" locked="0">
+          <prop k="border_width_unit" v="MM"/>
+          <prop k="color" v="255,0,0,255"/>
           <prop k="color_border" v="0,0,0,255"/>
-          <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="circle"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="outline_width" v="0"/>
-          <prop k="outline_width_unit" v="MM"/>
-          <prop k="scale_method" v="area"/>
-          <prop k="size" v="0"/>
-          <prop k="size_unit" v="MM"/>
-          <prop k="vertical_anchor_point" v="1"/>
+          <prop k="style" v="solid"/>
+          <prop k="style_border" v="no"/>
+          <prop k="width_border" v="0.26"/>
+        </layer>
+        <layer pass="0" class="CentroidFill" locked="0">
+          <symbol alpha="1" type="marker" name="@0@1">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="255,0,0,255"/>
+              <prop k="color_border" v="0,0,0,0"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="area"/>
+              <prop k="size" v="3"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="255,0,0,255"/>
+              <prop k="color_border" v="0,0,0,255"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="cross2"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="area"/>
+              <prop k="size" v="2"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
         </layer>
       </symbol>
     </symbols>
@@ -33,34 +62,30 @@
     <property key="labeling/bufferColorB" value="255"/>
     <property key="labeling/bufferColorG" value="255"/>
     <property key="labeling/bufferColorR" value="255"/>
-    <property key="labeling/bufferDraw" value="false"/>
+    <property key="labeling/bufferDraw" value="true"/>
     <property key="labeling/bufferJoinStyle" value="64"/>
     <property key="labeling/bufferNoFill" value="false"/>
-    <property key="labeling/bufferSize" value="0.5"/>
+    <property key="labeling/bufferSize" value="1"/>
     <property key="labeling/bufferSizeInMapUnits" value="false"/>
     <property key="labeling/bufferTransp" value="0"/>
     <property key="labeling/centroidWhole" value="false"/>
-    <property key="labeling/dataDefined/Hali" value="1~~0~~~~hali_txt"/>
-    <property key="labeling/dataDefined/PositionX" value="1~~0~~~~y"/>
-    <property key="labeling/dataDefined/PositionY" value="1~~0~~~~x"/>
-    <property key="labeling/dataDefined/Rotation" value="1~~0~~~~rot"/>
-    <property key="labeling/dataDefined/Vali" value="1~~0~~~~vali_txt"/>
+    <property key="labeling/dataDefined/Hali" value="1~~0~~~~art_txt"/>
     <property key="labeling/decimals" value="0"/>
-    <property key="labeling/displayAll" value="true"/>
+    <property key="labeling/displayAll" value="false"/>
     <property key="labeling/dist" value="0"/>
     <property key="labeling/distInMapUnits" value="false"/>
     <property key="labeling/enabled" value="true"/>
-    <property key="labeling/fieldName" value="hausnummer"/>
+    <property key="labeling/fieldName" value=""/>
     <property key="labeling/fontBold" value="true"/>
     <property key="labeling/fontCapitals" value="0"/>
-    <property key="labeling/fontFamily" value="Cadastra"/>
+    <property key="labeling/fontFamily" value="Droid Sans"/>
     <property key="labeling/fontItalic" value="false"/>
     <property key="labeling/fontLetterSpacing" value="0"/>
-    <property key="labeling/fontLimitPixelSize" value="false"/>
+    <property key="labeling/fontLimitPixelSize" value="true"/>
     <property key="labeling/fontMaxPixelSize" value="10000"/>
     <property key="labeling/fontMinPixelSize" value="3"/>
-    <property key="labeling/fontSize" value="9"/>
-    <property key="labeling/fontSizeInMapUnits" value="false"/>
+    <property key="labeling/fontSize" value="5"/>
+    <property key="labeling/fontSizeInMapUnits" value="true"/>
     <property key="labeling/fontStrikeout" value="false"/>
     <property key="labeling/fontUnderline" value="false"/>
     <property key="labeling/fontWeight" value="75"/>
@@ -111,17 +136,17 @@
     <property key="labeling/shadowUnder" value="0"/>
     <property key="labeling/shapeBlendMode" value="0"/>
     <property key="labeling/shapeBorderColorA" value="255"/>
-    <property key="labeling/shapeBorderColorB" value="250"/>
-    <property key="labeling/shapeBorderColorG" value="66"/>
-    <property key="labeling/shapeBorderColorR" value="66"/>
-    <property key="labeling/shapeBorderWidth" value="1"/>
+    <property key="labeling/shapeBorderColorB" value="128"/>
+    <property key="labeling/shapeBorderColorG" value="128"/>
+    <property key="labeling/shapeBorderColorR" value="128"/>
+    <property key="labeling/shapeBorderWidth" value="0"/>
     <property key="labeling/shapeBorderWidthUnits" value="1"/>
-    <property key="labeling/shapeDraw" value="true"/>
+    <property key="labeling/shapeDraw" value="false"/>
     <property key="labeling/shapeFillColorA" value="255"/>
-    <property key="labeling/shapeFillColorB" value="250"/>
-    <property key="labeling/shapeFillColorG" value="66"/>
-    <property key="labeling/shapeFillColorR" value="66"/>
-    <property key="labeling/shapeJoinStyle" value="0"/>
+    <property key="labeling/shapeFillColorB" value="255"/>
+    <property key="labeling/shapeFillColorG" value="255"/>
+    <property key="labeling/shapeFillColorR" value="255"/>
+    <property key="labeling/shapeJoinStyle" value="64"/>
     <property key="labeling/shapeOffsetUnits" value="1"/>
     <property key="labeling/shapeOffsetX" value="0"/>
     <property key="labeling/shapeOffsetY" value="0"/>
@@ -138,9 +163,9 @@
     <property key="labeling/shapeTransparency" value="0"/>
     <property key="labeling/shapeType" value="0"/>
     <property key="labeling/textColorA" value="255"/>
-    <property key="labeling/textColorB" value="255"/>
-    <property key="labeling/textColorG" value="255"/>
-    <property key="labeling/textColorR" value="255"/>
+    <property key="labeling/textColorB" value="0"/>
+    <property key="labeling/textColorG" value="0"/>
+    <property key="labeling/textColorR" value="0"/>
     <property key="labeling/textTransp" value="0"/>
     <property key="labeling/upsidedownLabels" value="0"/>
     <property key="labeling/wrapChar" value=""/>
@@ -155,7 +180,7 @@
   <labelattributes>
     <label fieldname="" text="Label"/>
     <family fieldname="" name="Droid Sans"/>
-    <size fieldname="" units="pt" value="12"/>
+    <size fieldname="" units="pt" value="11"/>
     <bold fieldname="" on="0"/>
     <italic fieldname="" on="0"/>
     <underline fieldname="" on="0"/>
@@ -168,23 +193,34 @@
     <alignment fieldname="" value="center"/>
     <buffercolor fieldname="" red="255" blue="255" green="255"/>
     <buffersize fieldname="" units="pt" value="1"/>
-    <bufferenabled fieldname="" on=""/>
+    <bufferenabled fieldname="" on="1"/>
     <multilineenabled fieldname="" on=""/>
     <selectedonly on=""/>
   </labelattributes>
   <edittypes>
+    <edittype labelontop="0" editable="1" type="0" name="anfindex"/>
+    <edittype labelontop="0" editable="1" type="0" name="art"/>
+    <edittype labelontop="0" editable="1" type="0" name="art_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="benannte"/>
+    <edittype labelontop="0" editable="1" type="0" name="endindex"/>
+    <edittype labelontop="0" editable="1" type="0" name="entstehung"/>
+    <edittype labelontop="0" editable="1" type="0" name="flaeche"/>
     <edittype labelontop="0" editable="1" type="0" name="gem_bfs"/>
     <edittype labelontop="0" editable="1" type="0" name="groesse"/>
     <edittype labelontop="0" editable="1" type="0" name="groesse_txt"/>
     <edittype labelontop="0" editable="1" type="0" name="hali"/>
     <edittype labelontop="0" editable="1" type="0" name="hali_txt"/>
-    <edittype labelontop="0" editable="1" type="0" name="hausnummer"/>
-    <edittype labelontop="0" editable="1" type="0" name="hausnummerpos_von"/>
+    <edittype labelontop="0" editable="1" type="0" name="hilfslinie"/>
     <edittype labelontop="0" editable="1" type="0" name="lieferdatum"/>
+    <edittype labelontop="0" editable="1" type="0" name="lokalisationsnamepos_von"/>
     <edittype labelontop="0" editable="1" type="0" name="los"/>
     <edittype labelontop="0" editable="1" type="0" name="ogc_fid"/>
     <edittype labelontop="0" editable="1" type="0" name="ori"/>
+    <edittype labelontop="0" editable="1" type="0" name="ori_neu"/>
+    <edittype labelontop="0" editable="1" type="0" name="qualitaet"/>
+    <edittype labelontop="0" editable="1" type="0" name="qualitaet_txt"/>
     <edittype labelontop="0" editable="1" type="0" name="rot"/>
+    <edittype labelontop="0" editable="1" type="0" name="text"/>
     <edittype labelontop="0" editable="1" type="0" name="tid"/>
     <edittype labelontop="0" editable="1" type="0" name="vali"/>
     <edittype labelontop="0" editable="1" type="0" name="vali_txt"/>

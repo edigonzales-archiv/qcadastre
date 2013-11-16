@@ -6,7 +6,7 @@ CREATE TABLE projects
         dbhost TEXT,
         dbname TEXT,
         dbport INT,
-        dbschema TEXT,
+        dbschema TEXT UNIQUE,
         dbuser TEXT,
         dbpwd TEXT,
         dbadmin TEXT,

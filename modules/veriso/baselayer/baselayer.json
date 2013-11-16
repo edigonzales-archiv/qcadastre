@@ -57,6 +57,20 @@
       "format": "image/jpeg"
     },
     {
+      "type": "wms",
+      "title": "Basisplan 1:5000 (schwarz-weiss)",
+      "url": "http://www.sogis1.so.ch/cgi-bin/sogis/sogis_bpav.wms",
+      "layers": "bpav5000sw",
+      "format": "image/jpeg"
+    },
+    {
+      "type": "wms",
+      "title": "Basisplan 1:5000 (grau)",
+      "url": "http://www.sogis1.so.ch/cgi-bin/sogis/sogis_bpav.wms",
+      "layers": "bpav5000sw_grau",
+      "format": "image/jpeg"
+    },
+    {
       "type": "postgres",
       "title": "PostgreSQL Test (Temporaer)",
       "params": {

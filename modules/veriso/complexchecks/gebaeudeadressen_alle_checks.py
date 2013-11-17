@@ -12,6 +12,10 @@ class ComplexCheck(QObject):
 
     def run(self):        
         try:    
+            _temp = __import__("gebaeudeadressen_lokalisation", globals(), locals(), ['ComplexCheck'])
+            c = _temp.ComplexCheck(self.iface)
+            c.run()
+            
             _temp = __import__("gebaeudeadressen_checklayer", globals(), locals(), ['ComplexCheck'])
             c = _temp.ComplexCheck(self.iface)
             c.run()

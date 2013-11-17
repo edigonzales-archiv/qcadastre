@@ -117,7 +117,7 @@ def getBaselayers(iface):
         iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Failed to load baselayer.json."), level=QgsMessageBar.CRITICAL, duration=5)                            
         return
     
-def loadLayer(iface, layer, collapsed_legend = False):
+def loadLayer(iface, layer, collapsed_legend = False, collapsed_group = False):
     settings = QSettings("CatAIS","Qcadastre")
     module_name = (settings.value("project/appmodule"))
     provider = (settings.value("project/provider"))
@@ -265,7 +265,7 @@ def loadLayer(iface, layer, collapsed_legend = False):
             grp_idx = iface.legendInterface().addGroup(group)
             iface.legendInterface().moveLayer(qgis_layer, grp_idx)
 
-        iface.legendInterface().setGroupExpanded(grp_idx,  False)
+        iface.legendInterface().setGroupExpanded(grp_idx, collapsed_group)
 
 
 

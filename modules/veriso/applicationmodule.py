@@ -49,6 +49,13 @@ class ApplicationModule(QObject):
                         singleCheckMenu.addSeparator()
                     else:
                         action = QAction(checkName, self.iface.mainWindow())
+                        
+                        try:
+                            shortcut = check["shortcut"]
+                            action.setShortcut(shortcut)
+                        except:
+                            pass
+                            
                         singleCheckMenu.addAction(action)                                         
                         QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
 

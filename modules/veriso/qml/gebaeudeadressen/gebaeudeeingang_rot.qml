@@ -1,20 +1,22 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="2.1.0-Master" minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+<qgis version="2.1.0-Master" minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
   <renderer-v2 symbollevels="0" type="singleSymbol">
     <symbols>
-      <symbol alpha="1" type="line" name="0">
-        <layer pass="0" class="SimpleLine" locked="0">
-          <prop k="capstyle" v="square"/>
+      <symbol alpha="1" type="marker" name="0">
+        <layer pass="0" class="SimpleMarker" locked="0">
+          <prop k="angle" v="0"/>
           <prop k="color" v="255,0,0,255"/>
-          <prop k="customdash" v="5;2"/>
-          <prop k="customdash_unit" v="MM"/>
-          <prop k="joinstyle" v="bevel"/>
-          <prop k="offset" v="0"/>
+          <prop k="color_border" v="255,255,255,255"/>
+          <prop k="horizontal_anchor_point" v="1"/>
+          <prop k="name" v="rectangle"/>
+          <prop k="offset" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="penstyle" v="solid"/>
-          <prop k="use_custom_dash" v="0"/>
-          <prop k="width" v="0.7"/>
-          <prop k="width_unit" v="MM"/>
+          <prop k="outline_width" v="0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="scale_method" v="area"/>
+          <prop k="size" v="1.5"/>
+          <prop k="size_unit" v="MM"/>
+          <prop k="vertical_anchor_point" v="1"/>
         </layer>
       </symbol>
     </symbols>
@@ -43,7 +45,7 @@
     <property key="labeling/dist" value="0"/>
     <property key="labeling/distInMapUnits" value="false"/>
     <property key="labeling/enabled" value="true"/>
-    <property key="labeling/fieldName" value="ordnung"/>
+    <property key="labeling/fieldName" value="hausnummer"/>
     <property key="labeling/fontBold" value="true"/>
     <property key="labeling/fontCapitals" value="0"/>
     <property key="labeling/fontFamily" value="Cadastra"/>
@@ -75,8 +77,8 @@
     <property key="labeling/namedStyle" value="Bold Italic"/>
     <property key="labeling/obstacle" value="false"/>
     <property key="labeling/placeDirectionSymbol" value="0"/>
-    <property key="labeling/placement" value="3"/>
-    <property key="labeling/placementFlags" value="9"/>
+    <property key="labeling/placement" value="0"/>
+    <property key="labeling/placementFlags" value="0"/>
     <property key="labeling/plussign" value="false"/>
     <property key="labeling/preserveRotation" value="true"/>
     <property key="labeling/previewBkgrdColor" value="#ffffff"/>
@@ -133,7 +135,7 @@
     <property key="labeling/textColorA" value="255"/>
     <property key="labeling/textColorB" value="0"/>
     <property key="labeling/textColorG" value="0"/>
-    <property key="labeling/textColorR" value="0"/>
+    <property key="labeling/textColorR" value="255"/>
     <property key="labeling/textTransp" value="0"/>
     <property key="labeling/upsidedownLabels" value="0"/>
     <property key="labeling/wrapChar" value=""/>
@@ -166,15 +168,26 @@
     <selectedonly on=""/>
   </labelattributes>
   <edittypes>
-    <edittype labelontop="0" editable="1" type="0" name="anfangspunkt"/>
+    <edittype labelontop="0" editable="1" type="0" name="attributeprovisorisch"/>
+    <edittype labelontop="0" editable="1" type="0" name="attributeprovisorisch_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="entstehung"/>
+    <edittype labelontop="0" editable="1" type="0" name="gebaeudeeingang_von"/>
     <edittype labelontop="0" editable="1" type="0" name="gem_bfs"/>
-    <edittype labelontop="0" editable="1" type="0" name="istachse"/>
-    <edittype labelontop="0" editable="1" type="0" name="istachse_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="gwr_edid"/>
+    <edittype labelontop="0" editable="1" type="0" name="gwr_egid"/>
+    <edittype labelontop="0" editable="1" type="0" name="hausnummer"/>
+    <edittype labelontop="0" editable="1" type="0" name="hoehenlage"/>
+    <edittype labelontop="0" editable="1" type="0" name="im_gebaeude"/>
+    <edittype labelontop="0" editable="1" type="0" name="im_gebaeude_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="inaenderung"/>
+    <edittype labelontop="0" editable="1" type="0" name="inaenderung_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="istoffiziellebezeichnung"/>
+    <edittype labelontop="0" editable="1" type="0" name="istoffiziellebezeichnung_txt"/>
     <edittype labelontop="0" editable="1" type="0" name="lieferdatum"/>
     <edittype labelontop="0" editable="1" type="0" name="los"/>
     <edittype labelontop="0" editable="1" type="0" name="ogc_fid"/>
-    <edittype labelontop="0" editable="1" type="0" name="ordnung"/>
-    <edittype labelontop="0" editable="1" type="0" name="strassenstueck_von"/>
+    <edittype labelontop="0" editable="1" type="0" name="status"/>
+    <edittype labelontop="0" editable="1" type="0" name="status_txt"/>
     <edittype labelontop="0" editable="1" type="0" name="tid"/>
   </edittypes>
   <editform></editform>

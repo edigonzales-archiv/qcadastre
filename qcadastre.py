@@ -162,7 +162,7 @@ class Qcadastre:
                 groupedProjects[moduleName] = moduleList
             
             self.menuProjects.clear()
-            for key in groupedProjects:
+            for key in sorted(groupedProjects.iterkeys()):
                 modules = groupedProjects[key]
                 groupMenu = self.menuProjects.addMenu(QCoreApplication.translate("Qcadastre", unicode(key)))
                 sortedProjectsList = sorted(modules, key=lambda k: k['displayname']) 

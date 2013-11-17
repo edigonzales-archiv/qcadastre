@@ -1,0 +1,20 @@
+{
+  "layers": [
+    {
+      "type": "postgres",
+      "title": "BB_BoFlaeche (Plan für das Grundbuch)",
+      "featuretype": "bodenbedeckung_boflaeche",
+      "geom": "geometrie",
+      "key": "ogc_fid",
+      "style": "bodenbedeckung/test.qml"
+    },
+    {
+      "type": "postgres",
+      "title": "EO_Flaechenelemente (Plan für das Grundbuch)",
+      "featuretype": "v_einzelobjekte_flaechenelement",
+      "geom": "geometrie",
+      "key": "ogc_fid",
+      "style": "einzelobjekte/test.qml"
+    }      
+  ]
+}

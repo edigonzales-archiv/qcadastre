@@ -30,6 +30,16 @@
                   "epsg": "21781"
                }
             ]
+        },{
+            "dirname": "av",
+            "displayname": "Amtliche Vermessung",
+            "ilimodels": [
+               {
+                  "ilimodel": "DM01AVSO24", 
+                  "referenceframe": "LV03",            
+                  "epsg": "21781"
+               }
+            ]
         }
     ]
 }

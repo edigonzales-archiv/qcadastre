@@ -1,0 +1,14 @@
+{
+  "displays": [
+    {
+      "title": "Plan für das Grundbuch",
+      "group": "AV - Plan für das Grundbuch",
+      "file": "display_grundbuchplan"
+    },
+    {
+      "title": "Nomenklatur",
+      "group": "AV - Nomenklatur",
+      "file": "display_grundbuchplan"
+    }
+  ]
+}

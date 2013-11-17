@@ -24,11 +24,57 @@ class ApplicationModule(QObject):
 
     def initGui(self):
         self.cleanGui()
-        self.doInitChecksMenu()        
-        self.doInitDefectsMenu()        
-        self.doInitTopicsTablesMenu()
-        self.doInitBaselayerMenu()
+        self.doInitDisplayMensu()
+        print "fubar"
+#        self.doInitChecksMenu()        
+#        self.doInitDefectsMenu()        
+#        self.doInitTopicsTablesMenu()
+#        self.doInitBaselayerMenu()
         
+    def doInitDisplayMensu(self):
+        menuBar = QMenuBar(self.toolBar)
+        menuBar.setObjectName("QcadastreModule.LoadDisplayMenuBar")        
+        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        menu = QMenu(menuBar)
+        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Display"))  
+
+        displays = utils.getDisplays(self.iface)
+        
+        if displays:
+            for display in displays:
+                action = QAction(QCoreApplication.translate("QcadastreModule", display["title"] ), self.iface.mainWindow())
+                menu.addAction(action)     
+                QObject.connect(action, SIGNAL("triggered()" ), lambda display_info=display: self.doShowDisplay(display_info))    
+
+        menuBar.addMenu(menu)
+        self.toolBar.insertWidget(self.beforeAction, menuBar)
+
+    def doShowDisplay(self, display_info):     
+        display_file = display_info["file"]
+        display_group = display_info["group"]
+        display_title = display_info["title"]
+        
+        utils.deleteGroup(self.iface, display_group)
+        layers = utils.getDisplayLayers(self.iface, display_file)
+        
+        for layer in layers:
+            layer["group"] = display_group
+            layer["title"] += " (" + display_title + ")"
+            self.doLoadDisplayLayer(layer)
+        
+    def doLoadDisplayLayer(self, layer):
+        QApplication.setOverrideCursor(Qt.WaitCursor)
+        try:
+            utils.loadLayer(self.iface, layer, True) 
+            self.updateCrsScale()        
+        except Exception, e:
+            QApplication.restoreOverrideCursor()            
+            print "Couldn't do it: %s" % e            
+            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                    
+        QApplication.restoreOverrideCursor()        
+
+
+
     def doInitChecksMenu(self):
         menuBar = QMenuBar(self.toolBar)
         menuBar.setObjectName("QcadastreModule.LoadChecksMenuBar")        
@@ -63,6 +109,7 @@ class ApplicationModule(QObject):
         self.toolBar.insertWidget(self.beforeAction, menuBar)
 
     def doShowComplexCheck(self, check):
+        print "fubar"
         try:
             module = str(check["file"])
             print module

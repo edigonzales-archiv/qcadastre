@@ -1,0 +1,12 @@
+{
+  "displays": [
+    {
+      "title": "Plan für das Grundbuch",
+      "file": "display_grundbuchplan"
+    },
+    {
+      "title": "Nomenklatur",
+      "file": "display_grundbuchplan"
+    }
+  ]
+}

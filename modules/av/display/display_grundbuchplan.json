@@ -6,7 +6,7 @@
       "featuretype": "bodenbedeckung_boflaeche",
       "geom": "geometrie",
       "key": "ogc_fid",
-      "style": "bodenbedeckung/test.qml"
+      "style": "grundbuchplan/bodenbedeckung.qml"
     },
     {
       "type": "postgres",

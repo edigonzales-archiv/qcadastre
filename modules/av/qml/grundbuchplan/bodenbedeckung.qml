@@ -1,21 +1,79 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="2.1.0-Master" minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+<qgis version="2.1.0-Master" minimumScale="0" maximumScale="25000" minLabelScale="1" maxLabelScale="1e+08" hasScaleBasedVisibilityFlag="1" scaleBasedLabelVisibilityFlag="0">
   <renderer-v2 symbollevels="0" type="RuleRenderer">
     <rules>
-      <rule filter=" &quot;art_txt&quot; IN ( 'Gewaesser.fliessendes' ,  'Gewaesser.stehendes' ,  'Gebaeude' ,  'befestigt.Strasse_Weg' ,  'befestigt.Trottoir' ,  'befestigt.Verkehrsinsel',  'befestigt.Wasserbecken' )" label="Linien.ausgezogen">
-        <rule symbol="0" label="schwarz"/>
-        <rule symbol="1" label="weiss"/>
+      <rule filter="&quot;art_txt&quot; LIKE 'befestigt.Bahn%' OR &quot;art_txt&quot; LIKE 'befestigt.uebrige_befestigte%' OR &quot;art_txt&quot; LIKE 'humusiert%' OR &quot;art_txt&quot; LIKE 'Gewaesser.Schilfguertel%' OR &quot;art_txt&quot; LIKE 'bestockt%' OR &quot;art_txt&quot; LIKE 'vegetationslos%'" label="gestrichelt">
+        <rule scalemaxdenom="300" symbol="0" label="1:250"/>
+        <rule scalemaxdenom="750" symbol="1" scalemindenom="300" label="1:500"/>
+        <rule scalemaxdenom="1250" symbol="2" scalemindenom="750" label="1:1000"/>
+        <rule scalemaxdenom="3000" symbol="3" scalemindenom="1250" label="1:2000"/>
+        <rule scalemaxdenom="6000" symbol="4" scalemindenom="3000" label="1:5000"/>
+        <rule scalemaxdenom="25000" filter="&quot;art_txt&quot; LIKE 'bestockt.geschlossener_Wald%'" symbol="5" scalemindenom="6000" label="> 1:5000"/>
       </rule>
-      <rule filter=" &quot;art_txt&quot; IN ( 'humusiert.Acker_Wiese_Weide.Acker_Wiese',  'humusiert.Acker_Wiese_Weide.Weide',  'bestockt.geschlossener_Wald' )" label="Linien.gestrichelt">
-        <rule symbol="2" label="schwarz"/>
-        <rule symbol="3" label="weiss"/>
+      <rule filter="&quot;art_txt&quot; LIKE 'Gebaeude' OR &quot;art_txt&quot; LIKE 'befestigt.Strasse_Weg%' OR &quot;art_txt&quot; LIKE 'befestigt.Trottoir%' OR &quot;art_txt&quot; LIKE 'befestigt.Verkehrsinsel%' OR &quot;art_txt&quot; LIKE 'befestigt.Flugplatz%' OR &quot;art_txt&quot; LIKE 'befestigt.Wasserbecken%' OR &quot;art_txt&quot; LIKE 'Gewaesser.stehendes%' OR &quot;art_txt&quot; LIKE 'Gewaesser.fliessendes%'" label="ausgezogen">
+        <rule scalemaxdenom="300" symbol="6" label="1:250"/>
+        <rule scalemaxdenom="750" symbol="7" scalemindenom="300" label="1:500"/>
+        <rule scalemaxdenom="1250" symbol="8" scalemindenom="750" label="1:1000"/>
+        <rule scalemaxdenom="3000" symbol="9" scalemindenom="1250" label="1:2000"/>
+        <rule scalemaxdenom="6000" symbol="10" scalemindenom="3000" label="1:5000"/>
+        <rule scalemaxdenom="25000" filter="&quot;art_txt&quot; LIKE 'Gebaeude%' OR &quot;art_txt&quot; LIKE 'befestigt.Strasse_Weg%'" symbol="11" scalemindenom="6000" label="> 1:5000"/>
+      </rule>
+      <rule filter="&quot;art_txt&quot; LIKE 'Gebaeude%'" symbol="12" label="Gebaeude"/>
+      <rule filter="&quot;art_txt&quot; LIKE 'humusiert.Intensivkultur.Reben%'" label="Reben">
+        <rule scalemaxdenom="300" symbol="13" label="1:250"/>
+        <rule scalemaxdenom="750" symbol="14" scalemindenom="300" label="1:500"/>
+        <rule scalemaxdenom="1250" symbol="15" scalemindenom="750" label="1:1000"/>
+        <rule scalemaxdenom="3000" symbol="16" scalemindenom="1250" label="1:2000"/>
+        <rule scalemaxdenom="6000" symbol="17" scalemindenom="3000" label="1:5000"/>
+      </rule>
+      <rule filter="&quot;art_txt&quot; LIKE 'humusiert.Hoch_Flachmoor%'" label="Moor">
+        <rule scalemaxdenom="300" symbol="18" label="1:250"/>
+        <rule scalemaxdenom="750" symbol="19" scalemindenom="300" label="1:500"/>
+        <rule scalemaxdenom="1250" symbol="20" scalemindenom="750" label="1:1000"/>
+        <rule scalemaxdenom="3000" symbol="21" scalemindenom="1250" label="1:2000"/>
+        <rule scalemaxdenom="6000" symbol="22" scalemindenom="3000" label="1:5000"/>
+      </rule>
+      <rule filter="&quot;art_txt&quot; LIKE 'Gewaesser.Schilfguertel%'" label="Schilfguertel">
+        <rule scalemaxdenom="300" symbol="23" label="1:250"/>
+        <rule scalemaxdenom="750" symbol="24" scalemindenom="300" label="1:500"/>
+        <rule scalemaxdenom="1250" symbol="25" scalemindenom="750" label="1:1000"/>
+        <rule scalemaxdenom="3000" symbol="26" scalemindenom="1250" label="1:2000"/>
+        <rule scalemaxdenom="6000" symbol="27" scalemindenom="3000" label="1:5000"/>
+      </rule>
+      <rule filter="&quot;art_txt&quot; LIKE 'bestockt.geschlossener_Wald%'" label="geschlossener_Wald">
+        <rule scalemaxdenom="300" symbol="28" label="1:250"/>
+        <rule scalemaxdenom="750" symbol="29" scalemindenom="300" label="1:500"/>
+        <rule scalemaxdenom="1250" symbol="30" scalemindenom="750" label="1:1000"/>
+        <rule scalemaxdenom="3000" symbol="31" scalemindenom="1250" label="1:2000"/>
+        <rule scalemaxdenom="25000" symbol="32" scalemindenom="3000" label="1:5000"/>
+      </rule>
+      <rule filter="&quot;art_txt&quot; = 'bestockt.uebrige_bestockte%'" label="uebrige_bestockte">
+        <rule scalemaxdenom="300" symbol="33" label="1:250"/>
+        <rule scalemaxdenom="750" symbol="34" scalemindenom="300" label="1:500"/>
+        <rule scalemaxdenom="1250" symbol="35" scalemindenom="750" label="1:1000"/>
+        <rule scalemaxdenom="3000" symbol="36" scalemindenom="1250" label="1:2000"/>
+        <rule scalemaxdenom="6000" symbol="37" scalemindenom="3000" label="1:5000"/>
+      </rule>
+      <rule filter="&quot;art_txt&quot; LIKE 'vegetationslos.Fels%'" label="Fels">
+        <rule scalemaxdenom="300" symbol="38" label="1:250"/>
+        <rule scalemaxdenom="750" symbol="39" scalemindenom="300" label="1:500"/>
+        <rule scalemaxdenom="1250" symbol="40" scalemindenom="750" label="1:1000"/>
+        <rule scalemaxdenom="3000" symbol="41" scalemindenom="1250" label="1:2000"/>
+        <rule scalemaxdenom="6000" symbol="42" scalemindenom="3000" label="1:5000"/>
+      </rule>
+      <rule filter="&quot;art_txt&quot; LIKE 'vegetationslos.Geroell_Sand%'" label="Geröll_Sand">
+        <rule scalemaxdenom="300" symbol="43" label="1:250"/>
+        <rule scalemaxdenom="750" symbol="44" scalemindenom="300" label="1:500"/>
+        <rule scalemaxdenom="1250" symbol="45" scalemindenom="750" label="1:1000"/>
+        <rule scalemaxdenom="3000" symbol="46" scalemindenom="1250" label="1:2000"/>
+        <rule scalemaxdenom="5000" symbol="47" scalemindenom="3000" label="1:5000"/>
       </rule>
     </rules>
     <symbols>
       <symbol alpha="1" type="fill" name="0">
-        <layer pass="100" class="SimpleLine" locked="0">
-          <prop k="capstyle" v="flat"/>
-          <prop k="color" v="0,0,0,255"/>
+        <layer pass="90" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
+          <prop k="color" v="255,255,255,255"/>
           <prop k="customdash" v="5;2"/>
           <prop k="customdash_unit" v="MM"/>
           <prop k="joinstyle" v="bevel"/>
@@ -23,14 +81,26 @@
           <prop k="offset_unit" v="MM"/>
           <prop k="penstyle" v="solid"/>
           <prop k="use_custom_dash" v="0"/>
-          <prop k="width" v="0"/>
-          <prop k="width_expression" v="CASE &#xa;WHEN $scale &lt;= 750 THEN 0.28&#xa;WHEN ($scale > 750 AND $scale &lt;= 1250) THEN 0.2&#xa;WHEN ($scale > 1250 AND $scale &lt;= 3000) THEN 0.14&#xa;WHEN ($scale > 3000 AND $scale &lt;= 6000) THEN 0.1&#xa;WHEN (($scale > 6000 AND $scale &lt;= 25000) AND  &quot;art_txt&quot; IN ( 'Gebaeude' ,  'befestigt.Strasse_Weg' )) THEN 0.1&#xa;ELSE  0.00000001&#xa;END"/>
+          <prop k="width" v="0.34"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+        <layer pass="90" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="flat"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="customdash" v="2.1;0.7"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="1"/>
+          <prop k="width" v="0.28"/>
           <prop k="width_unit" v="MM"/>
         </layer>
       </symbol>
       <symbol alpha="1" type="fill" name="1">
-        <layer pass="99" class="SimpleLine" locked="0">
-          <prop k="capstyle" v="flat"/>
+        <layer pass="90" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
           <prop k="color" v="255,255,255,255"/>
           <prop k="customdash" v="5;2"/>
           <prop k="customdash_unit" v="MM"/>
@@ -39,33 +109,290 @@
           <prop k="offset_unit" v="MM"/>
           <prop k="penstyle" v="solid"/>
           <prop k="use_custom_dash" v="0"/>
-          <prop k="width" v="0"/>
-          <prop k="width_expression" v="CASE &#xa;WHEN $scale &lt;= 750 THEN 0.28&#xa;WHEN ($scale > 750 AND $scale &lt;= 1250) THEN 0.20&#xa;WHEN ($scale > 1250 AND $scale &lt;= 3000) THEN 0.14&#xa;WHEN ($scale > 3000 AND $scale &lt;= 6000) THEN 0.1&#xa;WHEN (($scale > 6000 AND $scale &lt;= 25000) AND  &quot;art_txt&quot; IN ( 'Gebaeude' ,  'befestigt.Strasse_Weg' )) THEN 0.1&#xa;ELSE  0.00000001&#xa;END"/>
+          <prop k="width" v="0.34"/>
           <prop k="width_unit" v="MM"/>
+        </layer>
+        <layer pass="90" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="flat"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="customdash" v="2.1;0.7"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="1"/>
+          <prop k="width" v="0.28"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="10">
+        <layer pass="99" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
+          <prop k="color" v="255,255,255,255"/>
+          <prop k="customdash" v="5;2"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.15"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+        <layer pass="99" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="flat"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="customdash" v="1.5;0.5"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.1"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="11">
+        <layer pass="99" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
+          <prop k="color" v="255,255,255,255"/>
+          <prop k="customdash" v="5;2"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.15"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+        <layer pass="99" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="flat"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="customdash" v="1.5;0.5"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.1"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="12">
+        <layer pass="95" class="SimpleFill" locked="0">
+          <prop k="border_width_unit" v="MM"/>
+          <prop k="color" v="178,178,178,255"/>
+          <prop k="color_border" v="0,0,0,255"/>
+          <prop k="offset" v="0,0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="style" v="solid"/>
+          <prop k="style_border" v="no"/>
+          <prop k="width_border" v="0.26"/>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="13">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="7"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="14"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="14"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@13@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_b_reben_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="4.2"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="14">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="7"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="14"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="14"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@14@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_b_reben_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="4.2"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="15">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="5"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="10"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="10"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@15@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_b_reben_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="3"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="16">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="3.5"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="7"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="7"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@16@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_b_reben_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="2.1"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="17">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="2.45"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="4.9"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="4.9"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@17@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_b_reben_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="1.5"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="18">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="7"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="14"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="14"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@18@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_d_moor_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="5.6"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="19">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="7"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="14"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="14"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@19@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_d_moor_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="5.6"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
         </layer>
       </symbol>
       <symbol alpha="1" type="fill" name="2">
-        <layer pass="98" class="SimpleLine" locked="0">
-          <prop k="capstyle" v="flat"/>
-          <prop k="capstyle_expression" v="'flat'"/>
-          <prop k="color" v="0,0,0,255"/>
-          <prop k="customdash" v="5;2"/>
-          <prop k="customdash_expression" v="CASE &#xa;WHEN $scale &lt;= 750 THEN '2.1;0.7'&#xa;WHEN ($scale > 750 AND $scale &lt;= 1250) THEN '1.5;0.5'&#xa;WHEN ($scale > 1250 AND $scale &lt;= 3000) THEN '1.05;0.35'&#xa;WHEN ($scale > 3000 AND $scale &lt;= 6000) THEN '0.73;0.24'&#xa;ELSE  '1'&#xa;END"/>
-          <prop k="customdash_unit" v="MM"/>
-          <prop k="joinstyle" v="bevel"/>
-          <prop k="offset" v="0"/>
-          <prop k="offset_unit" v="MM"/>
-          <prop k="penstyle" v="solid"/>
-          <prop k="use_custom_dash" v="0"/>
-          <prop k="width" v="0"/>
-          <prop k="width_expression" v="CASE &#xa;WHEN $scale &lt;= 750 THEN 0.28&#xa;WHEN ($scale > 750 AND $scale &lt;= 1250) THEN 0.2&#xa;WHEN ($scale > 1250 AND $scale &lt;= 3000) THEN 0.14&#xa;WHEN ($scale > 3000 AND $scale &lt;= 6000) THEN 0.1&#xa;ELSE  0.00000001&#xa;END"/>
-          <prop k="width_unit" v="MM"/>
-        </layer>
-      </symbol>
-      <symbol alpha="1" type="fill" name="3">
-        <layer pass="97" class="SimpleLine" locked="0">
-          <prop k="capstyle" v="flat"/>
-          <prop k="capstyle_expression" v="'flat'"/>
+        <layer pass="90" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
           <prop k="color" v="255,255,255,255"/>
           <prop k="customdash" v="5;2"/>
           <prop k="customdash_unit" v="MM"/>
@@ -74,8 +401,1020 @@
           <prop k="offset_unit" v="MM"/>
           <prop k="penstyle" v="solid"/>
           <prop k="use_custom_dash" v="0"/>
-          <prop k="width" v="0"/>
-          <prop k="width_expression" v="CASE &#xa;WHEN $scale &lt;= 750 THEN 0.34&#xa;WHEN ($scale > 750 AND $scale &lt;= 1250) THEN 0.3&#xa;WHEN ($scale > 1250 AND $scale &lt;= 3000) THEN 0.2&#xa;WHEN ($scale > 3000 AND $scale &lt;= 6000) THEN 0.15&#xa;ELSE  0.00000001&#xa;END"/>
+          <prop k="width" v="0.3"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+        <layer pass="90" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="flat"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="customdash" v="1.5;0.5"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="1"/>
+          <prop k="width" v="0.2"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="20">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="5"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="10"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="10"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@20@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_d_moor_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="4"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="21">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="2.45"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="4.9"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="4.9"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@21@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_b_reben_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="1.5"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="22">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="2.45"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="4.9"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="4.9"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@22@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_d_moor_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="2"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="23">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="7"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="14"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="14"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@23@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_c_schilfguertel_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="4.2"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="24">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="7"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="14"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="14"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@24@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_c_schilfguertel_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="4.2"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="25">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="5"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="10"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="10"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@25@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_c_schilfguertel_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="3"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="26">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="3.5"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="7"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="7"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@26@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_c_schilfguertel_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="2.1"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="27">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="2.45"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="4.9"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="4.9"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@27@0">
+            <layer pass="0" class="SvgMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="fill" v="#828282"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="/grundbuchplan/symbol_c_schilfguertel_param.svg"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline" v="#000000"/>
+              <prop k="outline-width" v="1"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="size" v="1.5"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="28">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="1.4"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="2.8"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="2.8"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@28@0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="color_border" v="0,0,0,0"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="area"/>
+              <prop k="size" v="0.42"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="29">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="1.4"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="2.8"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="2.8"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@29@0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="color_border" v="0,0,0,0"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="area"/>
+              <prop k="size" v="0.42"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="3">
+        <layer pass="90" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
+          <prop k="color" v="255,255,255,255"/>
+          <prop k="customdash" v="5;2"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.2"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+        <layer pass="90" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="flat"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="customdash" v="1.05;0.35"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="1"/>
+          <prop k="width" v="0.14"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="30">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="1"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="2"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="2"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@30@0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="color_border" v="0,0,0,0"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="area"/>
+              <prop k="size" v="0.3"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="31">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="0.7"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="1.4"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="1.4"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@31@0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="color_border" v="0,0,0,0"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="area"/>
+              <prop k="size" v="0.21"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="32">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="0.5"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="1"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="1"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@32@0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="color_border" v="0,0,0,0"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="area"/>
+              <prop k="size" v="0.15"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="33">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="2.8"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="5.6"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="5.6"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@33@0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="color_border" v="0,0,0,0"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="area"/>
+              <prop k="size" v="0.42"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="34">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="2.8"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="5.6"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="5.6"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@34@0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="color_border" v="0,0,0,0"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="area"/>
+              <prop k="size" v="0.42"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="35">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="2"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="4"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="4"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@35@0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="color_border" v="0,0,0,0"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="area"/>
+              <prop k="size" v="0.3"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="36">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="1.4"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="2.8"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="2.8"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@36@0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="color_border" v="0,0,0,0"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="area"/>
+              <prop k="size" v="0.21"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="37">
+        <layer pass="0" class="PointPatternFill" locked="0">
+          <prop k="displacement_x" v="1"/>
+          <prop k="displacement_x_unit" v="MM"/>
+          <prop k="displacement_y" v="0"/>
+          <prop k="displacement_y_unit" v="MM"/>
+          <prop k="distance_x" v="2"/>
+          <prop k="distance_x_unit" v="MM"/>
+          <prop k="distance_y" v="2"/>
+          <prop k="distance_y_unit" v="MM"/>
+          <symbol alpha="1" type="marker" name="@37@0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="color_border" v="0,0,0,0"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="area"/>
+              <prop k="size" v="0.21"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="38">
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="/grundbuchplan/symbol_1_fels_geroell_param.svg"/>
+          <prop k="svgFillColor" v="#828282"/>
+          <prop k="svgOutlineColor" v="#000000"/>
+          <prop k="svgOutlineWidth" v="0.3"/>
+          <prop k="svgOutlineWidth_expression" v="svgOutlineWidth_expression"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="4.2"/>
+          <symbol alpha="1" type="line" name="@38@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="penstyle" v="no"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width" v="0.26"/>
+              <prop k="width_unit" v="MM"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="39">
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="/grundbuchplan/symbol_1_fels_geroell_param.svg"/>
+          <prop k="svgFillColor" v="#828282"/>
+          <prop k="svgOutlineColor" v="#000000"/>
+          <prop k="svgOutlineWidth" v="0.3"/>
+          <prop k="svgOutlineWidth_expression" v="svgOutlineWidth_expression"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="4.2"/>
+          <symbol alpha="1" type="line" name="@39@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="penstyle" v="no"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width" v="0.26"/>
+              <prop k="width_unit" v="MM"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="4">
+        <layer pass="90" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
+          <prop k="color" v="255,255,255,255"/>
+          <prop k="customdash" v="5;2"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.15"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+        <layer pass="90" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="flat"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="customdash" v="0.73;0.24"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="1"/>
+          <prop k="width" v="0.1"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="40">
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="/grundbuchplan/symbol_1_fels_geroell_param.svg"/>
+          <prop k="svgFillColor" v="#828282"/>
+          <prop k="svgOutlineColor" v="#000000"/>
+          <prop k="svgOutlineWidth" v="0.3"/>
+          <prop k="svgOutlineWidth_expression" v="svgOutlineWidth_expression"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="3"/>
+          <symbol alpha="1" type="line" name="@40@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="penstyle" v="no"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width" v="0.26"/>
+              <prop k="width_unit" v="MM"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="41">
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="/grundbuchplan/symbol_1_fels_geroell_param.svg"/>
+          <prop k="svgFillColor" v="#828282"/>
+          <prop k="svgOutlineColor" v="#000000"/>
+          <prop k="svgOutlineWidth" v="0.3"/>
+          <prop k="svgOutlineWidth_expression" v="svgOutlineWidth_expression"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="2.1"/>
+          <symbol alpha="1" type="line" name="@41@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="penstyle" v="no"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width" v="0.26"/>
+              <prop k="width_unit" v="MM"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="42">
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="/grundbuchplan/symbol_1_fels_geroell_param.svg"/>
+          <prop k="svgFillColor" v="#000000"/>
+          <prop k="svgOutlineColor" v="#000000"/>
+          <prop k="svgOutlineWidth" v="0.3"/>
+          <prop k="svgOutlineWidth_expression" v="svgOutlineWidth_expression"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="1.5"/>
+          <symbol alpha="1" type="line" name="@42@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="penstyle" v="no"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width" v="0.26"/>
+              <prop k="width_unit" v="MM"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="43">
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="/grundbuchplan/symbol_2_geroell_param.svg"/>
+          <prop k="svgFillColor" v="#828282"/>
+          <prop k="svgOutlineColor" v="#000000"/>
+          <prop k="svgOutlineWidth" v="0.3"/>
+          <prop k="svgOutlineWidth_expression" v="svgOutlineWidth_expression"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="2.8"/>
+          <symbol alpha="1" type="line" name="@43@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="penstyle" v="no"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width" v="0.26"/>
+              <prop k="width_unit" v="MM"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="44">
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="/grundbuchplan/symbol_2_geroell_param.svg"/>
+          <prop k="svgFillColor" v="#828282"/>
+          <prop k="svgOutlineColor" v="#000000"/>
+          <prop k="svgOutlineWidth" v="0.3"/>
+          <prop k="svgOutlineWidth_expression" v="svgOutlineWidth_expression"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="2.8"/>
+          <symbol alpha="1" type="line" name="@44@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="penstyle" v="no"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width" v="0.26"/>
+              <prop k="width_unit" v="MM"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="45">
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="/grundbuchplan/symbol_2_geroell_param.svg"/>
+          <prop k="svgFillColor" v="#828282"/>
+          <prop k="svgOutlineColor" v="#000000"/>
+          <prop k="svgOutlineWidth" v="0.3"/>
+          <prop k="svgOutlineWidth_expression" v="svgOutlineWidth_expression"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="2"/>
+          <symbol alpha="1" type="line" name="@45@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="penstyle" v="no"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width" v="0.26"/>
+              <prop k="width_unit" v="MM"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="46">
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="/grundbuchplan/symbol_2_geroell_param.svg"/>
+          <prop k="svgFillColor" v="#828282"/>
+          <prop k="svgOutlineColor" v="#000000"/>
+          <prop k="svgOutlineWidth" v="0.3"/>
+          <prop k="svgOutlineWidth_expression" v="svgOutlineWidth_expression"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="1.4"/>
+          <symbol alpha="1" type="line" name="@46@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="penstyle" v="no"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width" v="0.26"/>
+              <prop k="width_unit" v="MM"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="47">
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="/grundbuchplan/symbol_1_fels_geroell_param.svg"/>
+          <prop k="svgFillColor" v="#000000"/>
+          <prop k="svgOutlineColor" v="#000000"/>
+          <prop k="svgOutlineWidth" v="0.3"/>
+          <prop k="svgOutlineWidth_expression" v="svgOutlineWidth_expression"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="1.5"/>
+          <symbol alpha="1" type="line" name="@47@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="penstyle" v="no"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width" v="0.26"/>
+              <prop k="width_unit" v="MM"/>
+            </layer>
+          </symbol>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="5">
+        <layer pass="90" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
+          <prop k="color" v="255,255,255,255"/>
+          <prop k="customdash" v="5;2"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.15"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+        <layer pass="90" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="flat"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="customdash" v="1.5;0.5"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.1"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="6">
+        <layer pass="99" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
+          <prop k="color" v="255,255,255,255"/>
+          <prop k="customdash" v="5;2"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.35"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+        <layer pass="99" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="flat"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="customdash" v="1.5;0.5"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.28"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="7">
+        <layer pass="99" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
+          <prop k="color" v="255,255,255,255"/>
+          <prop k="customdash" v="5;2"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.35"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+        <layer pass="99" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="flat"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="customdash" v="1.5;0.5"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.28"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="8">
+        <layer pass="99" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
+          <prop k="color" v="255,255,255,255"/>
+          <prop k="customdash" v="5;2"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.2"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+        <layer pass="99" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="flat"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="customdash" v="1.5;0.5"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.2"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="9">
+        <layer pass="99" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
+          <prop k="color" v="255,255,255,255"/>
+          <prop k="customdash" v="5;2"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.14"/>
+          <prop k="width_unit" v="MM"/>
+        </layer>
+        <layer pass="99" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="flat"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="customdash" v="1.5;0.5"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="penstyle" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width" v="0.14"/>
           <prop k="width_unit" v="MM"/>
         </layer>
       </symbol>
@@ -91,14 +1430,14 @@
     <property key="labeling/bufferColorB" value="255"/>
     <property key="labeling/bufferColorG" value="255"/>
     <property key="labeling/bufferColorR" value="255"/>
-    <property key="labeling/bufferDraw" value="false"/>
+    <property key="labeling/bufferDraw" value="true"/>
     <property key="labeling/bufferJoinStyle" value="64"/>
     <property key="labeling/bufferNoFill" value="false"/>
     <property key="labeling/bufferSize" value="1"/>
     <property key="labeling/bufferSizeInMapUnits" value="false"/>
     <property key="labeling/bufferTransp" value="0"/>
     <property key="labeling/centroidWhole" value="false"/>
-    <property key="labeling/decimals" value="3"/>
+    <property key="labeling/decimals" value="0"/>
     <property key="labeling/displayAll" value="false"/>
     <property key="labeling/dist" value="0"/>
     <property key="labeling/distInMapUnits" value="false"/>
@@ -112,7 +1451,7 @@
     <property key="labeling/fontLimitPixelSize" value="false"/>
     <property key="labeling/fontMaxPixelSize" value="10000"/>
     <property key="labeling/fontMinPixelSize" value="3"/>
-    <property key="labeling/fontSize" value="11"/>
+    <property key="labeling/fontSize" value="10"/>
     <property key="labeling/fontSizeInMapUnits" value="false"/>
     <property key="labeling/fontStrikeout" value="false"/>
     <property key="labeling/fontUnderline" value="false"/>
@@ -197,7 +1536,9 @@
     <property key="labeling/upsidedownLabels" value="0"/>
     <property key="labeling/wrapChar" value=""/>
     <property key="labeling/xOffset" value="0"/>
+    <property key="labeling/xQuadOffset" value="0"/>
     <property key="labeling/yOffset" value="0"/>
+    <property key="labeling/yQuadOffset" value="0"/>
   </customproperties>
   <blendMode>0</blendMode>
   <featureBlendMode>0</featureBlendMode>
@@ -227,7 +1568,9 @@
   <edittypes>
     <edittype labelontop="0" editable="1" type="0" name="art"/>
     <edittype labelontop="0" editable="1" type="0" name="art_txt"/>
+    <edittype labelontop="0" editable="1" type="0" name="bfsnr"/>
     <edittype labelontop="0" editable="1" type="0" name="entstehung"/>
+    <edittype labelontop="0" editable="1" type="0" name="gwr_egid"/>
     <edittype labelontop="0" editable="1" type="0" name="ogc_fid"/>
     <edittype labelontop="0" editable="1" type="0" name="qualitaet"/>
     <edittype labelontop="0" editable="1" type="0" name="qualitaet_txt"/>
@@ -236,7 +1579,7 @@
   <editform></editform>
   <editforminit></editforminit>
   <featformsuppress>0</featformsuppress>
-  <annotationform></annotationform>
+  <annotationform>../Plan_fuer_das_Grundbuch</annotationform>
   <editorlayout>generatedlayout</editorlayout>
   <excludeAttributesWMS/>
   <excludeAttributesWFS/>

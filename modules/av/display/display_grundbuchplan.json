@@ -2,6 +2,15 @@
   "layers": [
     {
       "type": "postgres",
+      "title": "EO_Flaechenelemente (unterirdisch)",
+      "featuretype": "v_einzelobjekte_flaechenelement",
+      "geom": "geometrie",
+      "key": "ogc_fid",
+      "sql": "art_txt LIKE 'unterirdisches_Gebaeude%' OR art_txt LIKE 'Reservoir%'",
+      "style": "einzelobjekte/einzelobjekte_flaechen_unterirdisch.qml"
+    },  
+    {
+      "type": "postgres",
       "title": "BB_BoFlaeche",
       "featuretype": "bodenbedeckung_boflaeche",
       "geom": "geometrie",
@@ -14,7 +23,7 @@
       "featuretype": "v_einzelobjekte_flaechenelement",
       "geom": "geometrie",
       "key": "ogc_fid",
-      "style": "einzelobjekte/test.qml"
+      "style": "einzelobjekte/einzelobjekte_flaechen.qml"
     }      
   ]
 }

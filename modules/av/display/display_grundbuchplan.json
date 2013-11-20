@@ -7,7 +7,7 @@
       "geom": "geometrie",
       "key": "ogc_fid",
       "sql": "art_txt LIKE 'unterirdisches_Gebaeude%' OR art_txt LIKE 'Reservoir%'",
-      "style": "einzelobjekte/einzelobjekte_flaechen_unterirdisch.qml"
+      "style": "grundbuchplan/eo_flaechenelement_unterirdisch.qml"
     },  
     {
       "type": "postgres",
@@ -15,7 +15,23 @@
       "featuretype": "bodenbedeckung_boflaeche",
       "geom": "geometrie",
       "key": "ogc_fid",
-      "style": "grundbuchplan/bodenbedeckung.qml"
+      "style": "grundbuchplan/bb_boflaeche.qml"
+    },    
+    {
+      "type": "postgres",
+      "title": "BB_BoFlaecheSymbol",
+      "featuretype": "v_bodenbedeckung_boflaechesymbol",
+      "geom": "pos",
+      "key": "ogc_fid",
+      "style": "grundbuchplan/bb_boflaechesymbol.qml"
+    },
+    {
+      "type": "postgres",
+      "title": "BB_ObjektnamePos",
+      "featuretype": "v_bodenbedeckung_objektnamepos",
+      "geom": "pos",
+      "key": "ogc_fid",
+      "style": "grundbuchplan/bb_objektnamepos.qml"
     },
     {
       "type": "postgres",
@@ -23,7 +39,7 @@
       "featuretype": "v_einzelobjekte_flaechenelement",
       "geom": "geometrie",
       "key": "ogc_fid",
-      "style": "einzelobjekte/einzelobjekte_flaechen.qml"
+      "style": "grundbuchplan/eo_flaechenelement_flaechen.qml"
     }      
   ]
 }

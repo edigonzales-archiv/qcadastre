@@ -74,8 +74,9 @@ def getChecks(iface, checkfile):
 def getTopicsTables(iface):
     settings = QSettings("CatAIS","Qcadastre")
     module_name = (settings.value("project/appmodule"))
-    
-    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/tables/tables.json"))
+    ili_model_name =  (settings.value("project/ilimodelname"))
+
+    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/tables/"+ili_model_name.lower()+"/tables.json"))
     
     if not filename:
         iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "topics.json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    

@@ -45,6 +45,7 @@ class ComplexCheck(QObject):
             layer["format"] = "image/jpeg"
             layer["crs"] = "EPSG:21781"
             layer["group"] = group
+            
             rlayer = utils.loadLayer(self.iface, layer) 
             if rlayer:
                 self.iface.legendInterface().setLayerVisible(rlayer, True)     

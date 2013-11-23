@@ -1,0 +1,11 @@
+{
+  "verification": [
+
+    {
+      "id": "strassenachsen_ausserhalb", 
+      "name": "Strassenachsen ausserhalb BB.Strasse_Weg", 
+      "group": "Strassenachsen", 
+      "file": "complexchecks.strassenachsen_ausserhalb"
+    }
+  ]
+}

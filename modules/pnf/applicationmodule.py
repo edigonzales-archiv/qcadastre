@@ -25,6 +25,35 @@ class ApplicationModule(QObject):
         self.doInitChecksMenu()
         self.doInitDefectsMenu()
         
+        verification = os.getenv('QGIS_PNF_VERIFIKATION', 0)
+        
+        if verification:
+            self.doInitVerificationMenu()
+        
+    def doInitVerificationMenu(self):    
+        menuBar = QMenuBar(self.toolBar)
+        menuBar.setObjectName("QcadastreModule.LoadVerificationMenuBar")        
+        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        menu = QMenu(menuBar)
+        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Verification"))  
+        
+        topics = utils.getVerificationTopics(self.iface)
+        if topics:
+            for topic in topics:
+                verificationfile = topic["file"]
+                mytopic = topic["topic"]
+                singleVerificationMenu = menu.addMenu(unicode(mytopic))    
+                verifications = utils.getVerifications(self.iface, verificationfile)
+
+                for verification in verifications:
+                    verification_name = unicode(verification["name"])
+                    action = QAction(verification_name, self.iface.mainWindow())
+                    singleVerificationMenu.addAction(action)                                         
+                    QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=verification: self.doShowComplexCheck(complexCheck))
+
+        menuBar.addMenu(menu)
+        self.toolBar.insertWidget(self.beforeAction, menuBar)
+
     def doInitChecksMenu(self):
         menuBar = QMenuBar(self.toolBar)
         menuBar.setObjectName("QcadastreModule.LoadChecksMenuBar")        

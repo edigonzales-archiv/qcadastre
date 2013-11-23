@@ -16,6 +16,42 @@ from collections import OrderedDict
 def fubar():
     print "foobar super"
     
+def getVerifications(iface, verificationfile):
+    settings = QSettings("CatAIS","Qcadastre")
+    module_name = (settings.value("project/appmodule"))
+    
+    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/verification/"+verificationfile+".json"))
+    
+    if not filename:
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "json file not found."), level=QgsMessageBar.CRITICAL, duration=5)                    
+        return        
+        
+    try:
+        verifications = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
+        return verifications["verification"]
+    except Exception, e:
+        print "Couldn't do it: %s" % e        
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Failed to load verifications json file."), level=QgsMessageBar.CRITICAL, duration=5)                            
+        return
+        
+def getVerificationTopics(iface):
+    settings = QSettings("CatAIS","Qcadastre")
+    module_name = (settings.value("project/appmodule"))
+    
+    filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/verification/verification.json"))
+    
+    if not filename:
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "verification.json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    
+        return        
+        
+    try:
+        verifications = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
+        return verifications["verification"]
+    except Exception, e:
+        print "Couldn't do it: %s" % e        
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Failed to load verification.json."), level=QgsMessageBar.CRITICAL, duration=5)                            
+        return
+
 def getCheckTopics(iface):
     settings = QSettings("CatAIS","Qcadastre")
     module_name = (settings.value("project/appmodule"))
@@ -53,14 +89,14 @@ def getChecks(iface, checkfile):
     filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/qcadastre/modules/"+module_name+"/checks/"+checkfile+".json"))
     
     if not filename:
-        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "checks.json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "checkfile json not found."), level=QgsMessageBar.CRITICAL, duration=5)                    
         return        
         
     try:
         checks = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
     except Exception, e:
         print "Couldn't do it: %s" % e        
-        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Failed to load checks.json."), level=QgsMessageBar.CRITICAL, duration=5)                            
+        iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Failed to load checkfile json file."), level=QgsMessageBar.CRITICAL, duration=5)                            
         return
     
     try:

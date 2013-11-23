@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'base/file/Ui_importproject.ui'
 #
-# Created: Sun Nov 10 15:21:26 2013
+# Created: Sat Nov 23 19:13:51 2013
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,9 +26,14 @@ except AttributeError:
 class Ui_ImportProject(object):
     def setupUi(self, ImportProject):
         ImportProject.setObjectName(_fromUtf8("ImportProject"))
-        ImportProject.resize(449, 539)
+        ImportProject.resize(480, 596)
         self.gridLayout = QtGui.QGridLayout(ImportProject)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
+        self.buttonBox = QtGui.QDialogButtonBox(ImportProject)
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Close|QtGui.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
+        self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
         self.groupBox = QtGui.QGroupBox(ImportProject)
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.gridLayout_2 = QtGui.QGridLayout(self.groupBox)
@@ -102,12 +107,16 @@ class Ui_ImportProject(object):
         self.textEditImportOutput.setObjectName(_fromUtf8("textEditImportOutput"))
         self.verticalLayout.addWidget(self.textEditImportOutput)
         self.gridLayout_2.addLayout(self.verticalLayout, 2, 0, 1, 1)
+        self.verticalLayout_2 = QtGui.QVBoxLayout()
+        self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
+        self.label_2 = QtGui.QLabel(self.groupBox)
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.verticalLayout_2.addWidget(self.label_2)
+        self.textEditNotes = QtGui.QPlainTextEdit(self.groupBox)
+        self.textEditNotes.setObjectName(_fromUtf8("textEditNotes"))
+        self.verticalLayout_2.addWidget(self.textEditNotes)
+        self.gridLayout_2.addLayout(self.verticalLayout_2, 1, 0, 1, 1)
         self.gridLayout.addWidget(self.groupBox, 0, 0, 1, 1)
-        self.buttonBox = QtGui.QDialogButtonBox(ImportProject)
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Close|QtGui.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
-        self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
 
         self.retranslateUi(ImportProject)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), ImportProject.accept)
@@ -126,4 +135,5 @@ class Ui_ImportProject(object):
         self.label_6.setText(_translate("ImportProject", "Application module: ", None))
         self.label_7.setText(_translate("ImportProject", "Ili model name: ", None))
         self.label_4.setText(_translate("ImportProject", "Output:", None))
+        self.label_2.setText(_translate("ImportProject", "Notes:", None))
 

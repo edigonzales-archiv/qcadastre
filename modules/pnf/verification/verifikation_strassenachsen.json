@@ -1,11 +1,16 @@
 {
   "verification": [
-
     {
-      "id": "strassenachsen_ausserhalb", 
-      "name": "Strassenachsen ausserhalb BB.Strasse_Weg", 
+      "id": "strassenachsen_tests", 
+      "name": "Strassenachsentests erzeugen", 
       "group": "Strassenachsen", 
-      "file": "complexchecks.strassenachsen_ausserhalb"
+      "file": "complexchecks.strassenachsentests_erzeugen"
+    },
+    {
+      "id": "strassenachsentests_anzeigen", 
+      "name": "Strassenachsentests anzeigen", 
+      "group": "Strassenachsen", 
+      "file": "complexchecks.strassenachsentests_anzeigen"
     }
   ]
 }

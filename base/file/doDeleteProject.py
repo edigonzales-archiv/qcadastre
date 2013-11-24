@@ -86,7 +86,7 @@ class DeleteProjectDialog(QDialog, Ui_DeleteProject):
             
         sql = "BEGIN;"
         sql += "DROP SCHEMA IF EXISTS " + self.dbschema + " CASCADE;"
-        sql += "DELETE FROM public.geometry_columns WHERE f_table_schema = '" + self.dbschema + "';"
+        #sql += "DELETE FROM public.geometry_columns WHERE f_table_schema = '" + self.dbschema + "';"
         sql += "COMMIT;"
         
         QApplication.setOverrideCursor(Qt.WaitCursor)

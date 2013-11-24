@@ -79,10 +79,10 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
     @pyqtSignature("on_btnProjectName_clicked()")    
     def on_btnProjectName_clicked(self):
         if self.provider == "postgres":
-            self.bar.pushMessage("Warning", "This function is not yet implemented.", level=QgsMessageBar.WARNING, duration=5)
+            self.bar.pushMessage("Warning", "This function is not yet implemented.", level=QgsMessageBar.WARNING)
             pass
         elif self.provider == "sqlite":
-            self.bar.pushMessage("Warning", "This function is not yet implemented.", level=QgsMessageBar.WARNING, duration=5)            
+            self.bar.pushMessage("Warning", "This function is not yet implemented.", level=QgsMessageBar.WARNING)            
             # use "options/db/host" as setting parameter 
             pass
 
@@ -144,6 +144,11 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         self.dbschema = self.lineEditDbSchema.text()    
     
         self.datadate = self.dateTimeEdit.date().toString("yyyy-MM-dd")
+        
+        self.notes = self.textEditNotes.toPlainText()
+        if len(self.notes) > 10000:
+            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "Notes are too big (more than 10000 characters)."), level=QgsMessageBar.WARNING)
+            return
 
         self.dbhost = self.settings.value("options/db/host")
         self.dbname = self.settings.value("options/db/name")
@@ -167,24 +172,28 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         importvmargs = self.settings.value("options/import/vmarguments") 
         
         # check if we have everything
+        if not os.path.isfile(self.projectsdatabase) and self.projectsdatabase <> "":
+            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "Projects database not found: ") + str(self.projectsdatabase), level=QgsMessageBar.WARNING)                        
+            return
+        
         if self.itf == "" and self.schemaOnly == False:
-            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No Interlis Transfer File set."), level=QgsMessageBar.WARNING, duration=5)
+            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No Interlis Transfer File set."), level=QgsMessageBar.WARNING)
             return
         
         if self.ili == "":
-            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No Interlis Model Name set."), level=QgsMessageBar.WARNING, duration=5)            
+            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No Interlis Model Name set."), level=QgsMessageBar.WARNING)            
             return
             
         if self.dbschema == "":
-            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No database schema set."), level=QgsMessageBar.WARNING, duration=5)            
+            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No database schema set."), level=QgsMessageBar.WARNING)            
             return
             
         if self.cmbBoxAppModule.currentIndex() == 0:
-            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No application module chosen."), level=QgsMessageBar.WARNING, duration=5)            
+            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No application module chosen."), level=QgsMessageBar.WARNING)            
             return
             
         if self.dbhost == None or self.dbname == None or self.dbport == None or self.dbuser == None or self.dbpwd == None or self.dbadmin == None or self.dbadminpwd == None:
-            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "Missing database parameters."), level=QgsMessageBar.WARNING, duration=5)                        
+            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "Missing database parameters."), level=QgsMessageBar.WARNING)                        
             return
         
 #        Momentan noch hardcodiert im Importprogramm, darum bringt das hier noch nichts.
@@ -193,7 +202,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
 #            return
             
         if self.projectsrootdir == "":
-            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No root directory for projects set."), level=QgsMessageBar.WARNING, duration=5)                                    
+            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No root directory for projects set."), level=QgsMessageBar.WARNING)                                    
             return
             
         if self.projectsdatabase == "":
@@ -201,7 +210,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
             QMessageBox.warning(None, "Qcadastre", QCoreApplication.translate("Qcadastre", "No projects database found. Will create one in the project root directory."))
             
         if importjarpath == "":
-            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No jar file set for import."), level=QgsMessageBar.WARNING, duration=5)                                                
+            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No jar file set for import."), level=QgsMessageBar.WARNING)                                                
             return
             
         # create java properties file
@@ -250,7 +259,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
 
         updated = self.updateProjectsDatabase()
         if not updated:
-            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished. Could not update projects database."), level=QgsMessageBar.CRITICAL, duration=5)            
+            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished. Could not update projects database."), level=QgsMessageBar.CRITICAL)            
             return
 
         # check if there are some errors/fatals in the output
@@ -258,15 +267,15 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         # in der Projektedatenbank bereits ein Eintrag ist.
         output = unicode(self.textEditImportOutput.toPlainText())
         if output.find("FATAL") > 0 or output.find("ERROR") > 0 or output.strip() == "":
-            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished."), level=QgsMessageBar.CRITICAL, duration=5)                                                                       
+            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished."), level=QgsMessageBar.CRITICAL)                                                                       
             return            
             
         # create project directory in projects root dir
         proj_dir = self.createProjectDir()
         if proj_dir:
-            self.bar.pushMessage("Information",  QCoreApplication.translate("Qcadastre", "Import process finished."), level=QgsMessageBar.INFO, duration=10)                                                                       
+            self.bar.pushMessage("Information",  QCoreApplication.translate("Qcadastre", "Import process finished."), level=QgsMessageBar.INFO)                                                                       
         else:
-            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished. Could not create project directory."), level=QgsMessageBar.CRITICAL, duration=5)                                                                       
+            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not sucessfully finished. Could not create project directory."), level=QgsMessageBar.CRITICAL) 
 
     def createProjectDir(self):
         try:
@@ -320,8 +329,8 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         
         except IOError, e:
             print "Couldn't do it: %s" % e
-            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Cannot create: " + tmpPropertiesFile), level=QgsMessageBar.CRITICAL, duration=5)                                                
-            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not completed."), level=QgsMessageBar.CRITICAL, duration=5)                                                           
+            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Cannot create: " + tmpPropertiesFile), level=QgsMessageBar.CRITICAL)                                                
+            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Import process not completed."), level=QgsMessageBar.CRITICAL)                                                           
             return None
         
         return  None
@@ -340,20 +349,20 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
             self.db.setDatabaseName(self.projectsdatabase) 
 
             if not self.db.open():
-                self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Could not open projects database."), level=QgsMessageBar.CRITICAL, duration=5)                                                                            
+                self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Could not open projects database."), level=QgsMessageBar.CRITICAL)                                                                            
                 QgsMessageLog.logMessage(str(self.db.lastError().driverText()), "Qcadastre")
                 return  
              
             projectrootdir = QDir.convertSeparators(QDir.cleanPath(self.projectsrootdir + "/" + str(self.dbschema)))
         
-            sql = "INSERT INTO projects (id, displayname, dbhost, dbname, dbport, dbschema, dbuser, dbpwd, dbadmin, dbadminpwd, provider, epsg, ilimodelname, appmodule, appmodulename, projectrootdir, projectdir, datadate) \
+            sql = "INSERT INTO projects (id, displayname, dbhost, dbname, dbport, dbschema, dbuser, dbpwd, dbadmin, dbadminpwd, provider, epsg, ilimodelname, appmodule, appmodulename, projectrootdir, projectdir, datadate, notes) \
 VALUES ('"+str(self.dbschema)+"', '"+str(self.dbschema)+"', '"+str(self.dbhost)+"', '"+str(self.dbname)+"', "+str(self.dbport)+", '"+str(self.dbschema)+"', '"+str(self.dbuser)+"', '"+str(self.dbpwd)+"', \
-'"+str(self.dbadmin)+"', '"+str(self.dbadminpwd)+"', 'postgres'," + str(self.epsg) + " , '"+str(self.ili)+"', '"+str(self.appmodule)+"','"+unicode(self.appmodule_name)+"', '"+str(self.projectsrootdir)+"', '"+projectrootdir+"', '"+self.datadate+"');"
+'"+str(self.dbadmin)+"', '"+str(self.dbadminpwd)+"', 'postgres'," + str(self.epsg) + " , '"+str(self.ili)+"', '"+str(self.appmodule)+"','"+unicode(self.appmodule_name)+"', '"+str(self.projectsrootdir)+"', '"+projectrootdir+"', '"+self.datadate+"', '"+self.notes+"');"
 
             query = self.db.exec_(sql)
             
             if query.isActive() == False:
-                self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Error occured while updating projects database."), level=QgsMessageBar.CRITICAL, duration=5)                                                
+                self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Error occured while updating projects database."), level=QgsMessageBar.CRITICAL)                                                
                 return 
             
             self.db.close()
@@ -362,5 +371,5 @@ VALUES ('"+str(self.dbschema)+"', '"+str(self.dbschema)+"', '"+str(self.dbhost)+
         
         except Exception, e:
             print "Couldn't do it: %s" % e
-            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Error occured while updating projects database."), level=QgsMessageBar.CRITICAL, duration=5)                                                            
+            self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Error occured while updating projects database."), level=QgsMessageBar.CRITICAL)                                                            
             return 

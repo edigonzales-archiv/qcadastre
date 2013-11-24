@@ -17,7 +17,8 @@ class LoadProjectsDatabase(QObject):
         filename = self.settings.value("options/general/projectsdatabase")
         
         if filename == "" or filename == None:
-            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No project database found.") + str(self.db.lastError().driverText()) , level=QgsMessageBar.WARNING, duration=5)                                        
+            # does not work on qgis startup...
+            #self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No project database found.") + str(self.db.lastError().driverText()) , level=QgsMessageBar.WARNING, duration=5)                                        
             return
             
         self.projects = []
@@ -27,7 +28,8 @@ class LoadProjectsDatabase(QObject):
             self.db.setDatabaseName(filename) 
 
             if  self.db.open() == False:
-                self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Could not open database.") + str(self.db.lastError().driverText()) , level=QgsMessageBar.CRITICAL, duration=5)                            
+                # does not work on qgis startup...                
+                #self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Could not open database.") + str(self.db.lastError().driverText()) , level=QgsMessageBar.CRITICAL, duration=5)                            
                 return 
 
             sql = "SELECT * FROM projects;"
@@ -35,7 +37,8 @@ class LoadProjectsDatabase(QObject):
             query = self.db.exec_(sql)
             
             if not query.isActive():
-                self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Error occured while fetching projects informations.") , level=QgsMessageBar.CRITICAL, duration=5)                            
+                # does not work on qgis startup...                
+                #self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Error occured while fetching projects informations.") , level=QgsMessageBar.CRITICAL, duration=5)                            
                 return 
 
             record = query.record()

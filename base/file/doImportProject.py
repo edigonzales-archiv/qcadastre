@@ -355,9 +355,9 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
              
             projectrootdir = QDir.convertSeparators(QDir.cleanPath(self.projectsrootdir + "/" + str(self.dbschema)))
         
-            sql = "INSERT INTO projects (id, displayname, dbhost, dbname, dbport, dbschema, dbuser, dbpwd, dbadmin, dbadminpwd, provider, epsg, ilimodelname, appmodule, appmodulename, projectrootdir, projectdir, datadate, notes) \
+            sql = "INSERT INTO projects (id, displayname, dbhost, dbname, dbport, dbschema, dbuser, dbpwd, dbadmin, dbadminpwd, provider, epsg, ilimodelname, appmodule, appmodulename, projectrootdir, projectdir, datadate, notes, itf) \
 VALUES ('"+str(self.dbschema)+"', '"+str(self.dbschema)+"', '"+str(self.dbhost)+"', '"+str(self.dbname)+"', "+str(self.dbport)+", '"+str(self.dbschema)+"', '"+str(self.dbuser)+"', '"+str(self.dbpwd)+"', \
-'"+str(self.dbadmin)+"', '"+str(self.dbadminpwd)+"', 'postgres'," + str(self.epsg) + " , '"+str(self.ili)+"', '"+str(self.appmodule)+"','"+unicode(self.appmodule_name)+"', '"+str(self.projectsrootdir)+"', '"+projectrootdir+"', '"+self.datadate+"', '"+self.notes+"');"
+'"+str(self.dbadmin)+"', '"+str(self.dbadminpwd)+"', 'postgres'," + str(self.epsg) + " , '"+str(self.ili)+"', '"+str(self.appmodule)+"','"+unicode(self.appmodule_name)+"', '"+str(self.projectsrootdir)+"', '"+projectrootdir+"', '"+self.datadate+"', '"+self.notes+"', '"+self.itf+"');"
 
             query = self.db.exec_(sql)
             

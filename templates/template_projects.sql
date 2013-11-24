@@ -20,5 +20,6 @@ CREATE TABLE projects
         projectdir TEXT,
         datadate DATE,
         importdate DATE DEFAULT (datetime('now','localtime')),
-        notes TEXT
+        notes TEXT,
+        itf TEXT
 );

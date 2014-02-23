@@ -1,18 +1,18 @@
 #!/bin/bash
 
-ADMIN="stefan"
-ADMINPWD="ziegler12"
-USER="mspublic"
-USERPWD="mspublic"
+ADMIN="veriso_admin"
+ADMINPWD="veriso_admin"
+USER="veriso_user"
+USERPWD="veriso_user"
 
-DB_NAME="xanadu2"
+DB_NAME="veriso_test"
 PG_VERSION="9.1"
 POSTGIS_VERSION="postgis-2.1"
 
 # Auskommentieren falls man z.B. nur DB neu anlegen will.
 echo "Create database user"
-#sudo -u postgres psql -d postgres -c "CREATE ROLE $ADMIN CREATEDB LOGIN PASSWORD '$ADMINPWD';"
-#sudo -u postgres psql -d postgres -c "CREATE ROLE $USER LOGIN PASSWORD '$USERPWD';"
+sudo -u postgres psql -d postgres -c "CREATE ROLE $ADMIN CREATEDB LOGIN PASSWORD '$ADMINPWD';"
+sudo -u postgres psql -d postgres -c "CREATE ROLE $USER LOGIN PASSWORD '$USERPWD';"
 
 echo "Create database: $DB_NAME"
 sudo -u postgres createdb --owner $ADMIN $DB_NAME

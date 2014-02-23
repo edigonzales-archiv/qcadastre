@@ -9,6 +9,10 @@ import datetime
 import qcadastre.modules.pnf.tools.utils as utils
 
 
+## ACHTUNG: Da gibts noch Fehler in den Queries! Altes Problem beim Vergleichen von Geometrien!
+## Für QGeoApp (PNF) gelöst. Siehe dort.
+
+
 class CreateDifferenceDialog(QDialog, Ui_CreateDifferenceLayer):
 
     def __init__(self, parent):

@@ -103,7 +103,7 @@ class Qcadastre:
         self.menuHelp = QMenu()
         self.menuHelp.setTitle(QCoreApplication.translate("Qcadastre","Help"))
         
-        self.about = QAction(QCoreApplication.translate("QGeoApp", "About"), self.iface.mainWindow())
+        self.about = QAction(QCoreApplication.translate("Qcadastre", "About"), self.iface.mainWindow())
         QObject.connect(self.about, SIGNAL("triggered()"), self.doAbout)        
         
         self.menuHelp.addActions([self.about])
